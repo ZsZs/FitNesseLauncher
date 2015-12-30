@@ -1,0 +1,111 @@
+ ------
+ Introduction
+ ------
+ Stewart Cambridge
+ ------
+
+
+FitNesse Launcher Plugin
+
+  This Maven Plugin directly launches FitNesse integration test server.
+  
+* Why do we need yet another Maven plugin for FitNesse?
+
+  We already have a number of Maven plugins for FitNesse,
+  including {{{http://mojo.codehaus.org/fitnesse-maven-plugin/}<<<fitnesse-maven-plugin>>>}},
+  {{{http://fitnesse.org/FitNesse.FullReferenceGuide.UserGuide.WritingAcceptanceTests.RunningFromMaven}<<<maven-trinidad-plugin>>>}} and others.
+  
+  The author of FitNesse Launcher Plugin found these plugins
+  difficult or awkward to configure in an environment agnostic fashion suitable for team development.
+  In particular, the design of FitNesse is that it {{{http://gojko.net/FitNesse/book/ch10.html}runs as a server}},
+  and therefore is intended to be installed as a single instance and accessed via HTTP, rather than embedded in project source.
+  In contrast to this, it is often desirable that integration tests are stored with their respective project source,
+  rather than in a central test location or repository.
+  
+  As a result projects will often commit the entire set of FitNesse server files to SCM,
+  and / or write custom bootstrap code (typically a <<<main(String [] args)>>> method).
+  The {{{http://fitnesse.org/FitNesse.FullReferenceGuide.UserGuide.WritingAcceptanceTests.ClassPath}java classpath for FitNesse}} is particularly {{{http://johannesbrodwall.com/2008/03/19/some-fitnesse-tricks-classpath-and-debugging/}difficult to configure}},
+  but vital to get correct, as FitNesse boots a fresh JVM in which to run tests.
+  
+  A particularly inspired idea is to use a Maven plugin which makes Maven Dependencies available to FitNesse as the configured classpath.
+  This has the advantages of:
+  
+    *
+    
+      only needing project dependencies to be configured in a single location: the <<<pom.xml>>>
+    
+    *
+    
+      allowing those dependencies to be configured in an environment agnostic way.
+    
+  Two plugins exist which do this: {{{http://sourceforge.net/projects/mvn-fit-cpgen/}<<<maven-fitnesse-cpgen-plugin>>>}}
+  and {{{https://github.com/lvonk/fitnesse-maven-classpath}<<<fitnesse-maven-classpath>>>}}.
+  The author of FitNesse Launcher Plugin was happily using <<<fitnesse-maven-classpath>>> with {{{http://xebia.github.com/Xebium/}Xebium}}
+  (a {{{http://fitnesse.org/}FitNesse}} / {{{http://seleniumhq.org/}Selenium}} bridge)
+  for a webapp project, when running into the final frustration: <<the dependencies required for Xebium clashed with the dependencies required for the webapp!>>
+     
+  FitNesse Launcher Plugin aims to solve all of these problems and make it easy to:
+  
+    *
+    
+      Configure FitNesse for use in an environment agnostic way, using Maven properties and dependencies.
+    
+    *
+    
+      Write FitNesse tests using FitNesse as a wiki, and have the tests located with the project source, with minimal clutter from other FitNesse server files.
+    
+    *
+
+      Run those same FitNesse tests automatically during Maven's <<<integration-test>>> phase, with results in JUnit XML format and HTML reports available.
+
+* Goals Overview
+
+  General information about the goals.
+
+  * {{{./help-mojo.html}fitnesse:help}} Display help information on <<<fitnesse-launcher-maven-plugin>>>.
+  
+  * {{{./set-up-mojo.html}fitnesse:set-up}} Fetches and unpacks FitNesse into a correct working directory structure, and makes sure everything is cleanly setup for running FitNesse. Bound to the '<<<pre-integration-test>>>' phase.
+  
+  * {{{./run-tests-mojo.html}fitnesse:run-tests}} Goal that runs FitNesse tests using fitnesse.junit.TestHelper. Bound to the '<<<integration-test>>>' phase.
+  
+  * {{{./tear-down-mojo.html}fitnesse:tear-down}} Cleans up debris after FitNesse runs. Bound to the '<<<post-integration-test>>>' phase.
+  
+  * {{{./verify-mojo.html}fitnesse:verify}} Provides summary report on FitNesse tests run with 'run-tests' goal. Will fail the build if there are test failures. Bound to the '<<<verify>>>' phase.
+  
+  * {{{./wiki-mojo.html}fitnesse:wiki}} Launches FitNesse as a wiki server. Useful for manually running / developing / debugging FitNesse tests.
+  
+  * {{{./shutdown-mojo.html}fitnesse:shutdown}} Shuts down FitNesse. This is done by sending GET to <<<http://localhost:<port>/?responder=shutdown>>>.
+
+* Usage
+
+  General instructions on how to use the Plugin Name can be found on the {{{./usage.html}usage page}}. Some more
+  specific use cases are described in the examples given below. Last but not least, users occasionally contribute
+  additional examples, tips or errata to the
+  {{{http://code.google.com/p/fitnesse-launcher-maven-plugin/w/list}plugin's wiki pages}}.
+
+  In case you still have questions regarding the plugin's usage, please have a look at the {{{./faq.html}FAQ}} and feel
+  free to contact the {{{./mail-lists.html}user mailing list}}. The posts to the mailing list are archived and could
+  already contain the answer to your question as part of an older thread. Hence, it is also worth browsing/searching
+  the {{{./mail-lists.html}mail archive}}.
+
+  If you feel like the plugin is missing a feature or has a defect, you can fill a feature request or bug report in our
+  {{{./issue-tracking.html}issue tracker}}. When creating a new issue, please provide a comprehensive description of your
+  concern. Especially for fixing bugs it is crucial that the developers can reproduce your problem. For this reason,
+  entire debug logs, POMs or most preferably little demo projects attached to the issue are very much appreciated.
+  Of course, patches are welcome, too. Contributors can check out the project from our
+  {{{./source-repository.html}source repository}} and will find supplementary information in the
+  {{{http://maven.apache.org/guides/development/guide-helping.html}guide to helping with Maven}}. 
+
+* Examples
+
+  To provide you with better understanding of some usages of the FitNesse Launcher Plugin,
+  you can take a look into the following examples:
+
+  * {{{../fitnesse-launcher-java-example/index.html}Example Java Project}}
+  
+  * {{{../fitnesse-launcher-spring-example/index.html}Example Spring Project}}
+  
+  * {{{../fitnesse-launcher-sql-example/index.html}Example SQL Project}}
+  
+  * {{{../fitnesse-launcher-webapp-example/index.html}Example Webapp Project}}
+  

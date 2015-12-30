@@ -1,0 +1,10 @@
+[INFO] ------------------------------------------------------------------------%n
+[INFO] Setting FitNesse variable [maven.classpath] to [%n
+!path target/test-classes%n
+!path target/classes%n
+!path %s%n
+]%n
+[INFO] Setting FitNesse variable [artifact] to [ARTIFACT_ID]%n
+[INFO] Setting FitNesse variable [version] to [VERSION]%n
+[INFO] Setting FitNesse variable [basedir] to [%s]%n
+[INFO] ------------------------------------------------------------------------%n

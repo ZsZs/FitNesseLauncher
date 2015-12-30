@@ -1,0 +1,17 @@
+!contents
+
+!*> setup
+|import|
+|anubhava|
+
+*!
+
+!2 See http://anubhava.wordpress.com/2008/02/09/introducing-generic-fixture-for-fitnesse/
+
+|Address|
+|streetNo|city|state|postcode|get full address?|
+|123|New York|NY|21019|123 null, New York, NY - 21019|
+
+|Address$Name|
+|firstname|surname|to string?|
+|John|Smith|John Smith|

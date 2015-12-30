@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <excludeDefaultDirectories>true</excludeDefaultDirectories>
+  <filesets>
+    <fileset>
+      <directory>/tmp/unit_test_working</directory>
+      <includes>
+        <include>plugins.properties</include>
+      </includes>
+      <followSymlinks>false</followSymlinks>
+    </fileset>
+  </filesets>
+</configuration>

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<FindBugsFilter>
+    <Match>
+    	<Bug pattern="DM_CONVERT_CASE" />
+	</Match>
+    <Match>
+        <Class name="uk.co.javahelp.maven.plugin.fitnesse.mojo.HelpMojo"/>
+    </Match>
+</FindBugsFilter>

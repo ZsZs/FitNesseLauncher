@@ -1,0 +1,34 @@
+!contents
+
+!*> '''Variables Defined'''
+!define TEST_SYSTEM {fit}
+*!
+
+!*> '''Classpath'''
+${maven.classpath}
+*!
+
+!|dbfit.DerbyTest|
+
+!|Connect|${derby.url};user=${derby.username};password=${derby.username}|
+
+!|Query|SELECT COLUMNNAME, COLUMNDATATYPE FROM SYS.SYSCOLUMNS WHERE REFERENCEID = (SELECT TABLEID FROM SYS.SYSTABLES WHERE TABLENAME = 'EXAMPLE_TABLE')|
+|COLUMNNAME|COLUMNDATATYPE|
+|ID|INTEGER NOT NULL|
+|WHO|VARCHAR(20) NOT NULL|
+|WHEN_DONE|TIMESTAMP NOT NULL|
+|PLACE|VARCHAR(20)|
+|IMPLEMENT|VARCHAR(20)|
+
+!|Query| select * from example_table|
+|id|who|place|implement|
+|1|Prof Plum|Library|Candlestick|
+
+|Insert|EXAMPLE_TABLE|
+|id|who|place|when_done|
+|2|C Mustard|Kitchen|!today (yyyy-MM-dd HH:mm:ss)|
+
+!|Query| select * from example_table|
+|id|who|place|implement|
+|1|Prof Plum|Library|Candlestick|
+|2|C Mustard|Kitchen|null|

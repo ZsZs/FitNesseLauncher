@@ -1,0 +1,19 @@
+!contents
+
+!*> '''Variables Defined'''
+!define TEST_SYSTEM {slim}
+*!
+
+!*> '''Classpath'''
+${maven.classpath}
+*!
+
+|import|
+|org.springframework.context.support|
+|uk.co.javahelp.fitnesse.slim|
+
+|spring slim runner|classpath:META-INF/spring/*.xml|
+|bean name|method name|exec?|
+|buyMilk1|goToStore|no|
+|buyMilk2|goToStore|yes|
+

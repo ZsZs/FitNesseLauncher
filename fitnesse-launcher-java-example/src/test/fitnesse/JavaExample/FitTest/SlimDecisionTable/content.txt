@@ -1,0 +1,51 @@
+!contents
+
+!2 See .FitNesse.UserGuide.SliM.DecisionTable and http://anubhava.wordpress.com/2008/02/09/introducing-generic-fixture-for-fitnesse/
+
+!| fitnesse.fit.anubhava.GenericFixture | fitnesse.slim.test.ShouldIBuyMilk |
+|set cash in wallet|0|
+|set credit card|no|
+|set pints of milk remaining|0|
+|go to store||no|
+
+!| fitnesse.fit.anubhava.GenericFixture | fitnesse.slim.test.ShouldIBuyMilk |
+|set cash in wallet|10|
+|set credit card|no|
+|set pints of milk remaining|0|
+|go to store||yes|
+
+!| fitnesse.fit.anubhava.GenericFixture | fitnesse.slim.test.ShouldIBuyMilk |
+|set cash in wallet|0|
+|set credit card|yes|
+|set pints of milk remaining|0|
+|go to store||yes|
+
+!| fitnesse.fit.anubhava.GenericFixture | fitnesse.slim.test.ShouldIBuyMilk |
+|set cash in wallet|10|
+|set credit card|yes|
+|set pints of milk remaining|0|
+|go to store||yes|
+
+!| fitnesse.fit.anubhava.GenericFixture | fitnesse.slim.test.ShouldIBuyMilk |
+|set cash in wallet|0|
+|set credit card|no|
+|set pints of milk remaining|1|
+|go to store||no|
+
+!| fitnesse.fit.anubhava.GenericFixture | fitnesse.slim.test.ShouldIBuyMilk |
+|set cash in wallet|10|
+|set credit card|no|
+|set pints of milk remaining|1|
+|go to store||no|
+
+!| fitnesse.fit.anubhava.GenericFixture | fitnesse.slim.test.ShouldIBuyMilk |
+|set cash in wallet|0|
+|set credit card|yes|
+|set pints of milk remaining|1|
+|go to store||no|
+
+!| fitnesse.fit.anubhava.GenericFixture | fitnesse.slim.test.ShouldIBuyMilk |
+|set cash in wallet|10|
+|set credit card|yes|
+|set pints of milk remaining|1|
+|go to store||no|

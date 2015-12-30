@@ -1,0 +1,16 @@
+!contents
+
+!2 See http://anubhava.wordpress.com/2008/02/09/introducing-generic-fixture-for-fitnesse/
+
+!| fitnesse.fit.anubhava.GenericFixture | anubhava.Address | 123 | Nutley Street | New York | 21019 | NY |
+| getStreetNo | | 123 |
+| getCity | | New York |
+| getState | | NY |
+| getFullAddress | | 123 Nutley Street, New York, NY - 21019 |
+| setStreetNo | 111 |
+| setPostcode | 20133 |
+| getPostcode | | 20133 |
+| getStreetNo | | 111 |
+| getState | | NY |
+| setName | John Smith |
+| getName | | John Smith |

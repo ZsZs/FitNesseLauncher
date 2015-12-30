@@ -1,0 +1,16 @@
+!contents
+
+!*> '''Variables Defined'''
+!define TEST_SYSTEM {slim}
+*!
+
+!*> '''Classpath'''
+${maven.classpath}
+*!
+
+|import|
+|uk.co.javahelp.fitnesse.slim|
+
+|Query:jdbc slim runner|${hsqldb.driver}|${hsqldb.url}|${hsqldb.username}|${hsqldb.password}|select * from example_table|
+|ID|WHO|PLACE|IMPLEMENT|
+|1|Prof Plum|Library|Candlestick|

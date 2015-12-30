@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <target>
+    <move todir="/tmp/unit_test_working" file="/tmp/unit_test_working/Resources/FitNesseRoot" failonerror="false" overwrite="false"/>
+    <move todir="/tmp/unit_test_working/FitNesseRoot/files" failonerror="false" overwrite="false">
+        <fileset dir="/tmp/unit_test_working/FitNesseRoot/files/fitnesse/resources">
+            <include name="**/*"/>
+        </fileset>
+    </move>
+  </target>
+</configuration>

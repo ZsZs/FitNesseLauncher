@@ -1,0 +1,62 @@
+ ------
+ Introduction
+ ------
+ Stewart Cambridge
+ ------
+
+
+Example SQL Project
+
+ [[1]] {{{http://code.google.com/p/fitnesse-launcher-maven-plugin/downloads/detail?name=fitnesse-launcher-sql-example-${projectVersion}-src.zip}Download the example SQL project}} or {{{http://code.google.com/p/fitnesse-launcher-maven-plugin/source/browse/tags/fitnesse-launcher-${projectVersion}/fitnesse-launcher-sql-example/}browse the source here}}
+
+ [[1]] Run FitNesse as a wiki server using:
+
++-----+
+mvn clean verify -P wiki
++-----+
+
+ [[1]] Visit {{http://localhost:9123/SqlExample}} and explore!
+
+[]
+
+======
+
+ [[1]] Run FitNesse as automated integration tests using:
+
++-----+
+mvn clean verify -P auto
++-----+
+
+ [[1]] The JUnit XML results can be found at <<<target/fitnesse/results>>>
+
+ [[1]] The FitNesse HTML reports can be found at <<<target/fitnesse/reports>>>
+
+ []
+
+======
+
+  *
+
+    This project demonstrates the use of 2 different java-based databases: {{{http://hsqldb.org/}HSQLDB}} and {{{http://db.apache.org/derby/}Apache Derby}}.
+
+  *
+
+    Derby requires to be launched as a server before FitNesse tests are run, and shutdown again afterwards. This is configured in the pom.xml using <<<maven-antrun-plugin>>> and <<<exec-maven-plugin>>> in the <<<pre-integration-test>>> and <<<post-integration-test>>> phases.
+
+   *
+
+     Note: This does mean that FitNesse should be cleanly shutdown from running in wiki mode. Using <<<mvn fitnesse:shutdown>>> is preferred because <<<Ctrl+C>>> will not execute the <<<post-integration-test>>> phase, leaving Derby still running. Also see {{{../fitnesse-launcher-maven-plugin/faq.html}the FAQ's}}.
+
+  *
+
+    For both databases, before FitNesse tests can be run (and for Derby, after it has been launched as a server) an SQL schema needs to be created. This is done using <<<sql-maven-plugin>>> in the <<<pre-integration-test>>> phase, but could also be done using SQL in a FitNesse <<<SetUp>>> wiki page.
+
+  *
+
+    The Fit tests are run on Derby, using {{{http://benilovj.github.com/dbfit}DB Fit}}.
+
+  *
+
+    The Slim tests are run on HSQLDB, using a custom {{{./xref-test/index.html}JdbcSlimRunner}} class.
+
+

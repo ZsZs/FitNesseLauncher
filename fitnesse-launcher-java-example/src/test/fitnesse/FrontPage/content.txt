@@ -1,0 +1,7 @@
+!1 Welcome to [[FitNesse][FitNesse.FitNesse]]!
+!3 ''The fully integrated stand-alone acceptance testing framework and wiki.''
+
+!2 This is a project customised wiki FrontPage
+!3 It was placed in the working directory by Maven copy-resources, but probably it should be done by a generic 'SymLink' config.
+
+!note Release ${FITNESSE_VERSION}

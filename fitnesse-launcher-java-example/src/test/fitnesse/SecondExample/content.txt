@@ -1,0 +1,12 @@
+!contents -R2
+
+!*> '''Variables Defined'''
+!define TEST_SYSTEM {slim}
+*!
+
+!*> '''Classpath'''
+${maven.classpath}
+*!
+
+!2 This 2nd top level example is to demonstrate using multiple <launch> configurations.
+

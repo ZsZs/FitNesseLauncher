@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <excludeDefaultDirectories>true</excludeDefaultDirectories>
+  <filesets>
+    <fileset>
+      <directory>FitNesseRoot</directory>
+      <followSymlinks>false</followSymlinks>
+    </fileset>
+  </filesets>
+</configuration>

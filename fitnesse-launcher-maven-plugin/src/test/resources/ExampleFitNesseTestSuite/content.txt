@@ -1,0 +1,10 @@
+!contents
+
+I'm not testing FitNesse here, I just want something simple for it to run and report back on.
+See http://fitnesse.org/FitNesse.UserGuide.ColumnFixture for where this test came from.
+
+| eg.Division |
+| numerator | denominator | quotient? |
+| 10 | 2 | 5 |
+| 12.6 | 3 | 4.2 |
+| 100 | 4 | 33 |

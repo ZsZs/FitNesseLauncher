@@ -1,0 +1,9 @@
+!contents
+
+!| script | selenium driver fixture | 
+| start browser | firefox | on url | http://localhost:8080 |
+| ensure | do | open | on | /fitnesse-launcher-webapp-example |
+| ensure | do | assertTitle | on | fitnesse-launcher-webapp-example |
+| ensure | do | verifyText | on | //legend | with | fitnesse-launcher-webapp-example |
+| ensure | do | verifyTextPresent | on | This is a simple webapp designed to exercise fitnesse-launcher-maven-plugin. |
+| stop browser |

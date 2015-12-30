@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faqs id="FAQ" title="Frequently Asked Questions">
+  <part id="Running FitNesse using Maven">
+    <faq id="fail">
+      <question>How do I break the Maven build following a FitNesse test failure?</question>
+      <answer>
+          <p>While is not possible to stop FitNesse dead in its tracks as soon as a test fails,
+          it is certainly possible to make the Maven build fail following FitNesse test failures.</p>
+          <p>This is the purpose of the '<code>verify</code>' phase. The '<code>verify</code>' phase
+          is deliberately a separate phase from '<code>integration-test</code>'
+          because integration tests typically need a set up and tear down, such as starting and stopping web servers or databases.</p>
+          <p>This set up and tear down <strong>must</strong> be run regardless of whether the tests pass or fail. To that end
+          there are two separate phases either side of '<code>integration-test</code>'; namely: '<code>pre-integration-test</code>' and '<code>post-integration-test</code>'.</p>
+          <p>Only after the tear down has completed could a Maven build be failed, otherwise servers would be left running, and would need manual shutdown.
+          Thus the '<code>verify</code>' phase comes after '<code>post-integration-test</code>', and has the purpose of reading the test results from file to determine success or failure.</p>
+          <p>You can control whether Maven fails the build or not in the '<code>verify</code>' phase by including or excluding the '<code>fitnesse:verify</code>' goal in your <code>pom.xml</code> config.</p>
+          <p>Please see <a href="http://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html#Lifecycle_Reference">Maven documentation</a> for further details.</p>
+          <p>Please also see the <a href="verify-mojo.html">fitnesse:verify</a> goal of this plugin,
+          and how to set up and <a href="running.html#Run_FitNesse_Automated_Integration_Tests_auto_mode">Run FitNesse Automated Integration Tests</a>.</p>
+	      <p>Also see <a href="https://code.google.com/p/fitnesse-launcher-maven-plugin/issues/detail?id=20">project issue #20</a>.</p>
+      </answer>
+    </faq>
+    <faq id="help">
+      <question>I ran '<code>mvn fitnesse:help</code>', but I got the help for <code>org.codehaus.mojo:fitnesse-maven-plugin</code> instead. What gives?</question>
+      <answer>
+<p><code>org.codehaus.mojo:fitnesse-maven-plugin</code> is the default plugin for the goal prefix '<code>fitnesse</code>'.</p>
+<ul>
+<li>Either use '<code>mvn fitnesse-launcher:help</code>',</li>
+<li>Or in order to use the goal prefix '<code>fitnesse</code>' with <strong>FitNesse Launcher</strong>, either:
+<ul>
+<li>The plugin needs to be configured in your <code>pom.xml</code>,</li>
+<li>Or '<code>pluginGroups</code>' needs to be configured in your <code>settings.xml</code>:
+<pre>
+  &lt;pluginGroups&gt;
+    &lt;pluginGroup>uk.co.javahelp.fitnesse&lt;/pluginGroup&gt;
+  &lt;/pluginGroups&gt;
+</pre>
+</li>
+</ul>
+</li>
+</ul>
+      </answer>
+    </faq>
+    <faq id="shutdown">
+      <question>If I run '<code>mvn fitnesse:wiki</code>' the prompt does not return to the command line, so how can I then run '<code>mvn fitnesse:shutdown</code>'?</question>
+      <answer>
+<p>Your options are:</p>
+<ul>
+<li>Run '<code>mvn fitnesse:shutdown</code>' from a different command line (ie. another terminal window).</li>
+<li>Run '<code>mvn fitnesse:wiki</code>' as a background process (by appending ' &amp;' on unix-like systems).</li>
+<li>Use '<code>Ctrl+C</code>' to exit the Maven process; although be aware that while this will kill FitNesse, it will also prevent Maven from finishing its build lifecycle, ie. the 'tear-down' goal will not be run, as the 'post-integration-test' phase will not be run. (See <a href="#fail">Q1 above</a>.)</li> 
+<li>Send a HTTP GET request to <a href="http://localhost:9123/?responder=shutdown">http://localhost:9123/?responder=shutdown</a> (for example, by using your browser).</li>
+</ul>
+      </answer>
+    </faq>
+    <faq id="standalone">
+      <question>Can I use this plugin standalone?</question>
+      <answer>
+          <p>From version 1.2.1 onwards, yes. First configure <code>&lt;pluginGroups&gt;</code> in your <code>settings.xml</code>, as in <a href="#help">Q2 above</a>, and then run:</p>
+<pre>
+mvn fitnesse:set-up fitnesse:wiki
+</pre>
+          <p>This will launch a vanilla FitNesse server, with no project test suites. Once launched visit <a href="http://localhost:9123" target="fitnesse">http://localhost:9123</a>.</p>
+          <p>(If you want to run any of the example tests that come with vanilla FitNesse, remember to configure the classpath as per <a href="config.html#Classpath_Dependencies">Usage documentation</a>).</p>
+      </answer>
+    </faq>
+    <faq id="properties">
+      <question>What FitNesse variables get exported?</question>
+      <answer>
+          <p>Please see Usage documentation on <a href="config.html#FitNesse_Variables">FitNesse Variables</a>.</p>
+      </answer>
+    </faq>
+    <faq id="commandline">
+      <question>How can I specify a FitNesse Suite or Test to run from the command line? Will this take priority over plugin configured Suites?</question>
+      <answer>
+          <p>You can use command line properties to instruct the plugin which Suite or Test to run, for example:</p>
+          <ul>
+              <li><code>-Dfitnesse.suite=X</code></li>
+              <li><code>-Dfitnesse.test=Y</code></li>
+          </ul>
+          <p>These properties will take priority over your plugin config if your plugin config uses
+          the new <code>&lt;launches&gt;</code> config available from version 1.4.0 onwards.</p>
+          <p>If the plugin has a top-level <code>&lt;suite&gt;</code> or <code>&lt;test&gt;</code> configured in the pre-1.4.0 style,
+          these command line properties will not take priority over the plugin config. For this reason, the advice is to prefer using the new
+          <code>&lt;launches&gt;</code> config.</p>
+          <p>Please see Usage documentation on <a href="filtering.html#Configuring_Which_Suites_Or_Tests_To_Run">Configuring Which Suites Or Tests To Run</a>.</p>
+      </answer>
+    </faq>
+    <faq id="debug">
+      <question>Is there a way to debug FitNesse tests in wiki mode ?</question>
+      <answer>
+	      <p>FitNesse has special variables to be aware of. The two which are relevant here are:</p>
+<ul>
+<li><code>COMMAND_PATTERN</code></li>
+<li><code>REMOTE_DEBUG_COMMAND</code></li>
+</ul>
+	      <p>An explanation of what these are, and how to modify them to exactly suit your needs if necessary is at 
+<a href="http://fitnesse.org/FitNesse.FullReferenceGuide.UserGuide.WritingAcceptanceTests.CustomizingTestExecution">Customizing Test Execution</a>.</p>
+	      <p>By adding the following URL stub to your test invocation URL, test execution switches from using <code>COMMAND_PATTERN</code> to using <code>REMOTE_DEBUG_COMMAND</code>.</p>
+<ul>
+<li><pre>?responder=test&amp;remote_debug=true</pre></li>
+</ul>
+	      <p>See FitNesse documentation:
+<a href="http://fitnesse.org/FitNesse.FullReferenceGuide.UserGuide.WritingAcceptanceTests.DebuggingFixtureCode">Debugging with a remote wiki site</a>.</p>
+	      <p>This blog article is rather dated (2007) and recommends a custom change to <code>COMMAND_PATTERN</code>:
+<a href="http://vikashazrati.wordpress.com/2007/12/05/remote-debugging-fitnesse-with-eclipse/">Remote Debugging | Fitnesse with Eclipse</a>.</p>
+	      <p>Also see <a href="https://code.google.com/p/fitnesse-launcher-maven-plugin/issues/detail?id=19">project issue #19</a> with regard to debugging via FitNesse.</p>
+      </answer>
+    </faq>
+    <faq id="search">
+      <question>FitNesse searching for Suites or Tests by tags appears to be broken.</question>
+      <answer>
+          <p>Indeed it does. Specifically: using the FitNesse search interface on the wiki for searching for tagged wiki pages across SymbolicLinks is does not work.</p>
+	      <p>See this <a href="https://github.com/unclebob/fitnesse/issues/488">FitNesse bug report</a>.</p>
+	      <p>Also see <a href="https://code.google.com/p/fitnesse-launcher-maven-plugin/issues/detail?id=32">project issue #32</a>.</p>
+      </answer>
+    </faq>
+    <faq id="whitespace">
+      <question>What if I have whitespace in the Current Working Directory path?</question>
+      <answer>
+	      <p>When tests are run in 'auto mode', whitespace is not an issue as the classpath for FitNesse is handled using Maven's internal '<code>ClassRealm</code>' mechanism.</p>
+	      <p>When tests are tun in 'wiki mode', two directories always get added to the FitNesse classpath:</p>
+		      <ol>
+			      <li><pre>${project.build.directory}/test-classes</pre></li>
+			      <li><pre>${project.build.directory}/classes</pre></li>
+		      </ol>
+	      <p>
+		      Hence, if there is whitespace in the project base directory, then whitespace will be in the FitNesse classpath.
+		      FitNesse automatically detects this when wiki tests are run and adds quotes (<code>"</code>) around classpath elements which have whitespace.
+	      </p>
+	      <p>
+		      This appears to be sufficient for Windows operating systems to cope &#8212; the tests can be expected to work.
+		      On all other operating systems this quoting is not sufficient and the tests can be expected to error.
+	      </p>
+	      <p>
+		      On non-Windows operating systems <strong>FitNesse Launcher</strong> will detect and attempt to compensate for this by resolving the 2 classpath elements above as relative paths,
+		      which should eliminate whitespace in the classpath if the Current Working Directory is also the project base dircetory.
+		      (ie. <code>${project.build.directory}</code> is resolved to <code>./target</code>)
+	      </p>
+	      <p>
+		      See this <a href="http://stackoverflow.com/questions/17287166/what-is-the-correct-escaping-or-quoting-of-whitespace-in-a-classpath-path-ele">Stackoverflow question</a> for more detail, and <a href="https://github.com/unclebob/fitnesse/issues/278">this issue</a> raised with <a href="https://github.com/unclebob">Uncle Bob</a>.
+		      This should be fixed in FitNesse versions 20140623 onwards.
+	      </p>
+	      <p>Also see <a href="https://code.google.com/p/fitnesse-launcher-maven-plugin/issues/detail?id=11">project issue #11</a>.</p>
+      </answer>
+    </faq>
+  </part>
+</faqs>

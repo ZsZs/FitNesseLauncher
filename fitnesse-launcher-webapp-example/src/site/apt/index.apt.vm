@@ -1,0 +1,67 @@
+ ------
+ Introduction
+ ------
+ Stewart Cambridge
+ ------
+
+
+Example Webapp Project
+
+ [[1]] {{{http://code.google.com/p/fitnesse-launcher-maven-plugin/downloads/detail?name=fitnesse-launcher-webapp-example-${projectVersion}-src.zip}Download the example webapp project}} or {{{http://code.google.com/p/fitnesse-launcher-maven-plugin/source/browse/tags/fitnesse-launcher-${projectVersion}/fitnesse-launcher-webapp-example/}browse the source here}}
+
+ [[1]] Run FitNesse as a wiki server using:
+
++-----+
+mvn clean verify -P wiki
++-----+
+
+ [[1]] Visit {{http://localhost:9123/WebappExample}} and explore!
+
+[]
+
+======
+
+ [[1]] Run FitNesse as automated integration tests using:
+
++-----+
+mvn clean verify -P auto
++-----+
+
+ [[1]] The JUnit XML results can be found at <<<target/fitnesse/results>>>
+
+ [[1]] The FitNesse HTML reports can be found at <<<target/fitnesse/reports>>>
+
+[]
+
+=======
+
+ * If the automated tests are being run on a server without a display (for example, for continuous integration) then:
+
+ [[1]] Make sure Firefox is installed.
+
+ [[1]] Run the tests using the "<<<headless>>>" profile:
+
++-----+
+mvn clean verify -P auto -P headless
++-----+
+
+[]
+
+ * The "<<<headless>>>" profile is configured using the <<<xvfb>>> goal of <<<selenium-maven-plugin>>>.
+
+[]
+
+=======
+
+ *
+
+   For automated integration tests, but <<not>> for running as a wiki, this project is configured to launch the webapp under test using <<<maven-jetty-plugin>>> during the <<<pre-integration-test>>> phase. This is so the entire setup can be automated for running on a Continuous Integration server.
+
+ *
+
+   When running FitNesse as a wiki, the idea is that the webapp project code is being manually run separately using a standard servlet container; after all this is when developers would be <writing> their tests, as well as <running> them, and the server for the webapp under test could be bounced many times whilst FitNesse continues to run as a wiki.
+
+ *
+
+   The FitNesse tests in this project use {{{http://xebia.github.io/Xebium/}Xebium}} - a FitNesse / {{{http://docs.seleniumhq.org/}Selenium}} bridge.
+

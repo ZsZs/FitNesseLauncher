@@ -1,0 +1,144 @@
+ ------
+ Usage
+ ------
+ Stewart Cambridge
+ ------
+
+
+Configuring Test Suites
+
+%{include|source=apt/menu.apt}
+
+* Configuring Which Suites Or Tests To Run
+
+** Configuring Suites Using Multiple 'Launches'
+
+  *
+
+    Multiple <<<\<launch\>>>> configurations are possible. Each <<<\<launch\>>>> must contain either one <<<\<suite\>>>> or one <<<\<test\>>>>, but not both.
+
+  *
+
+    A <<<\<launch\>>>> configuration may also optionally contain one <<<\<suiteFilter\>>>>, one <<<\<excludeSuiteFilter\>>>> and / or one <<<\<runTestsMatchingAllTags\>>>>.
+    See {{{./filtering.html#Include__Exclude_Filtering_Using_FitNesse_Tags}Include / Exclude Filtering Using FitNesse Tags}} below.
+
+  *
+
+    An example configuration for a set of launches is shown here from the {{{../fitnesse-launcher-java-example/index.html}Example Java Project}}.
+
++-----+
+<launches>
+    <launch>
+        <suite>JavaExample</suite>
+        <runTestsMatchingAllTags>mockito,powermock</runTestsMatchingAllTags>
+    </launch>
+    <launch>
+        <suite>SecondExample</suite>
+    </launch>
+    <launch>
+        <suite>JavaExample.SlimTest</suite>
+        <suiteFilter>address,division</suiteFilter> <!-- FitNesse also calls this 'runTestsMatchingAnyTags' -->
+    </launch>
+    <launch>
+        <test>JavaExample.SlimTest.SlimDecisionTable</test>
+        <excludeSuiteFilter>division,decision</excludeSuiteFilter>
+    </launch>
+</launches>
++-----+
+
+  *
+
+    Specifying a Suite will result in every Test in that Suite and in Suites nested underneath being run. All other Suites will be excluded.
+
+  *
+
+    Specifying an individual Test will result in only that single Test being run, and nothing else.
+
+  *
+
+    When running the '<<<wiki>>>' goal, each <<<\<launch\>>>> represents only the 'SymLinks' that will be created, if <<<createSymLink>>> is <<<true>>>.
+    In the above example, two SymLinks will be created, one for '<<<JavaExample>>>' and one for '<<<SecondExample>>>', so that the following will be navigable:
+ 
+   * http://localhost:9123/JavaExample
+
+   * http://localhost:9123/SecondExample
+
+  *
+
+    When running the '<<<run-tests>>>' goal, each <<<\<launch\>>>> represents the full set of FitNesse Suites and Tests which will be run.
+    In the above example, the following tests will be run:
+ 
+   [[1]] All Tests in the 'JavaExample' Suite which have <<both>> tags 'mockito' and 'powermock'
+ 
+   [[2]] All Tests in the 'SecondExample' Suite
+
+   [[3]] All Tests in the 'JavaExample.SlimTest' Suite which have <<either>> tags 'address' or 'division'
+
+   [[4]] The specific Test 'JavaExample.SlimTest.SlimDecisionTable'. Tests which have <<either>> tag 'division' or 'decision' will be excluded from this.
+    (Specifying tags is rather pointless for an individual test config, but is given here for the sake of example.)
+
+  *
+
+    At this time, the HTML reports produced by each <<<\<launch\>>>> will all be in the same directory (<<<target/fitnesse/reports>>> by default),
+    but will not be aware of each other and will not have navigable links the one to the other, as Tests all run under a single Suite will do.
+
+** Configuring Suites Using 'Top-Level' Plugin Configuration
+
+  *
+
+    The legacy (pre-1.4.0) configuration is still valid, and an example is shown here, again from the {{{../fitnesse-launcher-java-example/index.html}Example Java Project}}.
+
++-----+
+<configuration>
+    <!-- These 3 are mutually exclusive; choose one. -->
+    <suite>JavaExample</suite>
+    <suite>JavaExample.SlimTest</suite>
+    <test>JavaExample.SlimTest.SlimDecisionTable</test>
+</configuration>
++-----+
+
+  *
+
+   Pre-1.4.0 config is in fact is senior to the <<<\<launches\>>>> config because
+   this  allows a simple command line property to override the config and specify the suite or test.
+   For example:
+
+   * <<<-Dfitnesse.suite=X>>>
+
+   * <<<-Dfitnesse.test=Y>>>
+   
+* Include / Exclude Filtering Using FitNesse Tags
+
+ *
+
+   FitNesse has a facility for its wiki test pages to be tagged with one or more tags. These tags can then be used to include or exclude those pages during test runs.
+
+  [[1]]
+
+        The FitNesse wiki pages to be filtered need to be tagged, as illustrated in this screenshot.
+
+[./images/FitNesse_Tags.png] Tagging a FitNesse Test Page
+ 
+  [[2]]
+
+        Once wiki pages have been tagged, specify those tags as a comma-separated list for inclusion or exclusion in the test run.
+
+   * This filtering is additional to, and modifies, the Suite or Tests which are configured as above.
+
+   * Sample configuration is shown here from the {{{../fitnesse-launcher-java-example/index.html}Example Java Project}}.
+
++-----+
+<suiteFilter>address,division</suiteFilter>
+<excludeSuiteFilter>division,decision</excludeSuiteFilter>
+<runTestsMatchingAllTags>mockito,powermock</runTestsMatchingAllTags>
++-----+
+
+ *
+
+   Also see the {{{http://fitnesse.org/FitNesse.FullReferenceGuide.UserGuide.WritingAcceptanceTests.TestSuites.TagsAndFilters}FitNesse documentation}} on tagging.
+
+ *
+
+   In response to {{{http://code.google.com/p/fitnesse-launcher-maven-plugin/issues/detail?id=12}project issue #12}} <<<runTestsMatchingAllTags>>> is now supported.
+   (<<<runTestsMatchingAnyTag>>> is a synonym for <<<suiteFilter>>>, but <<<runTestsMatchingAllTags>>> is recently introduced FitNesse functionality.)
+

@@ -1,0 +1,91 @@
+ ------
+ Usage
+ ------
+ Stewart Cambridge
+ ------
+
+
+Use of Maven Profiles
+
+%{include|source=apt/menu.apt}
+
+==========
+
+  Because it doesn't make sense to run both FitNesse as a wiki server <<and>> as automated integration tests at <<the same time>>, all of the example projects use {{{http://maven.apache.org/guides/introduction/introduction-to-profiles.html}Maven Profiles}} to separate the two configurations.
+  
+* For FitNesse As A Wiki Server
+  
+  Using the <<<\<profiles\>>>> configuration given below, run Maven with:
+  
++-----+
+mvn verify -P wiki
++-----+
+
+* For FitNesse Automated Integration Tests
+  
+  Using the <<<\<profiles\>>>> configuration given below, run Maven with:
+  
++-----+
+mvn verify -P auto
++-----+
+
+* To Skip FitNesse Testing Altogether (but perhaps to still run other integration tests)
+
+  Using the <<<\<profiles\>>>> configuration given below, run Maven with:
+  
++-----+
+mvn verify
++-----+
+
+* Example Profile Configuration
+  
++-----+
+<project>
+    [...]
+    <profiles>
+        <profile>
+            <id>wiki</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>uk.co.javahelp.fitnesse</groupId>
+                        <artifactId>fitnesse-launcher-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>set-up</goal>
+                                    <goal>wiki</goal>
+                                    <goal>tear-down</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>auto</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>uk.co.javahelp.fitnesse</groupId>
+                        <artifactId>fitnesse-launcher-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>set-up</goal>
+                                    <goal>run-tests</goal>
+                                    <goal>tear-down</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+    [...]
+</project>
++-----+
+

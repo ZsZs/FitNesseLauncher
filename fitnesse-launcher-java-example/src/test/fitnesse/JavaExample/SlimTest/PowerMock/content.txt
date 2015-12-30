@@ -1,0 +1,14 @@
+!contents
+
+!*> setup
+|import|
+|fitnesse.slim.powermock|
+
+*!
+
+|powermock fixture|
+|static init ?|ctor init ?|method init ?|
+|OK|OK|OK|
+
+
+

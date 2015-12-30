@@ -1,0 +1,90 @@
+ ------
+ Usage
+ ------
+ Stewart Cambridge
+ ------
+
+
+Running FitNesse
+
+%{include|source=apt/menu.apt}
+
+* Run FitNesse As A Wiki Server ('wiki mode')
+
+  [[1]] To use <<<FitNesse>>> as a wiki server, configure the plugin thus:
+  
++-----+
+<project>
+    [...]
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>uk.co.javahelp.fitnesse</groupId>
+                <artifactId>fitnesse-launcher-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>set-up</goal>
+                            <goal>wiki</goal>
+                            <goal>tear-down</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    [...]
+</project>
++-----+
+
+  [[1]] Then run Maven using:
+
++-----+
+mvn verify
++-----+
+
+  [[1]] Shut down the wiki server using:
+
++-----+
+mvn fitnesse:shutdown
++-----+
+
+* Run FitNesse Automated Integration Tests ('auto mode')
+
+  [[1]] To use <<<FitNesse>>> to produce JUnit compatible automated test reports, configure the plugin thus:
+  
++-----+
+<project>
+    [...]
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>uk.co.javahelp.fitnesse</groupId>
+                <artifactId>fitnesse-launcher-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>set-up</goal>
+                            <goal>run-tests</goal>
+                            <goal>tear-down</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    [...]
+</project>
++-----+
+
+  [[1]] Then run Maven using:
+
++-----+
+mvn verify
++-----+
+
+  [[1]] The JUnit XML results can be found at <<<target/fitnesse/results>>> (by default).
+  
+  [[1]] The FitNesse HTML reports can be found at <<<target/fitnesse/reports>>> (by default).
+

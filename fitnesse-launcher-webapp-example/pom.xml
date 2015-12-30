@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>uk.co.javahelp.fitnesse</groupId>
+		<artifactId>fitnesse-launcher-parent</artifactId>
+		<version>1.6.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>fitnesse-launcher-webapp-example</artifactId>
+	<packaging>war</packaging>
+
+	<name>Example Webapp Project</name>
+	<description>Example configuration for using fitnesse-launcher-maven-plugin in a webapp project.</description>
+	<url>http://code.google.com/p/fitnesse-launcher-maven-plugin/wiki/WebappExample</url>
+
+	<properties>
+		<!-- For use with the `headless` profile -->
+		<display>:2</display>
+		<!-- This example has no unit tests, just integration tests -->
+		<skipTests>true</skipTests>
+		<webdriver.firefox.logfile>${project.build.directory}/firefox.log</webdriver.firefox.logfile>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>uk.co.javahelp.fitnesse</groupId>
+				<artifactId>fitnesse-launcher-maven-plugin</artifactId>
+				<configuration>
+					<suite>WebappExample</suite>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>com.xebia.incubator</groupId>
+						<artifactId>xebium</artifactId>
+						<version>0.10</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+		</plugins>
+	</build>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>2.7</version>
+				<reportSets>
+				    <reportSet>
+				        <reports>
+				            <report>summary</report>
+				        </reports>
+				    </reportSet>
+				</reportSets>
+			</plugin>
+			<plugin>
+				<groupId>uk.co.javahelp.fitnesse</groupId>
+				<artifactId>fitnesse-launcher-maven-plugin</artifactId>
+                <version>${project.version}</version>
+			</plugin>
+		</plugins>
+	</reporting>
+
+	<profiles>
+		<profile>
+			<id>headless</id>
+			<!-- 
+				This profile is for use on a server or any computer without a display.
+				It launches Xvfb (X-Server Virtual Frame Buffer) which must be installed first.
+				The intent of this profile is to enable a Continuous Integration server to run the tests. 
+			 -->
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>selenium-maven-plugin</artifactId>
+						<version>2.3</version>
+						<executions>
+							<execution>
+								<id>xvfb</id>
+								<phase>pre-integration-test</phase>
+								<goals>
+									<goal>xvfb</goal>
+								</goals>
+								<configuration>
+									<display>${display}</display>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>wiki</id>
+			<!--
+			    This profile is for use when writing tests using the FitNesse wiki. 
+				Simply run 'mvn verify -P wiki' and use a browser to visit http://localhost:9123/WebappExample
+			-->
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>uk.co.javahelp.fitnesse</groupId>
+						<artifactId>fitnesse-launcher-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<goals>
+									<goal>set-up</goal>
+									<goal>wiki</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>auto</id>
+			<!-- 
+                This profile will use maven-jetty-plugin to automatically boot the webapp,
+				and then boot FitNesse to run the configured test suite. Simply run 'mvn verify -P auto'
+			 -->
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.mortbay.jetty</groupId>
+						<artifactId>maven-jetty-plugin</artifactId>
+						<version>6.1.26</version>
+						<executions>
+							<execution>
+								<id>start-jetty</id>
+								<phase>pre-integration-test</phase>
+								<goals>
+									<goal>run-exploded</goal>
+								</goals>
+								<configuration>
+									<daemon>true</daemon>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>uk.co.javahelp.fitnesse</groupId>
+						<artifactId>fitnesse-launcher-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<goals>
+									<goal>set-up</goal>
+									<goal>run-tests</goal>
+									<goal>tear-down</goal>
+									<goal>verify</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+</project>

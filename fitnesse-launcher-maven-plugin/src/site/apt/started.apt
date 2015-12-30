@@ -1,0 +1,67 @@
+ ------
+ Usage
+ ------
+ Stewart Cambridge
+ ------
+
+
+Getting Started
+
+%{include|source=apt/menu.apt}
+  
+* Advised Project Directory Structure
+  
++-----+
++- src/
+   +- main/
+   |  +- java/
+   |  +- resources/
+   |  +- webapp/
+   +- test/
+   |  +- java/
+   |  +- resources/
+   |  +- fitnesse/
+   |     +- FirstTestSuite
+   |     |  +- SetUp
+   |     |  |  +-- content.txt, properties.xml
+   |     |  |
+   |     |  +- NestedSuite
+   |     |  |  +- AnIndividualTest
+   |     |  |  |  +-- content.txt, properties.xml
+   |     |  |  | 
+   |     |  |  +-- content.txt, properties.xml
+   |     |  |
+   |     |  +-- content.txt, properties.xml
+   |     |
+   |     +- SecondTestSuite
+   |     |  +-- content.txt, properties.xml
+   |     |
+   |     +-- plugins.properties  // optional, use maven-resources-plugin:copy-resources to copy to FitNesse working directory
+   |
+   +- pom.xml
++-----+
+
+* FitNesse Resources, Default Handling
+
+  *
+
+    By default, when the <<<set-up>>> goal is run, a copy of FitNesse will be unpacked into <<<$\{project.build.directory\}/fitnesse>>>,
+    such that all native FitNesse resources are found at <<</target/fitnesse/FitNesseRoot>>>.
+
+  *
+
+    Project specific FitNesse tests should go under <<<src/test/fitnesse>>>.
+    FitNesse Launcher will create a {{{http://fitnesse.org/FitNesse.FullReferenceGuide.UserGuide.FitNesseWiki.SymbolicLinks}FitNesse SymLink}}
+    directly from <<</target/fitnesse/FitNesseRoot>>> to your test suite under <<<src/test/fitnesse>>>.
+ 
+  *
+
+    Other project specific FitNesse wiki pages, if you have them, can be copied into <<</target/fitnesse/FitNesseRoot>>> using <<<maven-resources-plugin:copy-resources>>>.
+    From version 1.4.0 onwards, FitNesse will be unpacked with <<<overwrite=false>>>, so copied resources will be preserved.
+    See {{{http://code.google.com/p/fitnesse-launcher-maven-plugin/issues/detail?id=29}project issue #29}},
+    as well as the <<<pom.xml>>> of the {{{../fitnesse-launcher-java-example/index.html}Example Java Project}}.
+  
+  *
+
+    Future versions may allow arbitrary FitNesse SymLinking of project wiki resources.
+    

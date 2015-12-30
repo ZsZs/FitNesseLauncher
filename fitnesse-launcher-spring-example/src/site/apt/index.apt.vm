@@ -1,0 +1,39 @@
+ ------
+ Introduction
+ ------
+ Stewart Cambridge
+ ------
+
+
+Example Spring Project
+
+ [[1]] {{{http://code.google.com/p/fitnesse-launcher-maven-plugin/downloads/detail?name=fitnesse-launcher-spring-example-${projectVersion}-src.zip}Download the example Spring Framework project}} or {{{http://code.google.com/p/fitnesse-launcher-maven-plugin/source/browse/tags/fitnesse-launcher-${projectVersion}/fitnesse-launcher-spring-example/}browse the source here}}
+
+ [[1]] Run FitNesse as a wiki server using:
+
++-----+
+mvn clean verify -P wiki
++-----+
+
+ [[1]] Visit {{http://localhost:9123/SpringExample}} and explore!
+
+[]
+
+======
+
+ [[1]] Run FitNesse as automated integration tests using:
+
++-----+
+mvn clean verify -P auto
++-----+
+
+ [[1]] The JUnit XML results can be found at <<<target/fitnesse/results>>>
+
+ [[1]] The FitNesse HTML reports can be found at <<<target/fitnesse/reports>>>
+
+ []
+
+======
+
+ * A custom Fit Fixture ({{{./xref-test/index.html}SpringColumnFixture}}) had to be written for the Fit tests, and a custom Slim Runner ({{{./xref-test/index.html}SpringSlimRunner}}) for the Slim tests. (More on the difference between the Fit and Slim engines of FitNesse can be found in {{{http://gojko.net/2009/04/17/slim-and-the-future-of-fitnesse-video/}Gojko Adzic's presentation}}.)
+

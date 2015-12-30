@@ -1,0 +1,45 @@
+ ------
+ Introduction
+ ------
+ Stewart Cambridge
+ ------
+
+
+Example Java Project
+
+ [[1]] {{{http://code.google.com/p/fitnesse-launcher-maven-plugin/downloads/detail?name=fitnesse-launcher-java-example-${projectVersion}-src.zip}Download the example java project}} or {{{http://code.google.com/p/fitnesse-launcher-maven-plugin/source/browse/tags/fitnesse-launcher-${projectVersion}/fitnesse-launcher-java-example/}browse the source here}}
+
+ [[1]] Run FitNesse as a wiki server using:
+
++-----+
+mvn clean verify -P wiki
++-----+
+
+ [[1]] Visit {{http://localhost:9123/JavaExample}} and explore!
+
+ []
+
+======
+
+ [[1]] Run FitNesse as automated integration tests using:
+
++-----+
+mvn clean verify -P auto
++-----+
+
+ [[1]] The JUnit XML results can be found at <<<target/fitnesse/results>>>
+
+ [[1]] The FitNesse HTML reports can be found at <<<target/fitnesse/reports>>>
+
+ []
+
+======
+
+ *
+
+   Note that the FitNesse tests in this project have also been tagged with the tags <<<address>>>, <<<division>>> and <<<decision>>>. Example usage of these tags is commented out in the pom.xml, and is documented {{{../fitnesse-launcher-maven-plugin/filtering.html#Include__Exclude_Filtering_Using_FitNesse_Tags}here}}.
+
+ *
+
+   Thanks to {{{http://anubhava.wordpress.com/}Anubhava Srivastava}} for his {{{http://fitnesse.org/FitNesse.UserGuide.FixtureGallery.BasicFitFixtures}Fit Fixture}} {{{http://anubhava.wordpress.com/2008/02/09/introducing-generic-fixture-for-fitnesse/}<<<fitnesse.fit.anubhava.GenericFixture>>>}} and ancillary classes, also included in the project.
+

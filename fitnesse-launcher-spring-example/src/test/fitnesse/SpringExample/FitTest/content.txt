@@ -1,0 +1,16 @@
+!contents
+
+!*> '''Variables Defined'''
+!define TEST_SYSTEM {fit}
+*!
+
+!*> '''Classpath'''
+${maven.classpath}
+*!
+
+
+!|uk.co.javahelp.fitnesse.fit.SpringColumnFixture|
+|bean name|method name|exec?|
+|buyMilk1|goToStore|no|
+|buyMilk2|goToStore|yes|
+
