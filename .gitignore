@@ -1,5 +1,12 @@
+.settings
 *.project
-*.project
-*.project
+fitnesse-launcher-java-example/.project
+fitnesse-launcher-java-example/.settings
+fitnesse-launcher-maven-plugin/.project
+fitnesse-launcher-maven-plugin/.settings
+fitnesse-launcher-spring-example/.project
+fitnesse-launcher-spring-example/.settings
 fitnesse-launcher-sql-example/.project
-*.project
+fitnesse-launcher-sql-example/.settings
+fitnesse-launcher-webapp-example/.project
+fitnesse-launcher-webapp-example/.settings
