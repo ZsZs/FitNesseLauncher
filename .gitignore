@@ -10,3 +10,4 @@ fitnesse-launcher-sql-example/.project
 fitnesse-launcher-sql-example/.settings
 fitnesse-launcher-webapp-example/.project
 fitnesse-launcher-webapp-example/.settings
+/target/

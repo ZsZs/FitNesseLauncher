@@ -17,13 +17,12 @@
    <url>http://code.google.com/p/fitnesse-launcher-maven-plugin</url>
    <inceptionYear>2012</inceptionYear>
 
-   <scm>
-      <url>https://github.com/ZsZs/FitNesseLauncher</url>
-      <connection>scm:git:git://github.com/ZsZs/FitNesseLauncher.git</connection>
-      <developerConnection>scm:git:git@github.com:ZsZs/FitNesseLauncher.git</developerConnection>
-   </scm>
+   
 
-   <licenses>
+   <organization>
+      <name>Agile Renovation</name>
+      <url>http://www.agilerenovation.com</url>
+   </organization><licenses>
       <license>
          <name>Apache License version 2.0</name>
          <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
@@ -51,7 +50,11 @@
    <contributors>
    </contributors>
 
-   <issueManagement>
+   <scm>
+      <url>https://github.com/ZsZs/FitNesseLauncher</url>
+      <connection>scm:git:git://github.com/ZsZs/FitNesseLauncher.git</connection>
+      <developerConnection>scm:git:git@github.com:ZsZs/FitNesseLauncher.git</developerConnection>
+   </scm><issueManagement>
       <url>https://github.com/ZsZs/FitNesseLauncher/issues</url>
       <system>GitHub Issues</system>
    </issueManagement>
@@ -221,7 +224,7 @@
       <pluginManagement>
          <plugins>
             <plugin>
-               <groupId>uk.co.javahelp.fitnesse</groupId>
+               <groupId>com.processpuzzle.maven</groupId>
                <artifactId>fitnesse-launcher-maven-plugin</artifactId>
                <version>${project.version}</version>
             </plugin>
@@ -317,19 +320,22 @@
       <!-- See http://repo1.maven.org/maven2/org/sonatype/oss/oss-parent/7/oss-parent-7.pom -->
       <snapshotRepository>
          <id>sonatype-nexus-snapshots</id>
-         <name>Sonatype Nexus Snapshots</name>
-         <url>http://oss.sonatype.org/content/repositories/snapshots/</url>
+         <name>Sonatype Nexus Snapshot Repository</name>
+         <url>https://oss.sonatype.org/content/repositories/snapshots</url>
       </snapshotRepository>
+
       <repository>
          <id>sonatype-nexus-staging</id>
          <name>Nexus Release Repository</name>
-         <url>http://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+         <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
       </repository>
+      
       <site>
          <id>google-code</id>
          <name>Google Code Reports</name>
-         <url>svn:https://fitnesse-launcher-maven-plugin.googlecode.com/svn/maven/site</url>
+         <url>git:https://github.com/ZsZs/FitNesseLauncher/site</url>
       </site>
    </distributionManagement>
 
+   
 </project>

@@ -146,7 +146,7 @@
 				<artifactId>maven-plugin-plugin</artifactId>
 				<version>3.2</version>
 				<configuration>
-					<goalPrefix>fitnesse</goalPrefix>
+					<goalPrefix>fitnesse-launcher</goalPrefix>
 					<helpPackageName>uk.co.javahelp.maven.plugin.fitnesse.mojo</helpPackageName>
 				</configuration>
 				<executions>
@@ -189,7 +189,7 @@
 				<artifactId>maven-plugin-plugin</artifactId>
 				<version>3.2</version>
 				<configuration>
-					<goalPrefix>fitnesse</goalPrefix>
+					<goalPrefix>fitnesse-launcher</goalPrefix>
 					<detail>true</detail>
 				</configuration>
 			</plugin>

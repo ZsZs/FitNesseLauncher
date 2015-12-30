@@ -121,7 +121,7 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>uk.co.javahelp.fitnesse</groupId>
+				<groupId>com.processpuzzle.maven</groupId>
 				<artifactId>fitnesse-launcher-maven-plugin</artifactId>
 				<configuration>
 					<!-- Since version 1.5.0 -->

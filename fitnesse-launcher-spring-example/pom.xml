@@ -37,7 +37,7 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>uk.co.javahelp.fitnesse</groupId>
+				<groupId>com.processpuzzle.maven</groupId>
 				<artifactId>fitnesse-launcher-maven-plugin</artifactId>
 				<configuration>
 					<suite>SpringExample</suite>
