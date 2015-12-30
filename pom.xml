@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
    <modelVersion>4.0.0</modelVersion>
-   <groupId>uk.co.javahelp.fitnesse</groupId>
+   <groupId>com.processpuzzle.maven</groupId>
    <artifactId>fitnesse-launcher-parent</artifactId>
    <version>1.6.0-SNAPSHOT</version>
    <packaging>pom</packaging>
@@ -18,9 +18,9 @@
    <inceptionYear>2012</inceptionYear>
 
    <scm>
-      <url>http://fitnesse-launcher-maven-plugin.googlecode.com/svn/trunk</url>
-      <connection>scm:svn:http://fitnesse-launcher-maven-plugin.googlecode.com/svn/trunk</connection>
-      <developerConnection>scm:svn:https://fitnesse-launcher-maven-plugin.googlecode.com/svn/trunk</developerConnection>
+      <url>https://github.com/ZsZs/FitNesseLauncher</url>
+      <connection>scm:git:git://github.com/ZsZs/FitNesseLauncher.git</connection>
+      <developerConnection>scm:git:git@github.com:ZsZs/FitNesseLauncher.git</developerConnection>
    </scm>
 
    <licenses>
@@ -39,14 +39,21 @@
          <url>http://www.linkedin.com/in/stewartcambridge</url>
          <timezone>0</timezone>
       </developer>
+      <developer>
+         <id>zszs</id>
+         <name>Zsolt Zsuffa</name>
+         <email>zsolt . zsuffa @ gmail.com</email>
+         <url>http://www.linkedin.com/in/zsoltzsuffa</url>
+         <timezone>0</timezone>
+      </developer>
    </developers>
 
    <contributors>
    </contributors>
 
    <issueManagement>
-      <system>Google Code</system>
-      <url>http://code.google.com/p/fitnesse-launcher-maven-plugin/issues/list</url>
+      <url>https://github.com/ZsZs/FitNesseLauncher/issues</url>
+      <system>GitHub Issues</system>
    </issueManagement>
 
    <mailingLists>
