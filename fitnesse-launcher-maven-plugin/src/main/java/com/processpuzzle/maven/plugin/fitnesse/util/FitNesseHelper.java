@@ -64,7 +64,7 @@ public class FitNesseHelper {
    }
 
    public void launchFitNesseServer( final String port, final String workingDir, final String root, final String logDir ) throws Exception {
-      ArrayList<String> commandLineArguments = Lists.newArrayList( "-e", "0", "-o", "-p", String.valueOf( port ), "-d", root );
+      ArrayList<String> commandLineArguments = Lists.newArrayList( "-e", "0", "-o", "-p", String.valueOf( port ), "-d", workingDir, "-r", root );
       
       if( logDir != null && !logDir.trim().equals( "" ) ){
          commandLineArguments.add( "-l" );
@@ -137,9 +137,13 @@ public class FitNesseHelper {
    @SuppressWarnings( "deprecation" )
    private String calcLinkPath( final String linkName, final File basedir, final String testResourceDirectory ) throws MalformedURLException {
       final StringBuilder linkPath = new StringBuilder( basedir.toURL().toString().replaceFirst( "/[A-Z]:", "" ).replaceFirst( ":", "://" ) );
-      linkPath.append( "/" );
+      if( !linkPath.substring( linkPath.length() -1 ).equals( "/" )) {
+         linkPath.append( "/" );
+      }
       linkPath.append( testResourceDirectory );
-      linkPath.append( "/" );
+      if( !linkPath.substring( linkPath.length() -1 ).equals( "/" )) {
+         linkPath.append( "/" );
+      }
       linkPath.append( linkName );
       return linkPath.toString();
    }

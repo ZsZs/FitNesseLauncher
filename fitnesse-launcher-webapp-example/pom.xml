@@ -102,7 +102,7 @@
 			<build>
 				<plugins>
 					<plugin>
-						<groupId>uk.co.javahelp.fitnesse</groupId>
+						<groupId>com.processpuzzle.maven</groupId>
 						<artifactId>fitnesse-launcher-maven-plugin</artifactId>
 						<executions>
 							<execution>
@@ -142,7 +142,7 @@
 						</executions>
 					</plugin>
 					<plugin>
-						<groupId>uk.co.javahelp.fitnesse</groupId>
+						<groupId>com.processpuzzle.maven</groupId>
 						<artifactId>fitnesse-launcher-maven-plugin</artifactId>
 						<executions>
 							<execution>
