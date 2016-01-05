@@ -12,7 +12,6 @@ import org.apache.maven.surefire.suite.RunResult;
 import com.processpuzzle.maven.plugin.fitnesse.junit.TestHelper;
 import com.processpuzzle.maven.plugin.fitnesse.responders.run.DelegatingResultsListener;
 
-import fitnesse.junit.JUnitRunNotifierResultsListener;
 import fitnesse.junit.PrintTestListener;
 import fitnesse.testrunner.WikiTestPage;
 import fitnesse.testsystems.TestSummary;
@@ -27,7 +26,6 @@ import fitnesse.testsystems.TestSystemListener;
  * @see fitnesse.junit.TestHelper
  */
 public class RunTestsMojo extends AbstractFitNesseMojo implements SurefireReportParameters {
-
    private final boolean testFailureIgnore;
 
    public RunTestsMojo() {
@@ -48,9 +46,9 @@ public class RunTestsMojo extends AbstractFitNesseMojo implements SurefireReport
          createSymLink( launches );
       }
 
-      final RunResult result = runFitNesseTests( launches );
+      final RunResult runResult = runFitNesseTests( launches );
       try{
-         result.writeSummary( this.summaryFile, false, ReaderFactory.UTF_8 );
+         runResult.writeSummary( this.summaryFile, false, ReaderFactory.UTF_8 );
       }catch( final IOException e ){
          throw new MojoExecutionException( e.getMessage(), e );
       }
@@ -75,8 +73,8 @@ public class RunTestsMojo extends AbstractFitNesseMojo implements SurefireReport
     * Strange side-effect behaviour: If debug=false, FitNesse falls into wiki mode.
     */
    private RunResult runFitNesseTests( final Launch... launches ) throws MojoExecutionException {
-      TestSystemListener<WikiTestPage> junitListener = new JUnitRunNotifierResultsListener( null, null );
-      final TestSystemListener<WikiTestPage> resultsListener = new DelegatingResultsListener<WikiTestPage>( new PrintTestListener(), junitListener );
+      //TestSystemListener<WikiTestPage> junitListener = new JUnitRunNotifierResultsListener( null, null );
+      final TestSystemListener<WikiTestPage> resultsListener = new DelegatingResultsListener<WikiTestPage>( new PrintTestListener() );
       final TestHelper helper = new TestHelper( this.workingDir, this.reportsDir.getAbsolutePath(), resultsListener );
       helper.setDebugMode( true );
 
@@ -86,6 +84,7 @@ public class RunTestsMojo extends AbstractFitNesseMojo implements SurefireReport
          final RunResult result = new RunResult( summary.getRight(), summary.getExceptions(), summary.getWrong(), summary.getIgnores() );
          return result;
       }catch( Exception e ){
+         e.printStackTrace();
          throw new MojoExecutionException( "Exception running FitNesse tests", e );
       }
    }

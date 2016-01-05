@@ -5,15 +5,13 @@ import java.util.ArrayList;
 
 import com.google.common.collect.Lists;
 
-import fitnesse.util.TimeMeasurement;
-import fitnesse.testsystems.CompositeExecutionLogListener;
+import fitnesse.testsystems.Assertion;
+import fitnesse.testsystems.ExceptionResult;
 import fitnesse.testsystems.TestPage;
+import fitnesse.testsystems.TestResult;
 import fitnesse.testsystems.TestSummary;
 import fitnesse.testsystems.TestSystem;
 import fitnesse.testsystems.TestSystemListener;
-import fitnesse.testsystems.ExceptionResult;
-import fitnesse.testsystems.TestResult;
-import fitnesse.testsystems.Assertion;
 
 public class DelegatingResultsListener<PageType extends TestPage> implements TestSystemListener<PageType> {
    private final ArrayList<TestSystemListener<PageType>> delegates;
@@ -23,35 +21,36 @@ public class DelegatingResultsListener<PageType extends TestPage> implements Tes
       this.delegates = Lists.newArrayList(delegates);
    }
 
-   public final void allTestingComplete( final TimeMeasurement totalTimeMeasurement ) throws IOException {
+/*   public final void allTestingComplete( final TimeMeasurement totalTimeMeasurement ) throws IOException {
       for( TestSystemListener<PageType> delegate : this.delegates ){
-//         delegate.allTestingComplete( totalTimeMeasurement );
+         delegate.allTestingComplete( totalTimeMeasurement );
       }
    }
 
    public final void announceNumberTestsToRun( final int testsToRun ) {
       for( TestSystemListener<PageType> delegate : this.delegates ){
-//         delegate.announceNumberTestsToRun( testsToRun );
+         delegate.announceNumberTestsToRun( testsToRun );
       }
    }
 
    public final void errorOccured() {
       for( TestSystemListener<PageType> delegate : this.delegates ){
-//         delegate.errorOccured();
+         delegate.errorOccured();
       }
    }
 
    public final void newTestStarted( final TestPage test, final TimeMeasurement timeMeasurement ) throws IOException {
       for( TestSystemListener<PageType> delegate : this.delegates ){
-//         delegate.newTestStarted( test, timeMeasurement );
+         delegate.newTestStarted( test, timeMeasurement );
       }
    }
 
    public final void setExecutionLogAndTrackingId( final String stopResponderId, final CompositeExecutionLogListener log ) {
       for( TestSystemListener<PageType> delegate : this.delegates ){
-//         delegate.setExecutionLogAndTrackingId( stopResponderId, log );
+         delegate.setExecutionLogAndTrackingId( stopResponderId, log );
       }
    }
+*/
 
    @Override
    public void testAssertionVerified( final Assertion assertion, final TestResult testResult ) {
@@ -90,13 +89,15 @@ public class DelegatingResultsListener<PageType extends TestPage> implements Tes
 
    @Override
    public void testStarted( PageType testPage ) throws IOException {
-      // TODO Auto-generated method stub
-      
+      for( TestSystemListener<PageType> delegate : delegates ){
+         delegate.testStarted( testPage );
+      }
    }
 
    @Override
    public void testSystemStopped( TestSystem testSystem, Throwable cause ) {
-      // TODO Auto-generated method stub
-      
+      for( TestSystemListener<PageType> delegate : delegates ){
+         delegate.testSystemStopped( testSystem, cause );
+      }
    }
 }

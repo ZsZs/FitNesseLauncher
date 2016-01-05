@@ -56,7 +56,7 @@
 				</reportSets>
 			</plugin>
 			<plugin>
-				<groupId>uk.co.javahelp.fitnesse</groupId>
+				<groupId>com.processpuzzle.maven</groupId>
 				<artifactId>fitnesse-launcher-maven-plugin</artifactId>
                 <version>${project.version}</version>
 			</plugin>
