@@ -1,12 +1,12 @@
 package com.processpuzzle.maven.plugin.fitnesse.util;
 
 public class Interrupter extends Thread {
-
-	private final Thread threadToInterrupt;
-	
+	private static final String THREAD_NAME = "FinesseLauncher-Interrupter";
+   private final Thread threadToInterrupt;
 	private final long howLongToWaitBeforeInterrupting;
 		
 	public Interrupter(final Thread threadToInterrupt, final long howLongToWaitBeforeInterrupting) {
+      super( THREAD_NAME );
 		this.threadToInterrupt = threadToInterrupt;
 		this.howLongToWaitBeforeInterrupting = howLongToWaitBeforeInterrupting;
 	}

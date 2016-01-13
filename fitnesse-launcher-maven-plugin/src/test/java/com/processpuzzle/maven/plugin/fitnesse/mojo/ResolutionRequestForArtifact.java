@@ -6,19 +6,18 @@ import org.hamcrest.Description;
 import org.mockito.ArgumentMatcher;
 
 public class ResolutionRequestForArtifact extends ArgumentMatcher<ArtifactResolutionRequest> {
+   private final Artifact artifact;
 
-    private final Artifact artifact;
+   public ResolutionRequestForArtifact( Artifact artifact ) {
+      this.artifact = artifact;
+   }
 
-    public ResolutionRequestForArtifact(Artifact artifact) {
-        this.artifact = artifact;
-    }
+   @Override
+   public boolean matches( Object actual ) {
+      return actual != null && ((ArtifactResolutionRequest) actual).getArtifact().equals( this.artifact );
+   }
 
-	@Override
-    public boolean matches(Object actual) {
-        return actual != null && ((ArtifactResolutionRequest) actual).getArtifact().equals(this.artifact);
-    }
-
-    public void describeTo(Description description) {
-        description.appendText("resolutionRequestFor(\"" + artifact + "\")");
-    }
+   public void describeTo( Description description ) {
+      description.appendText( "resolutionRequestFor(\"" + artifact + "\")" );
+   }
 }

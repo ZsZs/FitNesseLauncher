@@ -13,11 +13,11 @@ import fitnesse.testsystems.TestSummary;
 import fitnesse.testsystems.TestSystem;
 import fitnesse.testsystems.TestSystemListener;
 
-public class DelegatingResultsListener<PageType extends TestPage> implements TestSystemListener<PageType> {
-   private final ArrayList<TestSystemListener<PageType>> delegates;
+public class DelegatingResultsListener implements TestSystemListener {
+   private final ArrayList<TestSystemListener> delegates;
 
    @SafeVarargs
-   public DelegatingResultsListener( final TestSystemListener<PageType>... delegates ) {
+   public DelegatingResultsListener( final TestSystemListener... delegates ) {
       this.delegates = Lists.newArrayList(delegates);
    }
 
@@ -54,49 +54,49 @@ public class DelegatingResultsListener<PageType extends TestPage> implements Tes
 
    @Override
    public void testAssertionVerified( final Assertion assertion, final TestResult testResult ) {
-      for( TestSystemListener<PageType> delegate : this.delegates ){
+      for( TestSystemListener delegate : this.delegates ){
          delegate.testAssertionVerified( assertion, testResult );
       }
    }
 
    @Override
-   public final void testComplete( final PageType testPage, final TestSummary testSummary ) throws IOException {
-      for( TestSystemListener<PageType> delegate : this.delegates ){
+   public final void testComplete( final TestPage testPage, final TestSummary testSummary ) throws IOException {
+      for( TestSystemListener delegate : this.delegates ){
          delegate.testComplete( testPage, testSummary );
       }
    }
 
    @Override
    public void testExceptionOccurred( final Assertion assertion, final ExceptionResult exceptionResult ) {
-      for( TestSystemListener<PageType> delegate : this.delegates ){
+      for( TestSystemListener delegate : this.delegates ){
          delegate.testExceptionOccurred( assertion, exceptionResult );
       }
    }
 
    @Override
    public final void testOutputChunk( final String output ) throws IOException {
-      for( TestSystemListener<PageType> delegate : this.delegates ){
+      for( TestSystemListener delegate : this.delegates ){
          delegate.testOutputChunk( output );
       }
    }
 
    @Override
    public final void testSystemStarted( final TestSystem testSystem ) throws IOException {
-      for( TestSystemListener<PageType> delegate : this.delegates ){
+      for( TestSystemListener delegate : this.delegates ){
          delegate.testSystemStarted( testSystem );
       }
    }
 
    @Override
-   public void testStarted( PageType testPage ) throws IOException {
-      for( TestSystemListener<PageType> delegate : delegates ){
+   public void testStarted( TestPage testPage ) throws IOException {
+      for( TestSystemListener delegate : delegates ){
          delegate.testStarted( testPage );
       }
    }
 
    @Override
    public void testSystemStopped( TestSystem testSystem, Throwable cause ) {
-      for( TestSystemListener<PageType> delegate : delegates ){
+      for( TestSystemListener delegate : delegates ){
          delegate.testSystemStopped( testSystem, cause );
       }
    }

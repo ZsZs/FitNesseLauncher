@@ -161,7 +161,7 @@ public class MavenJavaFormatter extends BaseFormatter implements Closeable {
          addFile( cssDir + "fitnesse_pages.css", "css/fitnesse_pages.css" );
          addFile( cssDir + "fitnesse_straight.css", "css/fitnesse_straight.css" );
          String javascriptDir = base + "javascript/";
-         addFile( javascriptDir + "jquery-1.7.2.min.js", "javascript/jquery-1.7.2.min.js" );
+         addFile( javascriptDir + "jquery-1.11.3.min.js", "javascript/jquery-1.11.3.min.js" );
          addFile( javascriptDir + "fitnesse.js", "javascript/fitnesse.js" );
          String imagesDir = base + "images/";
          addFile( imagesDir + "collapsibleOpen.png", "images/collapsibleOpen.png" );

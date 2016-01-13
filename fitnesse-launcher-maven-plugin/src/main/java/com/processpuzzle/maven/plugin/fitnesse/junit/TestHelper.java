@@ -1,9 +1,7 @@
 package com.processpuzzle.maven.plugin.fitnesse.junit;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.collect.Lists;
 import com.processpuzzle.maven.plugin.fitnesse.mojo.Launch;
 
 import fitnesse.ContextConfigurator;
@@ -17,8 +15,6 @@ import fitnesse.wiki.PageCrawler;
 import fitnesse.wiki.PathParser;
 import fitnesse.wiki.WikiPage;
 import fitnesse.wiki.WikiPagePath;
-import fitnesseMain.Arguments;
-import fitnesseMain.FitNesseMain;
 
 public class TestHelper {
    private final String fitNesseRootPath;
@@ -58,7 +54,7 @@ public class TestHelper {
       testRunner.addTestSystemListener( testFormatter );
       
       testRunner.executeTestPages();
-      
+      testRunner.stop();
       testFormatter.close();
       return testFormatter.getTotalSummary();
       

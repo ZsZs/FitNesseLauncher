@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <artifactItems>
+    <artifactItem>
+      <groupId>org.fitnesse</groupId>
+      <artifactId>fitnesse</artifactId>
+      <version>DUMMY</version>
+      <type>jar</type>
+      <overWrite>false</overWrite>
+      <outputDirectory>/tmp/unit_test_working</outputDirectory>
+      <includes>Resources/FitNesseRoot/**</includes>
+    </artifactItem>
+    <artifactItem>
+      <groupId>org.fitnesse</groupId>
+      <artifactId>fitnesse</artifactId>
+      <version>DUMMY</version>
+      <type>jar</type>
+      <overWrite>false</overWrite>
+      <outputDirectory>/tmp/unit_test_working/FitNesseRoot/files</outputDirectory>
+      <includes>fitnesse/resources/**</includes>
+    </artifactItem>
+  </artifactItems>
+</configuration>

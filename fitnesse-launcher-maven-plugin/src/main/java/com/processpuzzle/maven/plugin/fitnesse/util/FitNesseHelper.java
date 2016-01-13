@@ -150,5 +150,5 @@ public class FitNesseHelper {
    
    private void exit( int exitCode ) {
       System.exit( exitCode );
-   }
+   }   
 }

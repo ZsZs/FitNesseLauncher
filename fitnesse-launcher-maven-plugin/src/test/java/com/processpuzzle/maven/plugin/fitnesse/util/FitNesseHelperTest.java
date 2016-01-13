@@ -1,14 +1,15 @@
 package com.processpuzzle.maven.plugin.fitnesse.util;
 
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStream;
-import java.io.PrintStream;
 import java.net.URL;
 
 import org.apache.commons.io.FileUtils;
@@ -16,30 +17,33 @@ import org.apache.commons.io.IOUtils;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.DefaultArtifact;
 import org.apache.maven.artifact.handler.ArtifactHandler;
-import org.apache.maven.monitor.logging.DefaultLog;
 import org.apache.maven.plugin.logging.Log;
-import org.codehaus.plexus.logging.Logger;
 import org.eclipse.jetty.server.Server;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.processpuzzle.maven.plugin.fitnesse.mojo.PrintStreamLogger;
-import com.processpuzzle.maven.plugin.fitnesse.util.FitNesseHelper;
 
 public class FitNesseHelperTest {
    private static final int DEFAULT_COMMAND_PORT = 9123;
    private FitNesseHelper fitNesseHelper;
    private ArtifactHandler artifactHandler;
    private ByteArrayOutputStream logStream;
+   private Log log;
 
    @Before
    public void setUp() {
       artifactHandler = mock( ArtifactHandler.class );
 
       logStream = new ByteArrayOutputStream();
-      Log log = new DefaultLog( new PrintStreamLogger( Logger.LEVEL_INFO, "test", new PrintStream( logStream ) ) );
-
+      log = PrintStreamLogger.createDefaultLog( logStream );
       fitNesseHelper = new FitNesseHelper( log );
+   }
+   
+   @After
+   public void afterEachTest(){
+      assertThat( new FitNesseThreadLocator( log ).findFitNesseServerThread(), nullValue() );      
    }
 
    @Test
@@ -55,19 +59,6 @@ public class FitNesseHelperTest {
 
       // Restore the real os.name (to prevent side-effects on other tests)
       System.setProperty( "os.name", os );
-   }
-
-   private void assertFormatAndAppendClasspath( String expectedLogMsg ) {
-
-      StringBuilder sb = new StringBuilder();
-
-      assertSame( sb, fitNesseHelper.formatAndAppendClasspath( sb, "/x/y/z" ) );
-      assertEquals( "!path /x/y/z\n", sb.toString() );
-      assertEquals( "", logStream.toString() );
-
-      assertSame( sb, fitNesseHelper.formatAndAppendClasspath( sb, "/x/y z" ) );
-      assertEquals( "!path /x/y/z\n!path /x/y z\n", sb.toString() );
-      assertEquals( expectedLogMsg, logStream.toString() );
    }
 
    @Test
@@ -95,24 +86,6 @@ public class FitNesseHelperTest {
       assertEquals( 1, logFiles.length );
       assertTrue( logFiles[0].matches( "fitnesse[0-9]+\\.log" ) );
       FileUtils.forceDeleteOnExit( logDir );
-   }
-
-   public void assertLaunchFitNesseServer( String logDir ) throws Exception {
-      String port = String.valueOf( DEFAULT_COMMAND_PORT );
-      File working = new File( System.getProperty( "java.io.tmpdir" ), "fitnesse-launcher-test" );
-      fitNesseHelper.launchFitNesseServer( port, working.getCanonicalPath(), FitNesseHelper.DEFAULT_ROOT, logDir );
-      URL local = new URL( "http://localhost:" + port );
-      InputStream in = local.openConnection().getInputStream();
-      try{
-         String content = IOUtils.toString( in );
-         assertTrue( content.startsWith( "<!DOCTYPE html>" ) );
-         assertTrue( content.contains( "<title>Page doesn't exist. Edit: FrontPage</title>" ) );
-      }finally{
-         IOUtils.closeQuietly( in );
-         fitNesseHelper.shutdownFitNesseServer( port );
-         Thread.sleep( 100L );
-         FileUtils.deleteQuietly( working );
-      }
    }
 
    @Test
@@ -149,6 +122,37 @@ public class FitNesseHelperTest {
          assertTrue( logStream.toString().startsWith( String.format( "[ERROR] %njava.io.IOException: Could not parse Response" ) ) );
       }finally{
          server.stop();
+      }
+   }
+
+   private void assertFormatAndAppendClasspath( String expectedLogMsg ) {
+
+      StringBuilder sb = new StringBuilder();
+
+      assertSame( sb, fitNesseHelper.formatAndAppendClasspath( sb, "/x/y/z" ) );
+      assertEquals( "!path /x/y/z\n", sb.toString() );
+      assertEquals( "", logStream.toString() );
+
+      assertSame( sb, fitNesseHelper.formatAndAppendClasspath( sb, "/x/y z" ) );
+      assertEquals( "!path /x/y/z\n!path /x/y z\n", sb.toString() );
+      assertEquals( expectedLogMsg, logStream.toString() );
+   }
+
+   private void assertLaunchFitNesseServer( String logDir ) throws Exception {
+      String port = String.valueOf( DEFAULT_COMMAND_PORT );
+      File working = new File( System.getProperty( "java.io.tmpdir" ), "fitnesse-launcher-test" );
+      fitNesseHelper.launchFitNesseServer( port, working.getCanonicalPath(), FitNesseHelper.DEFAULT_ROOT, logDir );
+      URL local = new URL( "http://localhost:" + port );
+      InputStream in = local.openConnection().getInputStream();
+      try{
+         String content = IOUtils.toString( in );
+         assertTrue( content.startsWith( "<!DOCTYPE html>" ) );
+         assertTrue( content.contains( "<title>Page doesn't exist. Edit: FrontPage</title>" ) );
+      }finally{
+         IOUtils.closeQuietly( in );
+         fitNesseHelper.shutdownFitNesseServer( port );
+         Thread.sleep( 100L );
+         FileUtils.deleteQuietly( working );
       }
    }
 }

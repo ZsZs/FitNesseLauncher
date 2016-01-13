@@ -1,6 +1,9 @@
 package com.processpuzzle.maven.plugin.fitnesse.mojo;
 
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
@@ -15,19 +18,16 @@ import static org.mockito.Mockito.verify;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintStream;
 
-import org.apache.maven.monitor.logging.DefaultLog;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.project.MavenProject;
-import org.codehaus.plexus.logging.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.processpuzzle.maven.plugin.fitnesse.mojo.Launch;
-import com.processpuzzle.maven.plugin.fitnesse.mojo.WikiMojo;
 import com.processpuzzle.maven.plugin.fitnesse.util.FitNesseHelper;
+import com.processpuzzle.maven.plugin.fitnesse.util.FitNesseThreadLocator;
 import com.processpuzzle.maven.plugin.fitnesse.util.Interrupter;
 
 import fitnesse.ContextConfigurator;
@@ -41,6 +41,7 @@ public class WikiMojoTest {
    private FitNesseHelper fitNesseHelper;
    private FitNesse fitNesse;
    private ByteArrayOutputStream logStream;
+   private Log log;
 
    @Before
    public void setUp() throws IOException, PluginException {
@@ -60,7 +61,8 @@ public class WikiMojoTest {
       mojo.project.setFile( new File( getClass().getResource( "pom.xml" ).getPath() ) );
 
       logStream = new ByteArrayOutputStream();
-      mojo.setLog( new DefaultLog( new PrintStreamLogger( Logger.LEVEL_INFO, "test", new PrintStream( logStream ) ) ) );
+      log = PrintStreamLogger.createDefaultLog( logStream );
+      mojo.setLog( log );
    }
 
    @After
@@ -68,6 +70,7 @@ public class WikiMojoTest {
       if( fitNesse != null ){
          fitNesse.stop();
       }
+      assertThat( new FitNesseThreadLocator( log ).findFitNesseServerThread(), nullValue() );
    }
 
    @Test
@@ -102,7 +105,9 @@ public class WikiMojoTest {
       verify( fitNesseHelper, times( 1 ) ).createSymLink( mojo.project.getBasedir(), mojo.testResourceDirectory, PORT, launch );
       verify( fitNesseHelper, times( 1 ) ).shutdownFitNesseServer( PORT_STRING );
 
-      assertEquals( String.format( "[INFO] FitNesse wiki server launched.%n" + "[INFO] FitNesse wiki server interrupted!%n" + "[INFO] FitNesse wiki server is shutdown.%n" ), logStream.toString() );
+      assertThat( logStream.toString(), containsString( String.format( "[INFO] FitNesse wiki server launched." ) ) );
+      assertThat( logStream.toString(), containsString( String.format( "[INFO] FitNesse wiki server interrupted!" ) ) );
+      assertThat( logStream.toString(), containsString( String.format( "[INFO] FitNesse wiki server is shutdown." ) ) );
    }
 
    @Test

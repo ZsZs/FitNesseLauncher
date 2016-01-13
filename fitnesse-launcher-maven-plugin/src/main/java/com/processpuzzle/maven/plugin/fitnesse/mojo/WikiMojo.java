@@ -3,9 +3,8 @@ package com.processpuzzle.maven.plugin.fitnesse.mojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 
+import com.processpuzzle.maven.plugin.fitnesse.util.FitNesseThreadLocator;
 import com.processpuzzle.maven.plugin.fitnesse.util.Interrupter;
-
-import fitnesse.socketservice.SocketService;
 
 /**
  * Goal that launches FitNesse as a wiki server. Useful for manually running / developing / debugging FitNesse tests. Once launched, just visit
@@ -17,9 +16,6 @@ import fitnesse.socketservice.SocketService;
  * @requiresDependencyResolution test
  */
 public class WikiMojo extends AbstractFitNesseMojo {
-
-   private static final String FITNESSE_SOCKET_SERVICE = SocketService.class.getName();
-
    /**
     * Unfortunately, the FitNesse API does not expose a way to stop the wiki server programmatically, except via a sending "/?responder=shutdown" via HTTP,
     * which is what the {@link fitnesse.Shutdown} object does. The object / method we need access to is {@link fitnesse.FitNesse#stop()}. This could easily have
@@ -37,7 +33,7 @@ public class WikiMojo extends AbstractFitNesseMojo {
          if( this.createSymLink ){
             this.fitNesseHelper.createSymLink( this.project.getBasedir(), this.testResourceDirectory, this.port, launches );
          }
-         final Thread fitnesseThread = findFitNesseServerThread();
+         final Thread fitnesseThread = new FitNesseThreadLocator( getLog() ).findFitNesseServerThread();
          if( fitnesseThread != null ){
             getLog().info( "FitNesse wiki server launched." );
             fitnesseThread.join();
@@ -52,28 +48,4 @@ public class WikiMojo extends AbstractFitNesseMojo {
       }
    }
 
-   private Thread findFitNesseServerThread() {
-      final Thread[] activeThreads = findActiveThreads( 3 );
-      for( int i = activeThreads.length - 1; i >= 0; i-- ){
-         final StackTraceElement[] trace = activeThreads[i].getStackTrace();
-         for( int j = trace.length - 1; j >= 0; j-- ){
-            if( FITNESSE_SOCKET_SERVICE.equals( trace[j].getClassName() ) ){
-               return activeThreads[i];
-            }
-         }
-      }
-      getLog().warn( "Could not identify FitNesse service Thread." );
-      return null;
-   }
-
-   private Thread[] findActiveThreads( final int arraySize ) {
-      final Thread[] activeThreads = new Thread[arraySize];
-      final int threadsFound = Thread.currentThread().getThreadGroup().enumerate( activeThreads, false );
-      if( threadsFound < arraySize ){
-         final Thread[] foundThreads = new Thread[threadsFound];
-         System.arraycopy( activeThreads, 0, foundThreads, 0, threadsFound );
-         return foundThreads;
-      }
-      return findActiveThreads( arraySize + arraySize );
-   }
 }

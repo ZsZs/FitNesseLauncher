@@ -78,7 +78,7 @@
       <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
       <maven.version>3.3.3</maven.version>
       <failsafe.version>2.18.1</failsafe.version>
-      <fitnesse.version>20150814</fitnesse.version>
+      <fitnesse.version>20151230</fitnesse.version>
       <jacoco.version>0.7.5.201505241946</jacoco.version>
       <!-- For use by Site filtering (can't handle 'dot' notation) -->
       <projectVersion>${project.version}</projectVersion>

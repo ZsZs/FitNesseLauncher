@@ -13,7 +13,6 @@ import com.processpuzzle.maven.plugin.fitnesse.junit.TestHelper;
 import com.processpuzzle.maven.plugin.fitnesse.responders.run.DelegatingResultsListener;
 
 import fitnesse.junit.PrintTestListener;
-import fitnesse.testrunner.WikiTestPage;
 import fitnesse.testsystems.TestSummary;
 import fitnesse.testsystems.TestSystemListener;
 
@@ -74,7 +73,7 @@ public class RunTestsMojo extends AbstractFitNesseMojo implements SurefireReport
     */
    private RunResult runFitNesseTests( final Launch... launches ) throws MojoExecutionException {
       //TestSystemListener<WikiTestPage> junitListener = new JUnitRunNotifierResultsListener( null, null );
-      final TestSystemListener<WikiTestPage> resultsListener = new DelegatingResultsListener<WikiTestPage>( new PrintTestListener() );
+      final TestSystemListener resultsListener = new DelegatingResultsListener( new PrintTestListener() );
       final TestHelper helper = new TestHelper( this.workingDir, this.reportsDir.getAbsolutePath(), resultsListener );
       helper.setDebugMode( true );
 
@@ -84,7 +83,6 @@ public class RunTestsMojo extends AbstractFitNesseMojo implements SurefireReport
          final RunResult result = new RunResult( summary.getRight(), summary.getExceptions(), summary.getWrong(), summary.getIgnores() );
          return result;
       }catch( Exception e ){
-         e.printStackTrace();
          throw new MojoExecutionException( "Exception running FitNesse tests", e );
       }
    }
