@@ -218,6 +218,7 @@
                         </goals>
                      </execution>
                   </executions>
+                  
                </plugin>
             </plugins>
          </build>
@@ -240,6 +241,13 @@
                         </launch>
                      </launches>
                   </configuration>
+                  <dependencies>
+                    <dependency>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-context</artifactId>
+                        <version>3.2.0.RELEASE</version>
+                    </dependency>
+                </dependencies>
                   <executions>
                      <execution>
                         <goals>

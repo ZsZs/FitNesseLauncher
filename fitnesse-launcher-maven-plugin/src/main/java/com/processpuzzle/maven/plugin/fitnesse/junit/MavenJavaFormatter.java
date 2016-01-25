@@ -112,7 +112,7 @@ public class MavenJavaFormatter extends BaseFormatter implements Closeable {
          currentWriter.write( "<html><head><title>" );
          currentWriter.write( testName );
          currentWriter.write( "</title><meta http-equiv='Content-Type' content='text/html;charset=" + FileUtil.CHARENCODING + "'/>" + "<link rel='stylesheet' type='text/css' href='css/fitnesse.css'/>"
-               + "<script src='javascript/jquery-1.7.2.min.js' type='text/javascript'></script>" + "<script src='javascript/fitnesse.js' type='text/javascript'></script>"
+               + "<script src='javascript/jquery-1.11.3.min.js' type='text/javascript'></script>" + "<script src='javascript/fitnesse.js' type='text/javascript'></script>"
                + "</head><body><header><h2>" );
          currentWriter.write( testName );
          currentWriter.write( "</h2></header><article>" );
