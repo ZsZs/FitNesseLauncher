@@ -17,7 +17,7 @@ import org.junit.Test;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import com.processpuzzle.maven.plugin.fitnesse.mojo.FitNesse;
+import com.processpuzzle.maven.plugin.fitnesse.mojo.FitNesseMavenCoordinate;
 import com.processpuzzle.maven.plugin.fitnesse.mojo.SetUpMojo;
 import com.processpuzzle.maven.plugin.fitnesse.util.FitNesseHelper;
 
@@ -30,7 +30,7 @@ public class SetUpMojoTest {
       helper = new SetupsMojoTestHelper( new SetUpMojo() );
       mojo = (SetUpMojo) helper.mojo;
 
-      helper.setupArtifact( FitNesse.groupId, FitNesse.artifactId, null, "jar" );
+      helper.setupArtifact( FitNesseMavenCoordinate.groupId, FitNesseMavenCoordinate.artifactId, null, "jar" );
       helper.setupArtifact( "org.apache.maven.plugins", "maven-clean-plugin", "clean", "maven-plugin" );
       helper.setupArtifact( "org.apache.maven.plugins", "maven-dependency-plugin", "unpack", "maven-plugin" );
       helper.setupArtifact( "org.apache.maven.plugins", "maven-antrun-plugin", "run", "maven-plugin" );

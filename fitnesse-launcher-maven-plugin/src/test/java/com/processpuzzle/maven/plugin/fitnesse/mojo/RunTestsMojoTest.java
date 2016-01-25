@@ -1,5 +1,6 @@
 package com.processpuzzle.maven.plugin.fitnesse.mojo;
 
+import static com.processpuzzle.matcher.SameTextAs.sameTextAs;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -18,7 +19,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.xmlunit.matchers.CompareMatcher.isIdenticalTo;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -43,9 +43,6 @@ import com.processpuzzle.maven.plugin.fitnesse.util.FitNesseHelper;
 import com.processpuzzle.maven.plugin.fitnesse.util.FitNesseThreadLocator;
 
 public class RunTestsMojoTest {
-   private static final String TEST_RESULT_XML = "<testsuite errors=\"0\" skipped=\"0\" tests=\"1\" time=\"[0-9]+.[0-9]+\" failures=\"1\" name=\"ExampleFitNesseTestSuite\">"
-         + "<properties></properties>" + "<testcase classname=\"ExampleFitNesseTestSuite\" time=\"[0-9]+.[0-9]+\" name=\"ExampleFitNesseTestSuite\">"
-         + "<failure type=\"java.lang.AssertionError\" message=\" exceptions: 0 wrong: 1\">" + "</failure>" + "</testcase>" + "</testsuite>";
    @Rule
    public final ExpectedException thrown = ExpectedException.none();
    private String expectedFailsafeSummaryXml;
@@ -111,16 +108,14 @@ public class RunTestsMojoTest {
       verify( mojo.fitNesseHelper, never() ).createSymLink( any( File.class ), anyString(), anyInt(), any( Launch.class ) );
       verify( mojo.fitNesseHelper, never() ).shutdownFitNesseServer( anyString() );
 
-      assertThat( FileUtils.readFileToString( mojo.summaryFile ), isIdenticalTo( this.expectedFailsafeSummaryXml ) );
-      assertTrue( FileUtils.readFileToString( new File( mojo.resultsDir, "TEST-ExampleFitNesseTestSuite.xml" ) ).matches( TEST_RESULT_XML ) );
-      assertEquals( IOUtils.toString( getClass().getResourceAsStream( "ExampleFitNesseTestSuite.html" ) ),
-            FileUtils.readFileToString( new File( mojo.reportsDir, "ExampleFitNesseTestSuite.html" ) ).replaceAll( "\r\n", "\n" ) );
+      this.expectedFailsafeSummaryXml = this.expectedFailsafeSummaryXml.replace( ">3<", ">1<" ).replace( ">6<", ">2<" ).replace( "\r\n", "\n" );
+      
+      assertThat( generatedSummaryFile(), sameTextAs( this.expectedFailsafeSummaryXml ) );
+      assertThat( generatedTestReport(), containsString( "<title>ExampleFitNesseTestSuite</title>" ));
    }
 
    @Test
    public void testRunTestsMojoCreateSymLink() throws Exception {
-      assertFitNesseIsNotRunning();
-
       mojo.createSymLink = true;
       Launch launch = new Launch( "ExampleFitNesseTestSuite", null );
 
@@ -131,18 +126,22 @@ public class RunTestsMojoTest {
       verify( mojo.fitNesseHelper, times( 1 ) ).shutdownFitNesseServer( WikiMojoTest.PORT_STRING );
 
       // Easier than having a separate summary.xml file. Will separate as need and complexity grows.
-      this.expectedFailsafeSummaryXml = this.expectedFailsafeSummaryXml.replace( ">3<", ">2<" ).replace( ">6<", ">4<" );
-      assertEquals( this.expectedFailsafeSummaryXml, FileUtils.readFileToString( mojo.summaryFile ) );
-      assertTrue( FileUtils.readFileToString( new File( mojo.resultsDir, "TEST-ExampleFitNesseTestSuite.xml" ) ).matches( TEST_RESULT_XML ) );
-      assertEquals( IOUtils.toString( getClass().getResourceAsStream( "ExampleFitNesseTestSuite.html" ) ),
-            FileUtils.readFileToString( new File( mojo.reportsDir, "ExampleFitNesseTestSuite.html" ) ).replaceAll( "\r\n", "\n" ) );
+      this.expectedFailsafeSummaryXml = this.expectedFailsafeSummaryXml.replace( ">3<", ">1<" ).replace( ">6<", ">2<" ).replace( "\r\n", "\n" );
+      
+      assertThat( generatedSummaryFile(), sameTextAs( this.expectedFailsafeSummaryXml ));
+      assertThat( generatedTestReport(), containsString( "<title>ExampleFitNesseTestSuite</title>" ));
+   }
+
+   private String generatedTestReport() throws IOException {
+      String generatedTestReport = FileUtils.readFileToString( new File( mojo.reportsDir, "ExampleFitNesseTestSuite.html" ));
+      return generatedTestReport;
    }
 
    @Test
    public void testCreateSymLinkException() throws Exception {
+      doThrow( new IOException( "TEST" ) ).when( mojo.fitNesseHelper ).launchFitNesseServer( anyString(), anyString(), anyString(), anyString() );
 
       mojo.createSymLink = true;
-      doThrow( new IOException( "TEST" ) ).when( mojo.fitNesseHelper ).launchFitNesseServer( anyString(), anyString(), anyString(), anyString() );
 
       try{
          mojo.executeInternal();
@@ -224,5 +223,10 @@ public class RunTestsMojoTest {
 
    private void assertFitNesseIsNotRunning() {
       assertThat( new FitNesseThreadLocator( log ).findFitNesseServerThread(), nullValue() );
+   }
+
+   private String generatedSummaryFile() throws IOException {
+      String generatedSummaryFile = FileUtils.readFileToString( mojo.summaryFile );
+      return generatedSummaryFile;
    }
 }

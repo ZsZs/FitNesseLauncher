@@ -199,7 +199,6 @@ public abstract class AbstractFitNesseMojo extends org.apache.maven.plugin.Abstr
     */
    @Deprecated
    protected boolean excludeOptionalDependencies = true;
-
    protected FitNesseHelper fitNesseHelper;
 
    protected abstract void executeInternal( Launch... executeLaunches ) throws MojoExecutionException, MojoFailureException;
@@ -268,7 +267,7 @@ public abstract class AbstractFitNesseMojo extends org.apache.maven.plugin.Abstr
    private void addPluginArtifacts( final Set<Artifact> artifacts ) {
       final Map<String, Artifact> dependencyArtifactMap = this.pluginDescriptor.getArtifactMap();
       // We should always have FitNesse itself on the FitNesse classpath!
-      artifacts.addAll( resolveDependencyKey( FitNesse.artifactKey, dependencyArtifactMap ) );
+      artifacts.addAll( resolveDependencyKey( FitNesseMavenCoordinate.artifactKey, dependencyArtifactMap ) );
 
       // We check plugin for null to allow use in standalone mode
       final Plugin fitnessePlugin = this.project.getPlugin( this.pluginDescriptor.getPluginLookupKey() );

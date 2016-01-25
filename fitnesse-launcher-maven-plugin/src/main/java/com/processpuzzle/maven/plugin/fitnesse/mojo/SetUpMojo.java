@@ -143,7 +143,7 @@ public class SetUpMojo extends AbstractSetupsMojo {
 	 * </pre>
      */
     final void unpack() throws MojoExecutionException {
-       	final Artifact artifact = this.pluginDescriptor.getArtifactMap().get(FitNesse.artifactKey);
+       	final Artifact artifact = this.pluginDescriptor.getArtifactMap().get(FitNesseMavenCoordinate.artifactKey);
 		executeMojo(
 			plugin("org.apache.maven.plugins:maven-dependency-plugin"),
 		    goal("unpack"),

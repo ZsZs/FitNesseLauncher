@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite errors="0" skipped="0" tests="1" time="[0-9]+.[0-9]+" failures="1" name="ExampleFitNesseTestSuite">
+   <properties></properties>
+   <testcase classname="ExampleFitNesseTestSuite" time="[0-9]+.[0-9]" name="ExampleFitNesseTestSuite">
+      <failure type="java.lang.AssertionError" message="" exceptions="0" wrong="1"></failure>
+   </testcase>
+</testsuite>
