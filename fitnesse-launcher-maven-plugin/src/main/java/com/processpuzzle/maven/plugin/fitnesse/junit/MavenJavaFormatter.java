@@ -14,6 +14,7 @@ import java.util.Map;
 
 import fitnesse.reporting.BaseFormatter;
 import fitnesse.testrunner.WikiTestPage;
+import fitnesse.testsystems.TestPage;
 import fitnesse.testsystems.TestSummary;
 import util.FileUtil;
 
@@ -34,11 +35,13 @@ public class MavenJavaFormatter extends BaseFormatter implements Closeable {
          writeSummary( mainPageName );
    }
 
-   public void testStarted( WikiTestPage test ) throws IOException {
+   @Override
+   public void testStarted( TestPage test ) throws IOException {
       resultsRepository.open( test.getFullPath() );
    }
 
-   public void testComplete( WikiTestPage test, TestSummary testSummary ) throws IOException {
+   @Override
+   public void testComplete( TestPage test, TestSummary testSummary ) throws IOException {
       String fullPath = test.getFullPath();
       visitedTestPages.add( fullPath );
       totalSummary.add( testSummary );

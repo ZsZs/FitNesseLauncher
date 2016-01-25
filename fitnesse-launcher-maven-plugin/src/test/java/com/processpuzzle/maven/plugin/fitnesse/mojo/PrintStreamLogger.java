@@ -22,7 +22,11 @@ public class PrintStreamLogger extends AbstractLogger {
    }
 
    public PrintStreamLogger() {
-      this( Logger.LEVEL_INFO, "console", System.out );
+      this( Logger.LEVEL_DEBUG, "console", System.out );
+   }
+
+   public static Log createDebugLog() {
+      return new DefaultLog( new PrintStreamLogger() );
    }
 
    public static Log createDefaultLog() {

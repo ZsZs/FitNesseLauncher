@@ -18,7 +18,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.xmlunit.matchers.CompareMatcher.*;
+import static org.xmlunit.matchers.CompareMatcher.isIdenticalTo;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -54,8 +54,7 @@ public class RunTestsMojoTest {
 
    @Before
    public void setUp() throws IOException {
-      log = PrintStreamLogger.createDefaultLog();
-      assertFitNesseIsNotRunning();
+      log = PrintStreamLogger.createDebugLog();
 
       File workingDir = new File( System.getProperty( "java.io.tmpdir" ), "unit_test_working" );
 
@@ -112,13 +111,16 @@ public class RunTestsMojoTest {
       verify( mojo.fitNesseHelper, never() ).createSymLink( any( File.class ), anyString(), anyInt(), any( Launch.class ) );
       verify( mojo.fitNesseHelper, never() ).shutdownFitNesseServer( anyString() );
 
-      assertThat( FileUtils.readFileToString( mojo.summaryFile ), isIdenticalTo( this.expectedFailsafeSummaryXml ));
+      assertThat( FileUtils.readFileToString( mojo.summaryFile ), isIdenticalTo( this.expectedFailsafeSummaryXml ) );
       assertTrue( FileUtils.readFileToString( new File( mojo.resultsDir, "TEST-ExampleFitNesseTestSuite.xml" ) ).matches( TEST_RESULT_XML ) );
-      assertEquals( IOUtils.toString( getClass().getResourceAsStream( "ExampleFitNesseTestSuite.html" )), FileUtils.readFileToString( new File( mojo.reportsDir, "ExampleFitNesseTestSuite.html" ) ).replaceAll( "\r\n", "\n" ) );
+      assertEquals( IOUtils.toString( getClass().getResourceAsStream( "ExampleFitNesseTestSuite.html" ) ),
+            FileUtils.readFileToString( new File( mojo.reportsDir, "ExampleFitNesseTestSuite.html" ) ).replaceAll( "\r\n", "\n" ) );
    }
 
    @Test
    public void testRunTestsMojoCreateSymLink() throws Exception {
+      assertFitNesseIsNotRunning();
+
       mojo.createSymLink = true;
       Launch launch = new Launch( "ExampleFitNesseTestSuite", null );
 

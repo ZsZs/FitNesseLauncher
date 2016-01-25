@@ -54,7 +54,6 @@ public class TestHelper {
       testRunner.addTestSystemListener( testFormatter );
       
       testRunner.executeTestPages();
-      testRunner.stop();
       testFormatter.close();
       return testFormatter.getTotalSummary();
       
