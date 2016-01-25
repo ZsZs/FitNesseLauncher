@@ -1,11 +1,11 @@
-Apache Derby Network Server - 10.4.1.3 - (648739) started and ready to accept connections on port 1527 at 2015-12-30 10:42:33.309 GMT 
+Apache Derby Network Server - 10.4.1.3 - (648739) started and ready to accept connections on port 1527 at 2016-01-25 10:48:25.578 GMT 
 ----------------------------------------------------------------
-2015-12-30 10:42:35.052 GMT:
- Booting Derby version The Apache Software Foundation - Apache Derby - 10.4.1.3 - (648739): instance a816c00e-0151-f27b-6a41-0000032598a8
+2016-01-25 10:48:27.344 GMT:
+ Booting Derby version The Apache Software Foundation - Apache Derby - 10.4.1.3 - (648739): instance a816c00e-0152-7866-226f-000003246a30
 on database directory D:\Projects\FitNesseLauncher\fitnesse-launcher-sql-example\target\derbyDB  
 
 Database Class Loader started - derby.database.classpath=''
 
-2015-12-30 10:42:39.103 GMT:
-Shutting down instance a816c00e-0151-f27b-6a41-0000032598a8
+2016-01-25 10:48:30.088 GMT:
+Shutting down instance a816c00e-0152-7866-226f-000003246a30
 ----------------------------------------------------------------
