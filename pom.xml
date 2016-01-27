@@ -4,7 +4,7 @@
    <modelVersion>4.0.0</modelVersion>
    <groupId>com.processpuzzle.maven</groupId>
    <artifactId>fitnesse-launcher-parent</artifactId>
-   <version>1.6.0-SNAPSHOT</version>
+   <version>1.6.0</version>
    <packaging>pom</packaging>
 
    <name>FitNesse Launcher Parent</name>
@@ -52,7 +52,8 @@
       <url>https://github.com/ZsZs/FitNesseLauncher</url>
       <connection>scm:git:git://github.com/ZsZs/FitNesseLauncher.git</connection>
       <developerConnection>scm:git:git@github.com:ZsZs/FitNesseLauncher.git</developerConnection>
-   </scm>
+     <tag>fitnesse-launcher-parent-1.6.0</tag>
+  </scm>
    <issueManagement>
       <url>https://github.com/ZsZs/FitNesseLauncher/issues</url>
       <system>GitHub Issues</system>
