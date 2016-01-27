@@ -1,11 +1,16 @@
 .settings
 *.project
+fitnesse-launcher-ant-task/.project
+fitnesse-launcher-ant-task/.settings
+fitnesse-launcher-core/.project
+fitnesse-launcher-core/.settings
 fitnesse-launcher-java-example/.project
 fitnesse-launcher-java-example/.settings
 fitnesse-launcher-maven-plugin/.project
 fitnesse-launcher-maven-plugin/.settings
 fitnesse-launcher-spring-example/.project
 fitnesse-launcher-spring-example/.settings
+fitnesse-launcher-sql-example/derby.log
 fitnesse-launcher-sql-example/.project
 fitnesse-launcher-sql-example/.settings
 fitnesse-launcher-webapp-example/.project
