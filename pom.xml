@@ -16,13 +16,11 @@
 	</description>
    <url>http://code.google.com/p/fitnesse-launcher-maven-plugin</url>
    <inceptionYear>2012</inceptionYear>
-
-   
-
    <organization>
       <name>Agile Renovation</name>
       <url>http://www.agilerenovation.com</url>
-   </organization><licenses>
+   </organization>
+   <licenses>
       <license>
          <name>Apache License version 2.0</name>
          <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
@@ -54,7 +52,8 @@
       <url>https://github.com/ZsZs/FitNesseLauncher</url>
       <connection>scm:git:git://github.com/ZsZs/FitNesseLauncher.git</connection>
       <developerConnection>scm:git:git@github.com:ZsZs/FitNesseLauncher.git</developerConnection>
-   </scm><issueManagement>
+   </scm>
+   <issueManagement>
       <url>https://github.com/ZsZs/FitNesseLauncher/issues</url>
       <system>GitHub Issues</system>
    </issueManagement>
@@ -90,6 +89,8 @@
       <module>fitnesse-launcher-spring-example</module>
       <module>fitnesse-launcher-sql-example</module>
       <module>fitnesse-launcher-webapp-example</module>
+      <module>fitnesse-launcher-ant-task</module>
+      <module>fitnesse-launcher-core</module>
    </modules>
 
    <build>
@@ -316,6 +317,31 @@
       </profile>
    </profiles>
 
+   <dependencyManagement>
+      <dependencies>
+         <!-- Test dependencies -->
+         <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+         </dependency>
+
+         <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>1.9.5</version>
+            <scope>test</scope>
+         </dependency>
+
+         <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-server</artifactId>
+            <version>8.1.15.v20140411</version>
+            <scope>test</scope>
+         </dependency>
+      </dependencies>
+   </dependencyManagement>
+
    <distributionManagement>
       <!-- See http://repo1.maven.org/maven2/org/sonatype/oss/oss-parent/7/oss-parent-7.pom -->
       <snapshotRepository>
@@ -329,7 +355,7 @@
          <name>Nexus Release Repository</name>
          <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
       </repository>
-      
+
       <site>
          <id>google-code</id>
          <name>Google Code Reports</name>
@@ -337,5 +363,5 @@
       </site>
    </distributionManagement>
 
-   
+
 </project>

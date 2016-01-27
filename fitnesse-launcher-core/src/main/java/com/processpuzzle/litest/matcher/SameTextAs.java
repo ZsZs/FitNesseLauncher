@@ -1,4 +1,4 @@
-package com.processpuzzle.matcher;
+package com.processpuzzle.litest.matcher;
 
 import org.hamcrest.Description;
 import org.hamcrest.Factory;

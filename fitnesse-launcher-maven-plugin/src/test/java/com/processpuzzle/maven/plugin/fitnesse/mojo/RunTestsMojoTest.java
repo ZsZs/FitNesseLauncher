@@ -1,6 +1,6 @@
 package com.processpuzzle.maven.plugin.fitnesse.mojo;
 
-import static com.processpuzzle.matcher.SameTextAs.sameTextAs;
+import static com.processpuzzle.litest.matcher.SameTextAs.sameTextAs;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.nullValue;

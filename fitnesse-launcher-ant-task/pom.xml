@@ -1,0 +1,37 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <parent>
+      <groupId>com.processpuzzle.maven</groupId>
+      <artifactId>fitnesse-launcher-parent</artifactId>
+      <version>1.6.0-SNAPSHOT</version>
+   </parent>
+   <artifactId>fitnesse-launcher-ant-task</artifactId>
+   <name>FitNesse Launcher Ant Task</name>
+
+   <dependencies>
+      <dependency>
+         <groupId>org.apache.ant</groupId>
+         <artifactId>ant</artifactId>
+         <version>1.9.6</version>
+      </dependency>
+      
+      <dependency>
+         <groupId>org.fitnesse</groupId>
+         <artifactId>fitnesse</artifactId>
+         <version>${fitnesse.version}</version>
+      </dependency>
+      
+      <dependency>
+         <groupId>junit</groupId>
+         <artifactId>junit</artifactId>
+         <version>4.12</version>
+      </dependency>
+
+      <dependency>
+         <groupId>org.mockito</groupId>
+         <artifactId>mockito-all</artifactId>
+         <version>1.9.5</version>
+         <scope>test</scope>
+      </dependency>
+   </dependencies>
+</project>
