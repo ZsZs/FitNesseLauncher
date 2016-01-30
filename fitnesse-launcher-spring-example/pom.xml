@@ -3,7 +3,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.processpuzzle.maven</groupId>
+		<groupId>com.processpuzzle.fitnesse</groupId>
 		<artifactId>fitnesse-launcher-parent</artifactId>
 		<version>1.6.0</version>
 	</parent>
@@ -23,7 +23,6 @@
 		<dependency>
 			<groupId>org.fitnesse</groupId>
 			<artifactId>fitnesse</artifactId>
-			<version>20130530</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -37,7 +36,7 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>com.processpuzzle.maven</groupId>
+				<groupId>com.processpuzzle.fitnesse</groupId>
 				<artifactId>fitnesse-launcher-maven-plugin</artifactId>
 				<configuration>
 					<suite>SpringExample</suite>
@@ -97,7 +96,7 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>com.processpuzzle.maven</groupId>
+				<groupId>com.processpuzzle.fitnesse</groupId>
 				<artifactId>fitnesse-launcher-maven-plugin</artifactId>
 				<version>${project.version}</version>
 			</plugin>
@@ -114,7 +113,7 @@
 			<build>
 				<plugins>
 					<plugin>
-						<groupId>com.processpuzzle.maven</groupId>
+						<groupId>com.processpuzzle.fitnesse</groupId>
 						<artifactId>fitnesse-launcher-maven-plugin</artifactId>
 						<executions>
 							<execution>
@@ -137,7 +136,7 @@
 			<build>
 				<plugins>
 					<plugin>
-						<groupId>com.processpuzzle.maven</groupId>
+						<groupId>com.processpuzzle.fitnesse</groupId>
 						<artifactId>fitnesse-launcher-maven-plugin</artifactId>
 						<executions>
 							<execution>

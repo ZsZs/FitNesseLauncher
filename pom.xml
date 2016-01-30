@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
    <modelVersion>4.0.0</modelVersion>
-   <groupId>com.processpuzzle.maven</groupId>
+   <groupId>com.processpuzzle.fitnesse</groupId>
    <artifactId>fitnesse-launcher-parent</artifactId>
    <version>1.6.0</version>
    <packaging>pom</packaging>
@@ -52,8 +52,8 @@
       <url>https://github.com/ZsZs/FitNesseLauncher</url>
       <connection>scm:git:git://github.com/ZsZs/FitNesseLauncher.git</connection>
       <developerConnection>scm:git:git@github.com:ZsZs/FitNesseLauncher.git</developerConnection>
-     <tag>fitnesse-launcher-parent-1.6.0</tag>
-  </scm>
+      <tag>fitnesse-launcher-parent-1.6.0</tag>
+   </scm>
    <issueManagement>
       <url>https://github.com/ZsZs/FitNesseLauncher/issues</url>
       <system>GitHub Issues</system>
@@ -226,7 +226,7 @@
       <pluginManagement>
          <plugins>
             <plugin>
-               <groupId>com.processpuzzle.maven</groupId>
+               <groupId>com.processpuzzle.fitnesse</groupId>
                <artifactId>fitnesse-launcher-maven-plugin</artifactId>
                <version>${project.version}</version>
             </plugin>
@@ -298,6 +298,34 @@
             <plugins>
                <plugin>
                   <groupId>org.apache.maven.plugins</groupId>
+                  <artifactId>maven-source-plugin</artifactId>
+                  <version>2.2.1</version>
+                  <executions>
+                     <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                           <goal>jar-no-fork</goal>
+                        </goals>
+                     </execution>
+                  </executions>
+               </plugin>
+
+               <plugin>
+                  <groupId>org.apache.maven.plugins</groupId>
+                  <artifactId>maven-javadoc-plugin</artifactId>
+                  <version>2.9.1</version>
+                  <executions>
+                     <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                           <goal>jar</goal>
+                        </goals>
+                     </execution>
+                  </executions>
+               </plugin>
+
+               <plugin>
+                  <groupId>org.apache.maven.plugins</groupId>
                   <artifactId>maven-gpg-plugin</artifactId>
                   <version>1.6</version>
                   <configuration>
@@ -313,6 +341,19 @@
                      </execution>
                   </executions>
                </plugin>
+
+               <plugin>
+                  <groupId>org.sonatype.plugins</groupId>
+                  <artifactId>nexus-staging-maven-plugin</artifactId>
+                  <version>1.6.6</version>
+                  <extensions>true</extensions>
+                  <configuration>
+                     <serverId>sonatype-nexus-staging</serverId>
+                     <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                     <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                  </configuration>
+               </plugin>
+
             </plugins>
          </build>
       </profile>
@@ -320,6 +361,12 @@
 
    <dependencyManagement>
       <dependencies>
+         <dependency>
+            <groupId>org.fitnesse</groupId>
+            <artifactId>fitnesse</artifactId>
+            <version>20151230</version>
+         </dependency>
+
          <!-- Test dependencies -->
          <dependency>
             <groupId>junit</groupId>

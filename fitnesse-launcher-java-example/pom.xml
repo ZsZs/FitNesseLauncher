@@ -3,7 +3,7 @@
 
    <modelVersion>4.0.0</modelVersion>
    <parent>
-      <groupId>com.processpuzzle.maven</groupId>
+      <groupId>com.processpuzzle.fitnesse</groupId>
       <artifactId>fitnesse-launcher-parent</artifactId>
       <version>1.6.0</version>
    </parent>
@@ -31,7 +31,6 @@
       <dependency>
          <groupId>org.fitnesse</groupId>
          <artifactId>fitnesse</artifactId>
-         <version>${fitnesse.version}</version>
          <scope>test</scope>
       </dependency>
 
@@ -45,14 +44,12 @@
       <dependency>
          <groupId>junit</groupId>
          <artifactId>junit</artifactId>
-         <version>4.11</version>
          <scope>test</scope>
       </dependency>
 
       <dependency>
          <groupId>org.mockito</groupId>
          <artifactId>mockito-all</artifactId>
-         <version>1.9.5</version>
          <scope>test</scope>
       </dependency>
 
@@ -121,7 +118,7 @@
             </executions>
          </plugin>
          <plugin>
-            <groupId>com.processpuzzle.maven</groupId>
+            <groupId>com.processpuzzle.fitnesse</groupId>
             <artifactId>fitnesse-launcher-maven-plugin</artifactId>
             <configuration>
                <!-- Since version 1.5.0 -->
@@ -193,7 +190,7 @@
             </configuration>
          </plugin>
          <plugin>
-            <groupId>com.processpuzzle.maven</groupId>
+            <groupId>com.processpuzzle.fitnesse</groupId>
             <artifactId>fitnesse-launcher-maven-plugin</artifactId>
             <version>${project.version}</version>
          </plugin>
@@ -207,7 +204,7 @@
          <build>
             <plugins>
                <plugin>
-                  <groupId>com.processpuzzle.maven</groupId>
+                  <groupId>com.processpuzzle.fitnesse</groupId>
                   <artifactId>fitnesse-launcher-maven-plugin</artifactId>
                   <executions>
                      <execution>
@@ -229,7 +226,7 @@
          <build>
             <plugins>
                <plugin>
-                  <groupId>com.processpuzzle.maven</groupId>
+                  <groupId>com.processpuzzle.fitnesse</groupId>
                   <artifactId>fitnesse-launcher-maven-plugin</artifactId>
                   <configuration>
                      <launches>

@@ -3,7 +3,7 @@
 
    <modelVersion>4.0.0</modelVersion>
    <parent>
-      <groupId>com.processpuzzle.maven</groupId>
+      <groupId>com.processpuzzle.fitnesse</groupId>
       <artifactId>fitnesse-launcher-parent</artifactId>
       <version>1.6.0</version>
    </parent>
@@ -14,7 +14,7 @@
 
    <dependencies>
       <dependency>
-         <groupId>com.processpuzzle.maven</groupId>
+         <groupId>com.processpuzzle.fitnesse</groupId>
          <artifactId>fitnesse-launcher-core</artifactId>
          <version>${project.version}</version>
       </dependency>
@@ -46,7 +46,6 @@
       <dependency>
          <groupId>org.fitnesse</groupId>
          <artifactId>fitnesse</artifactId>
-         <version>${fitnesse.version}</version>
       </dependency>
 
       <dependency>
