@@ -1,86 +1,65 @@
 package com.processpuzzle.fitnesse.launcher.maven.plugin.fitnesse.mojo;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static com.processpuzzle.litest.matcher.CauseMatcher.exceptionOf;
+import static org.hamcrest.CoreMatchers.endsWith;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.startsWith;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
-import org.apache.maven.plugin.logging.Log;
-import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
-public class VerifyMojoTest {
+import com.processpuzzle.fitnesse.launcher.maven.plugin.rule.NoLogRule;
+
+public class VerifyMojoTest extends MojoTest {
    private VerifyMojo mojo;
-   private Log log;
-   private ByteArrayOutputStream logStream;
+   @Rule public NoLogRule noLoggingRule = new NoLogRule();
+   @Rule public final ExpectedException thrown = ExpectedException.none();
 
-   @Before
-   public void setUp() throws IOException {
+   @Before @Override public void beforeEachTest() throws Exception {
+      super.beforeEachTest();
+      noLoggingRule.setLog( log );
       mojo = new VerifyMojo();
-      logStream = new ByteArrayOutputStream();
-      log = PrintStreamLogger.createDefaultLog( logStream );
       mojo.setLog( log );
    }
-   
-   @After
-   public void afterEachTest(){
-//      assertThat( new FitNesseThreadLocator( log ).findFitNesseServerThread(), nullValue() );      
-   }
 
-   @Test
-   public void testSuccess() throws Exception {
+   @Test public void testSuccess() throws Exception {
       mojo.summaryFile = new File( getClass().getResource( "verify-success.xml" ).getPath() );
       mojo.execute();
-      assertEquals( "", logStream.toString() );
    }
 
-   @Test
-   public void testFailure() throws Exception {
+   @Test public void testFailure() throws Exception {
+      thrown.expect( MojoFailureException.class );
+      thrown.expectMessage( equalTo( "There are test failures.\n\n" + String.format( "Please refer to %s for the individual test results.", mojo.reportsDir ) ) );
       mojo.summaryFile = new File( getClass().getResource( "verify-failure.xml" ).getPath() );
-      try{
-         mojo.execute();
-         fail( "Expected MojoFailureException" );
-      }catch( MojoFailureException e ){
-         assertEquals( "There are test failures.\n\n" + String.format( "Please refer to %s for the individual test results.", mojo.reportsDir ), e.getMessage() );
-      }
-      assertEquals( "", logStream.toString() );
+
+      mojo.execute();
    }
 
-   @Test
-   public void testNoTests() throws Exception {
+   @Test public void testNoTests() throws Exception {
       mojo.summaryFile = new File( getClass().getResource( "verify-no-tests.xml" ).getPath() );
       mojo.execute();
-      assertEquals( "", logStream.toString() );
    }
 
-   @Test
-   public void testBadXml() throws Exception {
+   @Test public void testBadXml() throws Exception {
+      thrown.expect( MojoExecutionException.class );
+      thrown.expectMessage( startsWith( "org.xml.sax.SAXParseException" ) );
+      thrown.expectMessage( endsWith( "XML document structures must start and end within the same entity." ) );
+
       mojo.summaryFile = new File( getClass().getResource( "verify-bad-xml.xml" ).getPath() );
-      try{
-         mojo.execute();
-         fail( "Expected " );
-      }catch( MojoExecutionException e ){
-         assertTrue( e.getMessage().startsWith( "org.xml.sax.SAXParseException" ) );
-         assertTrue( e.getMessage().endsWith( "XML document structures must start and end within the same entity." ) );
-      }
-      assertEquals( "", logStream.toString() );
+      mojo.execute();
    }
 
-   @Test
-   public void testBadXml2() throws Exception {
+   @Test public void testBadXml2() throws Exception {
+      thrown.expect( MojoExecutionException.class );
+      thrown.expectCause( exceptionOf( NullPointerException.class ) );
+
       mojo.summaryFile = new File( getClass().getResource( "verify-not-failsafe.xml" ).getPath() );
-      try{
-         mojo.execute();
-         fail( "Expected MojoExecutionException" );
-      }catch( MojoExecutionException e ){
-         assertEquals( NullPointerException.class, e.getCause().getClass() );
-      }
-      assertEquals( "", logStream.toString() );
+      mojo.execute();
    }
 }

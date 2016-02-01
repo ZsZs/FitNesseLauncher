@@ -15,7 +15,6 @@ public class Interrupter extends Thread {
 	public final void run() {
 		if(howLongToWaitBeforeInterrupting > 0L) {
     		try {
-    	      System.out.println( "FitNesse-Launcher: sleep : " + threadToInterrupt.getName() + ", for: " + howLongToWaitBeforeInterrupting );
     			Thread.sleep(howLongToWaitBeforeInterrupting);
 		    } catch (InterruptedException e) { 
 			    // ignore

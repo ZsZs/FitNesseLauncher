@@ -17,6 +17,20 @@ public class DefaultLocaleRule extends TestWatcher {
       currentDefault = defaultForTests;
    }
 
+   public void setDefault( Locale locale ) {
+      if( null == locale ){
+         locale = originalDefault;
+      }
+
+      Locale.setDefault( locale );
+   }
+
+   //Properties
+   public static DefaultLocaleRule de() { return new DefaultLocaleRule( Locale.GERMAN ); }
+   public static DefaultLocaleRule en() { return new DefaultLocaleRule( Locale.ENGLISH ); }
+   public static DefaultLocaleRule fr() { return new DefaultLocaleRule( Locale.FRENCH ); }
+   
+   //Protected, private helper methods
    @Override
    protected void starting( Description description ) {
       originalDefault = Locale.getDefault();
@@ -29,25 +43,5 @@ public class DefaultLocaleRule extends TestWatcher {
    @Override
    protected void finished( Description description ) {
       Locale.setDefault( originalDefault );
-   }
-
-   public void setDefault( Locale locale ) {
-      if( null == locale ){
-         locale = originalDefault;
-      }
-
-      Locale.setDefault( locale );
-   }
-
-   public static DefaultLocaleRule en() {
-      return new DefaultLocaleRule( Locale.ENGLISH );
-   }
-
-   public static DefaultLocaleRule de() {
-      return new DefaultLocaleRule( Locale.GERMAN );
-   }
-
-   public static DefaultLocaleRule fr() {
-      return new DefaultLocaleRule( Locale.FRENCH );
    }
 }

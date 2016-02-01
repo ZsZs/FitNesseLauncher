@@ -21,12 +21,13 @@ import com.processpuzzle.fitnesse.launcher.maven.plugin.fitnesse.mojo.FitNesseMa
 import com.processpuzzle.fitnesse.launcher.maven.plugin.fitnesse.mojo.SetUpMojo;
 import com.processpuzzle.fitnesse.launcher.maven.plugin.fitnesse.util.FitNesseHelper;
 
-public class SetUpMojoTest {
+public class SetUpMojoTest extends MojoTest{
    private SetupsMojoTestHelper helper;
    private SetUpMojo mojo;
 
-   @Before
-   public void setUp() throws Exception {
+   @Before @Override
+   public void beforeEachTest() throws Exception {
+      super.beforeEachTest();
       helper = new SetupsMojoTestHelper( new SetUpMojo() );
       mojo = (SetUpMojo) helper.mojo;
 
@@ -36,9 +37,9 @@ public class SetUpMojoTest {
       helper.setupArtifact( "org.apache.maven.plugins", "maven-antrun-plugin", "run", "maven-plugin" );
    }
 
-   @After
-   public void tearDown() throws Exception {
+   @After @Override public void afterEachTest() throws Exception {
       FileUtils.deleteQuietly( helper.workingDir );
+      super.afterEachTest();
    }
 
    @Test

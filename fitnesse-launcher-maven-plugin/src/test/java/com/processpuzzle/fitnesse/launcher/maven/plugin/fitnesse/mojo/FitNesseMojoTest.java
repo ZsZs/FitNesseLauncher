@@ -16,11 +16,12 @@ import org.junit.Test;
 
 import com.processpuzzle.fitnesse.launcher.maven.plugin.fitnesse.mojo.Launch;
 
-public class FitNesseMojoTest {
+public class FitNesseMojoTest extends MojoTest{
    private FitNesseMojoTestHelper helper;
 
-   @Before
-   public void setUp() {
+   @Before @Override
+   public void beforeEachTest() throws Exception {
+      super.beforeEachTest();
       helper = new FitNesseMojoTestHelper();
    }
 

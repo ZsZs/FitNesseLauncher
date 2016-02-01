@@ -76,8 +76,8 @@
    <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-      <maven.version>3.3.3</maven.version>
-      <failsafe.version>2.18.1</failsafe.version>
+      <maven.version>3.3.9</maven.version>
+      <failsafe.version>2.19.1</failsafe.version>
       <fitnesse.version>20151230</fitnesse.version>
       <jacoco.version>0.7.5.201505241946</jacoco.version>
       <!-- For use by Site filtering (can't handle 'dot' notation) -->
@@ -359,12 +359,37 @@
       </profile>
    </profiles>
 
+   <dependencies>
+      <dependency>
+         <groupId>org.slf4j</groupId>
+         <artifactId>slf4j-api</artifactId>
+      </dependency>
+
+      <dependency>
+         <groupId>org.slf4j</groupId>
+         <artifactId>slf4j-log4j12</artifactId>
+      </dependency>
+
+   </dependencies>
+
    <dependencyManagement>
       <dependencies>
          <dependency>
             <groupId>org.fitnesse</groupId>
             <artifactId>fitnesse</artifactId>
             <version>20151230</version>
+         </dependency>
+
+         <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.14</version>
+         </dependency>
+
+         <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.14</version>
          </dependency>
 
          <!-- Test dependencies -->

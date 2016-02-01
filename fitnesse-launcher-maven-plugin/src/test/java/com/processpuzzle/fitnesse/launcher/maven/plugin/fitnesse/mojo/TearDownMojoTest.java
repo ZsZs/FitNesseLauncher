@@ -19,18 +19,18 @@ import org.mockito.stubbing.Answer;
 
 import com.processpuzzle.fitnesse.launcher.maven.plugin.fitnesse.mojo.TearDownMojo;
 
-public class TearDownMojoTest {
+public class TearDownMojoTest extends MojoTest{
    private SetupsMojoTestHelper helper;
 
-   @Before
-   public void setUp() throws Exception {
+   @Before @Override public void beforeEachTest() throws Exception {
+      super.beforeEachTest();
       helper = new SetupsMojoTestHelper( new TearDownMojo() );
       helper.setupArtifact( "org.apache.maven.plugins", "maven-clean-plugin", "clean", "maven-plugin" );
    }
 
-   @After
-   public void tearDown() throws Exception {
+   @After @Override public void afterEachTest() throws Exception {
       FileUtils.deleteQuietly( helper.workingDir );
+      super.afterEachTest();
    }
 
    @Test

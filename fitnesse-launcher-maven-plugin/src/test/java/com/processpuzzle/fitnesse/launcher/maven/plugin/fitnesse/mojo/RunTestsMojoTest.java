@@ -1,7 +1,10 @@
 package com.processpuzzle.fitnesse.launcher.maven.plugin.fitnesse.mojo;
 
 import static com.processpuzzle.litest.matcher.SameTextAs.sameTextAs;
+import static com.processpuzzle.litest.matcher.CauseMatcher.exceptionOf;
+
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
@@ -39,17 +42,15 @@ import org.junit.rules.ExpectedException;
 
 import com.processpuzzle.fitnesse.launcher.maven.plugin.fitnesse.util.FitNesseHelper;
 
-public class RunTestsMojoTest {
-   @Rule
-   public final ExpectedException thrown = ExpectedException.none();
+public class RunTestsMojoTest extends MojoTest{
+   @Rule public final ExpectedException thrown = ExpectedException.none();
    private String expectedFailsafeSummaryXml;
    private RunTestsMojo mojo;
    private Log log;
 
-   @Before
-   public void setUp() throws IOException {
-      log = PrintStreamLogger.createDebugLog();
-
+   @Before @Override
+   public void beforeEachTest() throws Exception {
+      super.beforeEachTest();
       File workingDir = new File( System.getProperty( "java.io.tmpdir" ), "unit_test_working" );
 
       mojo = new RunTestsMojo();
@@ -87,11 +88,12 @@ public class RunTestsMojoTest {
 
    /**
     * We have to clean up the mess made by {@link TestsInProgress} and {@link PageInProgressFormatter}.
+    * @throws Exception 
     */
-   @After
-   public void tearDown() {
+   @After @Override
+   public void afterEachTest() throws Exception {
       FileUtils.deleteQuietly( new File( FitNesseHelper.DEFAULT_ROOT ) );
-//      assertFitNesseIsNotRunning();
+      super.afterEachTest();
    }
 
    @Test
@@ -152,35 +154,32 @@ public class RunTestsMojoTest {
       verify( mojo.fitNesseHelper, never() ).createSymLink( any( File.class ), anyString(), anyInt(), any( Launch.class ) );
       verify( mojo.fitNesseHelper, times( 1 ) ).shutdownFitNesseServer( anyString() );
 
-      assertFalse( mojo.summaryFile.exists() );
-      assertFalse( new File( mojo.resultsDir, "TEST-ExampleFitNesseTestSuite.xml" ).exists() );
-      assertFalse( new File( mojo.reportsDir, "ExampleFitNesseTestSuite.html" ).exists() );
+      assertThat( mojo.summaryFile.exists(), is( false ));
+      assertThat( new File( mojo.resultsDir, "TEST-ExampleFitNesseTestSuite.xml" ).exists(), is( false ));
+      assertThat( new File( mojo.reportsDir, "ExampleFitNesseTestSuite.html" ).exists(), is( false ));
    }
 
    @Test
    public void testSuiteAndTestException() throws Exception {
       thrown.expect( MojoExecutionException.class );
       thrown.expectMessage( "Exception running FitNesse tests" );
-//      thrown.expectCause( instanceOf( IllegalArgumentException.class ));
+      thrown.expectCause( exceptionOf( IllegalArgumentException.class, "No suite or test page specified" ));
 
       LogFactory.getFactory().setAttribute( "org.apache.commons.logging.Log", "org.apache.commons.logging.impl.NoOpLog" );
+      
       mojo.executeInternal( new Launch() );
    }
 
    @Test
    public void testWriteSummaryException() throws Exception {
-      // when(mojo.fitNesseHelper.calcPageNameAndType(anyString(), anyString())).thenCallRealMethod();
+      thrown.expect( MojoExecutionException.class );
+      thrown.expectMessage( containsString( mojo.resultsDir + "\\failsafe-summary.xml" ));
+      thrown.expectCause( exceptionOf( FileNotFoundException.class, "" ));
 
-      // mojo.suite = "ExampleFitNesseTestSuite";
+      mojo.suite = "ExampleFitNesseTestSuite";
       mojo.resultsDir.createNewFile();
 
-      try{
-         mojo.executeInternal( new Launch( "ExampleFitNesseTestSuite", null ) );
-         fail( "Expected MojoExecutionException" );
-      }catch( MojoExecutionException e ){
-         assertThat( e.getMessage(), containsString( mojo.resultsDir + "\\failsafe-summary.xml" ) );
-         assertEquals( FileNotFoundException.class, e.getCause().getClass() );
-      }
+      mojo.executeInternal( new Launch( "ExampleFitNesseTestSuite", null ) );
    }
 
    @Test

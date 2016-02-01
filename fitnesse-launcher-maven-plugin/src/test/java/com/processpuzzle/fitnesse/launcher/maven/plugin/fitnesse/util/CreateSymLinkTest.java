@@ -8,12 +8,15 @@ import java.io.PrintStream;
 import java.net.ConnectException;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Level;
 import org.apache.maven.monitor.logging.DefaultLog;
 import org.apache.maven.plugin.logging.Log;
 import org.codehaus.plexus.logging.Logger;
 import org.eclipse.jetty.server.Server;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -32,6 +35,12 @@ public class CreateSymLinkTest {
    private ByteArrayOutputStream logStream;
    private File baseDir;
    private File baseDirWhitespace;
+
+   @BeforeClass public static void beforeAllTests(){
+      BasicConfigurator.configure();
+      org.apache.log4j.Logger.getRootLogger().setLevel( Level.INFO );
+      org.apache.log4j.Logger.getLogger( "org.eclipse.jetty" ).setLevel( Level.OFF );
+   }
 
    @Before public void setUp() {
       logStream = new ByteArrayOutputStream();
