@@ -5,7 +5,7 @@
    <parent>
       <groupId>com.processpuzzle.fitnesse</groupId>
       <artifactId>fitnesse-launcher-parent</artifactId>
-      <version>1.6.0</version>
+      <version>1.6.1-SNAPSHOT</version>
    </parent>
    <artifactId>fitnesse-launcher-java-example</artifactId>
    <packaging>jar</packaging>
@@ -192,7 +192,6 @@
          <plugin>
             <groupId>com.processpuzzle.fitnesse</groupId>
             <artifactId>fitnesse-launcher-maven-plugin</artifactId>
-            <version>${project.version}</version>
          </plugin>
       </plugins>
    </reporting>

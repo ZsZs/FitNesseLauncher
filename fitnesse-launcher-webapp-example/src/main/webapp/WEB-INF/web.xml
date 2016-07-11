@@ -7,7 +7,7 @@
 	<display-name>FitNesseLauncher - webapp example</display-name>
 
 	<welcome-file-list>
-		<welcome-file>/WEB-INF/index.jspx</welcome-file>
+		<welcome-file>WEB-INF/index.jspx</welcome-file>
 	</welcome-file-list>
 	
 </web-app>

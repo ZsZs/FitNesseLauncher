@@ -4,7 +4,7 @@
    <modelVersion>4.0.0</modelVersion>
    <groupId>com.processpuzzle.fitnesse</groupId>
    <artifactId>fitnesse-launcher-parent</artifactId>
-   <version>1.6.0</version>
+   <version>1.6.1-SNAPSHOT</version>
    <packaging>pom</packaging>
 
    <name>FitNesse Launcher Parent</name>
@@ -79,6 +79,7 @@
       <maven.version>3.3.9</maven.version>
       <failsafe.version>2.19.1</failsafe.version>
       <fitnesse.version>20151230</fitnesse.version>
+      <fitnesse.launcher.version>${project.version}</fitnesse.launcher.version>
       <jacoco.version>0.7.5.201505241946</jacoco.version>
       <!-- For use by Site filtering (can't handle 'dot' notation) -->
       <projectVersion>${project.version}</projectVersion>
@@ -228,7 +229,7 @@
             <plugin>
                <groupId>com.processpuzzle.fitnesse</groupId>
                <artifactId>fitnesse-launcher-maven-plugin</artifactId>
-               <version>${project.version}</version>
+               <version>${fitnesse.launcher.version}</version>
             </plugin>
             <plugin>
                <groupId>org.apache.maven.plugins</groupId>

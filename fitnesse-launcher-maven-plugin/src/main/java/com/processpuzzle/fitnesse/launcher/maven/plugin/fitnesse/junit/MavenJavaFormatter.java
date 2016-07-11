@@ -130,7 +130,7 @@ public class MavenJavaFormatter extends BaseFormatter implements Closeable {
       private TestResultPage testResultPage;
 
       public FolderResultsRepository( String outputPath ) throws IOException {
-         this.outputPath = outputPath;
+         this.outputPath = outputPath + "/html";
          copyAssets();
       }
 

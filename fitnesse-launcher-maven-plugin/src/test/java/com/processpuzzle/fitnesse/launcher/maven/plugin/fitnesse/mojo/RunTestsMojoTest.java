@@ -132,7 +132,7 @@ public class RunTestsMojoTest extends MojoTest{
    }
 
    private String generatedTestReport() throws IOException {
-      String generatedTestReport = FileUtils.readFileToString( new File( mojo.reportsDir, "ExampleFitNesseTestSuite.html" ));
+      String generatedTestReport = FileUtils.readFileToString( new File( mojo.reportsDir + "/html", "ExampleFitNesseTestSuite.html" ));
       return generatedTestReport;
    }
 
