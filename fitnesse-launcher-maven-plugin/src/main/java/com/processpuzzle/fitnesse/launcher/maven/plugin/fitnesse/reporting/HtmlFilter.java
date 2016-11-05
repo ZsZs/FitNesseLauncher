@@ -1,4 +1,4 @@
-package com.processpuzzlefitnesse.launcher.maven.plugin.fitnesse.reporting;
+package com.processpuzzle.fitnesse.launcher.maven.plugin.fitnesse.reporting;
 
 import java.io.File;
 import java.io.FilenameFilter;

@@ -66,6 +66,8 @@ public class TestHelper {
       MultipleTestsRunner testRunner = new MultipleTestsRunner( pagesByTestSystem, context.testSystemFactory );
       testRunner.addTestSystemListener( resultListener );
       testRunner.addTestSystemListener( htmlResultsFormatter );
+      testRunner.addTestSystemListener( suiteHistoryFormatter );
+      testRunner.addExecutionLogListener( suiteHistoryFormatter );
       testRunner.addTestSystemListener( xmlResultsFormatter );
 
       testRunner.executeTestPages();
