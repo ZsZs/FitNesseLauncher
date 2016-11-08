@@ -9,6 +9,8 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
@@ -16,6 +18,7 @@ import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.logging.Log;
 
 import com.google.common.collect.Lists;
+import com.processpuzzle.fitnesse.launcher.maven.plugin.fitnesse.mojo.AbstractFitNesseMojo;
 import com.processpuzzle.fitnesse.launcher.maven.plugin.fitnesse.mojo.Launch;
 
 import fitnesse.Shutdown;
@@ -63,21 +66,23 @@ public class FitNesseHelper {
       return wikiFormatClasspath;
    }
 
-   public void launchFitNesseServer( final String port, final String workingDir, final String root, final String logDir ) throws Exception {
-      ArrayList<String> commandLineArguments = Lists.newArrayList( "-e", "0", "-o", "-p", String.valueOf( port ), "-d", workingDir, "-r", root );
-      
-      if( logDir != null && !logDir.trim().equals( "" ) ){
-         commandLineArguments.add( "-l" );
-         commandLineArguments.add( logDir );
-      }
+   public Process forkFitNesseServer( final String port, final String workingDir, final String root, final String logDir, final String classpath ) throws Exception {
+      List<String> commandLine = buildCommandLine( port, workingDir, root, classpath );      
 
-      Arguments arguments = null;
-      try{
-         arguments = new Arguments( commandLineArguments.toArray( new String[commandLineArguments.size()] ));
-      }catch( IllegalArgumentException e ){
-         //Arguments.printUsage();
-         exit( 1 );
-      }
+//      new ProcessExecutor().command( commandLine ).redirectOutput( Slf4jStream.ofCaller().asInfo() ).destroyOnExit().start();
+      ProcessBuilder processBuilder = new ProcessBuilder();
+      processBuilder.command( commandLine );
+      processBuilder.redirectOutput();
+      Map<String, String> environment = processBuilder.environment();
+      environment.put( AbstractFitNesseMojo.MAVEN_CLASSPATH, System.getProperty( AbstractFitNesseMojo.MAVEN_CLASSPATH ));
+      Process fitNesseProcess = processBuilder.start();
+      log.info( "FitNesse process started in: " + workingDir + " with root of: " + root + " on port: " + port );
+      return fitNesseProcess;
+   }
+
+   public void launchFitNesseServer( final String port, final String workingDir, final String root, final String logDir ) throws Exception {
+      Arguments arguments = processCommandLineArguments( port, workingDir, root, logDir );
+      
       Integer exitCode = 0;
       try{
          exitCode = new FitNesseMain().launchFitNesse( arguments );
@@ -102,6 +107,29 @@ public class FitNesseHelper {
       }catch( Exception e ){
          this.log.error( e );
       }
+   }
+
+   // protected, private helper methods
+   private List<String> buildCommandLine( String port, String workingDir, String root, String classpath ) {
+      List<String> commandLine = Lists.newArrayList();
+      
+      String javaHome = System.getProperty("java.home");
+      String javaBin = javaHome + File.separator + "bin" + File.separator + "java";
+      String className = FitNesseMain.class.getCanonicalName();
+      
+      commandLine.add( javaBin );
+      commandLine.add( "-cp" );
+      commandLine.add( classpath );
+      commandLine.add( className );
+      commandLine.add( "-p" );
+      commandLine.add( port );
+      
+      return commandLine;
+   }
+
+   private ArrayList<String> buildCommandLineArgumentsAsArray( final String port, final String workingDir, final String root ) {
+      ArrayList<String> commandLineArguments = Lists.newArrayList( "-e", "0", "-o", "-p", String.valueOf( port ), "-d", workingDir, "-r", root );
+      return commandLineArguments;
    }
 
    private int createSymLink( final File basedir, final String testResourceDirectory, final int port, final String linkName ) throws IOException {
@@ -151,4 +179,21 @@ public class FitNesseHelper {
    private void exit( int exitCode ) {
       System.exit( exitCode );
    }   
+
+   private Arguments processCommandLineArguments( final String port, final String workingDir, final String root, final String logDir ) {
+      ArrayList<String> commandLineArguments = buildCommandLineArgumentsAsArray( port, workingDir, root );
+      
+      if( logDir != null && !logDir.trim().equals( "" ) ){
+         commandLineArguments.add( "-l" );
+         commandLineArguments.add( logDir );
+      }
+
+      Arguments arguments = null;
+      try{
+         arguments = new Arguments( commandLineArguments.toArray( new String[commandLineArguments.size()] ));
+      }catch( IllegalArgumentException e ){
+         exit( 1 );
+      }
+      return arguments;
+   }
 }

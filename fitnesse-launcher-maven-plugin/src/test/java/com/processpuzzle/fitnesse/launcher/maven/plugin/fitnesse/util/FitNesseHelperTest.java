@@ -40,38 +40,36 @@ public class FitNesseHelperTest {
    private ByteArrayOutputStream logStream;
    private Log log;
    @Rule public TestName testName = new TestName();
-   
-   @BeforeClass public static void beforeAllTests(){
+
+   @BeforeClass public static void beforeAllTests() {
       BasicConfigurator.configure();
       Logger.getRootLogger().setLevel( Level.INFO );
       Logger.getLogger( "org.eclipse.jetty" ).setLevel( Level.OFF );
    }
-   
+
    @Before public void beforeEachTests() {
       System.out.println( testName.getMethodName() + "-before" );
-      
+
       artifactHandler = mock( ArtifactHandler.class );
 
       logStream = new ByteArrayOutputStream();
       log = PrintStreamLogger.createDefaultLog( logStream );
       fitNesseHelper = new FitNesseHelper( log );
-      
-      assumeThat( new FitNesseThreadLocator( log ).findFitNesseServerThread(), nullValue() );      
+
+      assumeThat( new FitNesseThreadLocator( log ).findFitNesseServerThread(), nullValue() );
    }
-   
-   @After
-   public void afterEachTest(){
-      assumeThat( new FitNesseThreadLocator( log ).findFitNesseServerThread(), nullValue() );      
+
+   @After public void afterEachTest() {
+      assumeThat( new FitNesseThreadLocator( log ).findFitNesseServerThread(), nullValue() );
       System.out.println( testName.getMethodName() + "-after" );
    }
 
-   @Test
-   public void testFormatAndAppendClasspath() {
+   @Test public void formatAndAppendClasspath() {
       // Save the real os.name
       String os = System.getProperty( "os.name" );
 
       System.setProperty( "os.name", "windows" );
-      //assertFormatAndAppendClasspath( "" );
+      // assertFormatAndAppendClasspath( "" );
 
       System.setProperty( "os.name", "linux" );
       assertFormatAndAppendClasspath( "[ERROR] THERE IS WHITESPACE IN CLASSPATH ELEMENT [/x/y z]" );
@@ -81,8 +79,7 @@ public class FitNesseHelperTest {
       System.setProperty( "os.name", os );
    }
 
-   @Test
-   public void testFormatAndAppendClasspathArtifact() {
+   @Test public void formatAndAppendClasspathArtifact() {
       String jarPath = new File( getClass().getResource( "/dummy.jar" ).getPath() ).getPath();
       Artifact artifact = new DefaultArtifact( "org.fitnesse", "fitnesse", "20130530", "compile", "jar", null, artifactHandler );
       artifact.setFile( new File( jarPath ) );
@@ -93,8 +90,19 @@ public class FitNesseHelperTest {
       assertEquals( "!path " + jarPath + "\n", sb.toString() );
    }
 
-   @Test
-   public void testLaunchFitNesseServer() throws Exception {
+   @Test public void forkFitNesseServer_launcherInSeparateProcess() throws Exception{
+      File logDir = new File( System.getProperty( "java.io.tmpdir" ), "fitnesse-launcher-logs" );
+      String port = String.valueOf( DEFAULT_COMMAND_PORT );
+      File working = new File( System.getProperty( "java.io.tmpdir" ), "fitnesse-launcher-test" );
+      
+      Process fitnesseProcess = fitNesseHelper.forkFitNesseServer( port, working.getCanonicalPath(), FitNesseHelper.DEFAULT_ROOT, logDir.getCanonicalPath(), System.getProperty( "java.class.path" ) );
+      
+      // TEAR DOWN:
+      fitNesseHelper.shutdownFitNesseServer( port );
+      fitnesseProcess.destroy();
+   }
+   
+   @Test public void launchFitNesseServer() throws Exception {
       File logDir = new File( System.getProperty( "java.io.tmpdir" ), "fitnesse-launcher-logs" );
       // Clean out logDir, as it might still exist from a previous run,
       // because Windows doesn't always delete this file on exit
@@ -108,8 +116,7 @@ public class FitNesseHelperTest {
       FileUtils.forceDeleteOnExit( logDir );
    }
 
-   @Test
-   public void testShutdownFitNesseServerOk() throws Exception {
+   @Test public void shutdownFitNesseServerOk() throws Exception {
       int port = DEFAULT_COMMAND_PORT;
       Server server = new Server( port );
       server.setHandler( new OkHandler( "/", "responder=shutdown" ) );
@@ -122,15 +129,13 @@ public class FitNesseHelperTest {
       }
    }
 
-   @Test
-   public void testShutdownFitNesseServerNotRunning() throws Exception {
+   @Test public void shutdownFitNesseServerNotRunning() throws Exception {
       int port = DEFAULT_COMMAND_PORT;
       fitNesseHelper.shutdownFitNesseServer( String.valueOf( port ) );
-      assertThat( logStream.toString(), containsLine( "[INFO] FitNesse already not running." ));
+      assertThat( logStream.toString(), containsLine( "[INFO] FitNesse already not running." ) );
    }
 
-   @Test
-   public void testShutdownFitNesseServerDisconnect() throws Exception {
+   @Test public void shutdownFitNesseServerDisconnect() throws Exception {
       int port = DEFAULT_COMMAND_PORT;
       Server server = new Server( port );
       server.setHandler( new DisconnectingHandler( server ) );
@@ -139,8 +144,8 @@ public class FitNesseHelperTest {
       try{
          fitNesseHelper.shutdownFitNesseServer( String.valueOf( port ) );
 
-         assertThat( logStream.toString(), containsLine( "[ERROR]" ));
-         assertThat( logStream.toString(), containsLine( "java.io.IOException: Could not parse Response" ));
+         assertThat( logStream.toString(), containsLine( "[ERROR]" ) );
+         assertThat( logStream.toString(), containsLine( "java.io.IOException: Could not parse Response" ) );
       }finally{
          server.stop();
       }
@@ -151,11 +156,11 @@ public class FitNesseHelperTest {
 
       assertSame( sb, fitNesseHelper.formatAndAppendClasspath( sb, "/x/y/z" ) );
       assertEquals( "!path /x/y/z\n", sb.toString() );
-//      assertEquals( "", logStream.toString() );
+      // assertEquals( "", logStream.toString() );
 
       assertSame( sb, fitNesseHelper.formatAndAppendClasspath( sb, "/x/y z" ) );
       assertEquals( "!path /x/y/z\n!path /x/y z\n", sb.toString() );
-      assertThat( logStream.toString(), containsLine( expectedLogMsg ));
+      assertThat( logStream.toString(), containsLine( expectedLogMsg ) );
    }
 
    private void assertLaunchFitNesseServer( String logDir ) throws Exception {

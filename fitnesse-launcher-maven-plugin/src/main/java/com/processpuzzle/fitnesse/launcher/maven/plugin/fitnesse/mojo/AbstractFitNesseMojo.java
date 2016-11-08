@@ -31,6 +31,8 @@ import com.processpuzzle.fitnesse.launcher.maven.plugin.fitnesse.util.FitNesseHe
 import com.processpuzzle.fitnesse.launcher.maven.plugin.fitnesse.util.Utils;
 
 public abstract class AbstractFitNesseMojo extends org.apache.maven.plugin.AbstractMojo {
+   public static final String MAVEN_CLASSPATH = "maven.classpath";
+
    private static final String LOG_LINE = "------------------------------------------------------------------------";
 
    /**
@@ -199,6 +201,7 @@ public abstract class AbstractFitNesseMojo extends org.apache.maven.plugin.Abstr
     */
    @Deprecated
    protected boolean excludeOptionalDependencies = true;
+   protected String fitNesseClasspath;
    protected FitNesseHelper fitNesseHelper;
 
    protected abstract void executeInternal( Launch... executeLaunches ) throws MojoExecutionException, MojoFailureException;
@@ -226,7 +229,7 @@ public abstract class AbstractFitNesseMojo extends org.apache.maven.plugin.Abstr
       final Properties projectProperties = this.project.getProperties();
       getLog().info( LOG_LINE );
       final String mavenClasspath = calcWikiFormatClasspath();
-      setSystemProperty( "maven.classpath", mavenClasspath );
+      setSystemProperty( MAVEN_CLASSPATH, mavenClasspath );
 
       // If a System property already exists, it has priority;
       // That way we can override with a -D on the command line
@@ -312,17 +315,20 @@ public abstract class AbstractFitNesseMojo extends org.apache.maven.plugin.Abstr
    private String addArtifactsToClasspath( final Set<Artifact> artifacts ) {
       final StringBuilder wikiFormatClasspath = new StringBuilder( "\n" );
       final ClassRealm realm = this.pluginDescriptor.getClassRealm();
+      this.fitNesseClasspath = "\"";
       setupLocalTestClasspath( realm, wikiFormatClasspath );
       for( Artifact artifact : artifacts ){
          final File artifactFile = artifact.getFile();
          if( artifactFile != null ){
             getLog().debug( String.format( "Adding artifact to FitNesse classpath [%s]", artifact ) );
             this.fitNesseHelper.formatAndAppendClasspathArtifact( wikiFormatClasspath, artifact );
+            this.fitNesseClasspath += ( artifact.getFile().getPath() != null ) ? artifact.getFile().getPath() + ";" : "";
             addToRealm( realm, artifactFile );
          }else{
             getLog().warn( String.format( "File for artifact [%s] is not found", artifact ) );
          }
       }
+      this.fitNesseClasspath += "\"";
       return wikiFormatClasspath.toString();
    }
 
