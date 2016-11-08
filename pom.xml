@@ -9,7 +9,7 @@
 
    <name>FitNesse Launcher Parent</name>
    <description>Provides ability to launch FitNesse as a wiki server, or automatically run FitNesse tests as part of a standard integration-test / verify build. Allows configuration of FitNesse's classpath through plugin dependencies, and injects all Maven project properties as FitNesse variables, ( which can be overridden from the command line using '-D' ).</description>
-   <url>http://code.google.com/p/fitnesse-launcher-maven-plugin</url>
+   <url>https://github.com/ZsZs/FitNesseLauncher</url>
    <inceptionYear>2012</inceptionYear>
    <organization>
       <name>Agile Renovation</name>
@@ -47,7 +47,7 @@
       <url>https://github.com/ZsZs/FitNesseLauncher</url>
       <connection>scm:git:git://github.com/ZsZs/FitNesseLauncher.git</connection>
       <developerConnection>scm:git:git@github.com:ZsZs/FitNesseLauncher.git</developerConnection>
-      <tag>fitnesse-launcher-parent-1.6.0</tag>
+      <tag>fitnesse-launcher-parent-1.6.2</tag>
    </scm>
    <issueManagement>
       <url>https://github.com/ZsZs/FitNesseLauncher/issues</url>
