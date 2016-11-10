@@ -5,7 +5,7 @@
    <parent>
       <groupId>com.processpuzzle.fitnesse</groupId>
       <artifactId>fitnesse-launcher-parent</artifactId>
-      <version>1.6.2-RELEASE</version>
+      <version>1.6.3-RELEASE</version>
    </parent>
    <artifactId>fitnesse-launcher-java-example</artifactId>
    <packaging>jar</packaging>

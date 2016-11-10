@@ -59,9 +59,10 @@ public class TestHelper {
       MavenJavaFormatter htmlResultsFormatter = new MavenJavaFormatter( launch.getPageName() );
       htmlResultsFormatter.setResultsRepository( new MavenJavaFormatter.FolderResultsRepository( this.outputPath ) );
 
-      JunitReFormatter xmlResultsFormatter = new JunitReFormatter( context, context.getRootPage(), makeXmlReportWriter(), makeSuiteHistoryFormatter( context.getRootPage() ));
+      WikiPage suiteRootPage = determineSuiteRootPage( launch.getPageName() );
+      JunitReFormatter xmlResultsFormatter = new JunitReFormatter( context, context.getRootPage(), makeXmlReportWriter(), makeSuiteHistoryFormatter( suiteRootPage ));
 
-      List<WikiPage> pagesToExecute = new SuiteContentsFinder( determineSuiteRootPage( launch.getPageName() ), null, context.getRootPage() ).getAllPagesToRunForThisSuite();
+      List<WikiPage> pagesToExecute = new SuiteContentsFinder( suiteRootPage, null, context.getRootPage() ).getAllPagesToRunForThisSuite();
       final PagesByTestSystem pagesByTestSystem = new PagesByTestSystem( pagesToExecute, context.getRootPage() );
       MultipleTestsRunner testRunner = new MultipleTestsRunner( pagesByTestSystem, context.testSystemFactory );
       testRunner.addTestSystemListener( resultListener );
