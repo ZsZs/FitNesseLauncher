@@ -69,7 +69,6 @@ public class FitNesseHelper {
    public Process forkFitNesseServer( final String port, final String workingDir, final String root, final String logDir, final String classpath ) throws Exception {
       List<String> commandLine = buildCommandLine( port, workingDir, root, classpath );      
 
-//      new ProcessExecutor().command( commandLine ).redirectOutput( Slf4jStream.ofCaller().asInfo() ).destroyOnExit().start();
       ProcessBuilder processBuilder = new ProcessBuilder();
       processBuilder.command( commandLine );
       processBuilder.redirectOutput();

@@ -36,6 +36,7 @@ public class VerifyMojoTest extends MojoTest {
    @Test public void testFailure() throws Exception {
       thrown.expect( MojoFailureException.class );
       thrown.expectMessage( equalTo( "There are test failures.\n\n" + String.format( "Please refer to %s for the individual test results.", mojo.reportsDir ) ) );
+      mojo.maxErrorsToConsole = 0;
       mojo.summaryFile = new File( getClass().getResource( "verify-failure.xml" ).getPath() );
 
       mojo.execute();

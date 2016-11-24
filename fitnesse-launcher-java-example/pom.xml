@@ -5,7 +5,7 @@
    <parent>
       <groupId>com.processpuzzle.fitnesse</groupId>
       <artifactId>fitnesse-launcher-parent</artifactId>
-      <version>1.6.3-RELEASE</version>
+      <version>1.6.4-RELEASE</version>
    </parent>
    <artifactId>fitnesse-launcher-java-example</artifactId>
    <packaging>jar</packaging>
@@ -122,7 +122,7 @@
             <artifactId>fitnesse-launcher-maven-plugin</artifactId>
             <configuration>
                <!-- Since version 1.5.0 -->
-               <maxErrorsToConsole>1</maxErrorsToConsole>
+               <maxErrorsToConsole>20</maxErrorsToConsole>
 
                <!-- Since version 1.4.0 -->
                <launches>
@@ -214,7 +214,6 @@
                         </goals>
                      </execution>
                   </executions>
-                  
                </plugin>
             </plugins>
          </build>

@@ -21,7 +21,7 @@
 |go to store||yes|
 
 !| fitnesse.fit.anubhava.GenericFixture | fitnesse.slim.test.ShouldIBuyMilk |
-|set cash in wallet|10|
+|set cash in wallet|11|
 |set credit card|yes|
 |set pints of milk remaining|0|
 |go to store||yes|

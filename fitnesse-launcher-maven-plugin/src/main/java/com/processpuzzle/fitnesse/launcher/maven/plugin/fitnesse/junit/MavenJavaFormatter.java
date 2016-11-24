@@ -126,11 +126,12 @@ public class MavenJavaFormatter extends BaseFormatter implements Closeable {
    }
 
    public static class FolderResultsRepository implements ResultsRepository {
+      public static final String HTML_REPORT_FOLDER = "/html";
       private String outputPath;
       private TestResultPage testResultPage;
 
       public FolderResultsRepository( String outputPath ) throws IOException {
-         this.outputPath = outputPath + "/html";
+         this.outputPath = outputPath + HTML_REPORT_FOLDER;
          copyAssets();
       }
 

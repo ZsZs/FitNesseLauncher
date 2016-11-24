@@ -3,6 +3,7 @@ package com.processpuzzle.fitnesse.launcher.maven.plugin.fitnesse.mojo;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
@@ -16,6 +17,8 @@ import org.codehaus.plexus.util.IOUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
+import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
 
 import fitnesse.slim.SlimServer;
@@ -28,13 +31,14 @@ import fitnesse.slim.SlimServer;
  * @phase verify
  */
 public class VerifyMojo extends RunTestsMojo {
+   private static final String HTML_REPORT_FOLDER = "/html";
    private static final String HTML = ".html";
-   private static final String ERR_MSG = "FITNESSE ERROR in %s:%n%s";
+   private static final String ERR_MSG = "FITNESSE ERROR in %s:%s";
 
    /**
     * @parameter property="fitnesse.maxErrorsToConsole"
     */
-   protected int maxErrorsToConsole = 0;
+   protected int maxErrorsToConsole = 100;
    private int countErrorsToConsole = 0;
    private RunResult summary;
 
@@ -42,14 +46,19 @@ public class VerifyMojo extends RunTestsMojo {
       super( false );
    }
 
-   @Override
-   public final void execute() throws MojoExecutionException, MojoFailureException {
+   // public accessors and mutators
+   @Override public final void execute() throws MojoExecutionException, MojoFailureException {
       summary = readSummary();
-      
+
       if( logErrorsToConsole() && errorOccured() ){
          logExceptions();
       }
       SurefireHelper.reportExecution( this, summary, getLog() );
+   }
+
+   // protected, private helper methods
+   private String determineReportsFolder() {
+      return this.reportsDir + HTML_REPORT_FOLDER;
    }
 
    private boolean errorOccured() {
@@ -59,19 +68,20 @@ public class VerifyMojo extends RunTestsMojo {
    private void logExceptions() throws MojoExecutionException {
       final Launch[] launches = super.launches();
       for( int i = 0; i < launches.length && logErrorsToConsole(); i++ ){
-         final File indexFile = new File( this.reportsDir, launches[i].getPageName() + HTML );
+         final File indexFile = new File( determineReportsFolder(), launches[i].getPageName() + HTML );
          final Document indexHtml = parseHtml( indexFile );
          final List<Element> anchors = indexHtml.getElementsByTag( "a" );
          for( int j = 0; j < anchors.size() && logErrorsToConsole(); j++ ){
             final String test = anchors.get( j ).attr( "href" );
-            final File testFile = new File( this.reportsDir, test );
+            final File testFile = new File( determineReportsFolder(), test );
             final Document testHtml = parseHtml( testFile );
             final List<Element> errors = testHtml.getElementsByClass( "error" );
+            errors.addAll( testHtml.getElementsByClass( "fail" ));
             for( int k = 0; k < errors.size() && logErrorsToConsole(); k++ ){
                final Element error = errors.get( k );
                final Elements fitLabel = error.getElementsByClass( "fit_label" );
                if( !fitLabel.isEmpty() ){
-                  logFitNesseError( test, fitLabel.text() );
+                  logFitNesseError( test, extractElementsText( error ));
                }
                final Elements fitStacktrace = error.getElementsByClass( "fit_stacktrace" );
                if( !fitStacktrace.isEmpty() ){
@@ -89,8 +99,22 @@ public class VerifyMojo extends RunTestsMojo {
       }
    }
 
+   private String extractElementsText( Node element ) {
+      String textContent = "";
+      for( Node childElement : element.childNodes() ){
+         if( childElement instanceof TextNode ){
+            textContent += " " + ((TextNode) childElement).text();
+         }
+         
+         if( childElement.childNodes().size() > 0 ){
+            textContent += " " + extractElementsText( childElement );
+         }
+      }
+      return textContent;
+   }
+
    private boolean logErrorsToConsole() {
-      return( this.countErrorsToConsole < this.maxErrorsToConsole);
+      return(this.countErrorsToConsole < this.maxErrorsToConsole);
    }
 
    private void logFitNesseError( final String testName, final String errorText ) {
@@ -121,6 +145,9 @@ public class VerifyMojo extends RunTestsMojo {
          fileInputStream = new FileInputStream( this.summaryFile );
          bufferedInputStream = new BufferedInputStream( fileInputStream );
          return RunResult.fromInputStream( bufferedInputStream, ReaderFactory.UTF_8 );
+      }catch( FileNotFoundException e ){
+         getLog().error( "Test summary report is missing. Please be aware that with 'wiki' goal, it is not produced. Consider to remove the 'verify' goal." );
+         throw new MojoExecutionException( e.getMessage(), e );
       }catch( Exception e ){
          throw new MojoExecutionException( e.getMessage(), e );
       }finally{

@@ -4,7 +4,7 @@
    <modelVersion>4.0.0</modelVersion>
    <groupId>com.processpuzzle.fitnesse</groupId>
    <artifactId>fitnesse-launcher-parent</artifactId>
-   <version>1.6.3-RELEASE</version>
+   <version>1.6.4-RELEASE</version>
    <packaging>pom</packaging>
 
    <name>FitNesse Launcher Parent</name>
@@ -426,9 +426,9 @@
       </repository>
 
       <site>
-         <id>google-code</id>
-         <name>Google Code Reports</name>
-         <url>git:https://github.com/ZsZs/FitNesseLauncher/site</url>
+         <id>git-hub-finesse-launcher</id>
+         <name>FitNesseLauncher Wiki</name>
+         <url>https://github.com/ZsZs/FitNesseLauncher/wiki</url>
       </site>
    </distributionManagement>
 
