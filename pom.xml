@@ -75,7 +75,7 @@
       <failsafe.version>2.19.1</failsafe.version>
       <fitnesse.version>20151230</fitnesse.version>
       <fitnesse.launcher.version>${project.version}</fitnesse.launcher.version>
-      <jacoco.version>0.7.5.201505241946</jacoco.version>
+      <jacoco.version>0.7.9</jacoco.version>
       <!-- For use by Site filtering (can't handle 'dot' notation) -->
       <projectVersion>${project.version}</projectVersion>
    </properties>
