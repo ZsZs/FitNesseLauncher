@@ -1,283 +1,289 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-   <modelVersion>4.0.0</modelVersion>
-   <parent>
-      <groupId>com.processpuzzle.fitnesse</groupId>
-      <artifactId>fitnesse-launcher-parent</artifactId>
-      <version>1.6.4-RELEASE</version>
-   </parent>
-   <artifactId>fitnesse-launcher-java-example</artifactId>
-   <packaging>jar</packaging>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.processpuzzle.fitnesse</groupId>
+    <artifactId>fitnesse-launcher-parent</artifactId>
+    <version>1.6.4-RELEASE</version>
+  </parent>
+  <artifactId>fitnesse-launcher-java-example</artifactId>
+  <packaging>jar</packaging>
 
-   <name>Example Java Project</name>
-   <description>Example configuration for using fitnesse-launcher-maven-plugin in a java project.</description>
-   <url>http://code.google.com/p/fitnesse-launcher-maven-plugin/wiki/JavaExample</url>
+  <name>Example Java Project</name>
+  <description>Example configuration for using fitnesse-launcher-maven-plugin in a java project.</description>
+  <url>http://code.google.com/p/fitnesse-launcher-maven-plugin/wiki/JavaExample</url>
 
-   <properties>
-      <!-- This example has no unit tests, just integration tests -->
-      <skipTests>true</skipTests>
-      <powermock.version>1.5.5</powermock.version>
-   </properties>
+  <properties>
+    <!-- This example has no unit tests, just integration tests -->
+    <skipTests>true</skipTests>
+    <powermock.version>1.5.5</powermock.version>
+  </properties>
 
-   <dependencies>
-      <dependency>
-         <groupId>org.slf4j</groupId>
-         <artifactId>slf4j-simple</artifactId>
-         <version>1.7.2</version>
-         <scope>runtime</scope>
-      </dependency>
+  <dependencies>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>1.7.2</version>
+      <scope>runtime</scope>
+    </dependency>
 
-      <dependency>
-         <groupId>org.fitnesse</groupId>
-         <artifactId>fitnesse</artifactId>
-         <scope>test</scope>
-      </dependency>
+    <dependency>
+      <groupId>org.fitnesse</groupId>
+      <artifactId>fitnesse</artifactId>
+      <scope>test</scope>
+    </dependency>
 
-      <dependency>
-         <groupId>org.beanshell</groupId>
-         <artifactId>bsh</artifactId>
-         <version>2.0b5</version>
-         <scope>test</scope>
-      </dependency>
+    <dependency>
+      <groupId>com.github.sbellus</groupId>
+      <artifactId>fitnesse-plantuml-plugin</artifactId>
+      <version>1.0</version>
+    </dependency>
 
-      <dependency>
-         <groupId>junit</groupId>
-         <artifactId>junit</artifactId>
-         <scope>test</scope>
-      </dependency>
+    <dependency>
+      <groupId>org.beanshell</groupId>
+      <artifactId>bsh</artifactId>
+      <version>2.0b5</version>
+      <scope>test</scope>
+    </dependency>
 
-      <dependency>
-         <groupId>org.mockito</groupId>
-         <artifactId>mockito-all</artifactId>
-         <scope>test</scope>
-      </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
 
-      <dependency>
-         <groupId>org.powermock</groupId>
-         <artifactId>powermock-api-mockito</artifactId>
-         <version>${powermock.version}</version>
-         <scope>test</scope>
-      </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-all</artifactId>
+      <scope>test</scope>
+    </dependency>
 
-      <dependency>
-         <groupId>org.powermock</groupId>
-         <artifactId>powermock-module-junit4</artifactId>
-         <version>${powermock.version}</version>
-         <scope>test</scope>
-      </dependency>
+    <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-api-mockito</artifactId>
+      <version>${powermock.version}</version>
+      <scope>test</scope>
+    </dependency>
 
-      <dependency>
-         <groupId>org.powermock</groupId>
-         <artifactId>powermock-module-javaagent</artifactId>
-         <version>${powermock.version}</version>
-         <scope>test</scope>
-      </dependency>
-   </dependencies>
+    <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-module-junit4</artifactId>
+      <version>${powermock.version}</version>
+      <scope>test</scope>
+    </dependency>
 
-   <build>
-      <plugins>
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-resources-plugin</artifactId>
-            <version>2.6</version>
+    <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-module-javaagent</artifactId>
+      <version>${powermock.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>2.6</version>
+        <executions>
+          <execution>
+            <id>plugins</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/fitnesse</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>src/test/fitnesse</directory>
+                  <includes>
+                    <include>plugins.properties</include>
+                    <include>plugins/**</include>
+                  </includes>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+          <execution>
+            <id>frontpage</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/fitnesse/FitNesseRoot/FrontPage</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>src/test/fitnesse/FrontPage</directory>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>com.processpuzzle.fitnesse</groupId>
+        <artifactId>fitnesse-launcher-maven-plugin</artifactId>
+        <configuration>
+          <maxErrorsToConsole>20</maxErrorsToConsole>
+          <launches>
+            <launch>
+              <suite>JavaExample</suite>
+              <!-- Issue #12 <runTestsMatchingAllTags>mockito,powermock</runTestsMatchingAllTags> -->
+            </launch>
+            <launch>
+              <suite>SecondExample</suite>
+            </launch>
+            <!-- <launch> <suite>JavaExample.SlimTest</suite> <suiteFilter>address,division</suiteFilter> </launch> <launch> <test>JavaExample.SlimTest.SlimDecisionTable</test> <excludeSuiteFilter>division,decision</excludeSuiteFilter> 
+              </launch> -->
+          </launches>
+          <useProjectDependencies>
+            <scope>test</scope>
+            <scope>runtime</scope>
+          </useProjectDependencies>
+        </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>com.github.sbellus</groupId>
+            <artifactId>fitnesse-plantuml-plugin</artifactId>
+            <version>1.0</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+    </plugins>
+  </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>2.7</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>summary</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jxr-plugin</artifactId>
+        <version>2.3</version>
+        <configuration>
+          <linkJavadoc>true</linkJavadoc>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.9</version>
+        <configuration>
+          <quiet>true</quiet>
+          <use>false</use>
+          <show>package</show>
+          <stylesheetfile>${project.parent.basedir}/src/site/javadoc/stylesheet.css</stylesheetfile>
+          <includeDependencySources>false</includeDependencySources>
+          <name>Example Java Project JavaDocs</name>
+          <description>JavaDoc API documentation for FitNesse Launcher Example Java Project</description>
+          <links>
+            <link>http://java.sun.com/javase/6/docs/api/</link>
+          </links>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>com.processpuzzle.fitnesse</groupId>
+        <artifactId>fitnesse-launcher-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </reporting>
+
+  <profiles>
+    <profile>
+      <id>wiki</id>
+      <!-- This profile is for use when writing tests using the FitNesse wiki. Simply run 'mvn verify -P wiki' and use a browser to visit http://localhost:9123/JavaExample -->
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.processpuzzle.fitnesse</groupId>
+            <artifactId>fitnesse-launcher-maven-plugin</artifactId>
             <executions>
-               <execution>
-                  <id>plugins</id>
-                  <phase>validate</phase>
-                  <goals>
-                     <goal>copy-resources</goal>
-                  </goals>
-                  <configuration>
-                     <outputDirectory>${project.build.directory}/fitnesse</outputDirectory>
-                     <resources>
-                        <resource>
-                           <directory>src/test/fitnesse</directory>
-                           <includes>
-                              <include>plugins.properties</include>
-                           </includes>
-                        </resource>
-                     </resources>
-                  </configuration>
-               </execution>
-               <execution>
-                  <id>frontpage</id>
-                  <phase>validate</phase>
-                  <goals>
-                     <goal>copy-resources</goal>
-                  </goals>
-                  <configuration>
-                     <outputDirectory>${project.build.directory}/fitnesse/FitNesseRoot/FrontPage</outputDirectory>
-                     <resources>
-                        <resource>
-                           <directory>src/test/fitnesse/FrontPage</directory>
-                        </resource>
-                     </resources>
-                  </configuration>
-               </execution>
+              <execution>
+                <goals>
+                  <goal>set-up</goal>
+                  <goal>wiki</goal>
+                  <goal>tear-down</goal>
+                </goals>
+              </execution>
             </executions>
-         </plugin>
-         <plugin>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>server</id>
+      <!-- This profile is for use to start FitNesse wiki and leave it running. Simply run 'mvn verify -P server' and use a browser to visit http://localhost:9123/JavaExample -->
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.processpuzzle.fitnesse</groupId>
+            <artifactId>fitnesse-launcher-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>set-up</goal>
+                  <goal>server</goal>
+                </goals>
+              </execution>
+            </executions>
+
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>auto</id>
+      <!-- This profile will boot FitNesse to automatically run the configured test suite. Simply run 'mvn verify -P auto' -->
+      <build>
+        <plugins>
+          <plugin>
             <groupId>com.processpuzzle.fitnesse</groupId>
             <artifactId>fitnesse-launcher-maven-plugin</artifactId>
             <configuration>
-               <!-- Since version 1.5.0 -->
-               <maxErrorsToConsole>20</maxErrorsToConsole>
-
-               <!-- Since version 1.4.0 -->
-               <launches>
-                  <launch>
-                     <suite>JavaExample</suite>
-                     <!-- Issue #12 <runTestsMatchingAllTags>mockito,powermock</runTestsMatchingAllTags> -->
-                  </launch>
-                  <launch>
-                     <suite>SecondExample</suite>
-                  </launch>
-                  <!-- <launch> <suite>JavaExample.SlimTest</suite> <suiteFilter>address,division</suiteFilter> </launch> <launch> <test>JavaExample.SlimTest.SlimDecisionTable</test> <excludeSuiteFilter>division,decision</excludeSuiteFilter> 
-                     </launch> -->
-               </launches>
-               <!-- Pre-1.4.0 config is still valid, and in fact is senior -->
-               <!-- These 3 are mutually exclusive; choose only one. -->
-               <!-- <suite>JavaExample</suite> <suite>JavaExample.SlimTest</suite> <test>JavaExample.SlimTest.SlimDecisionTable</test> -->
-               <!-- <suiteFilter>address,division</suiteFilter> <excludeSuiteFilter>division,decision</excludeSuiteFilter> -->
-               <!-- Since version 1.3.0 -->
-               <useProjectDependencies>
-                  <scope>test</scope>
-                  <scope>runtime</scope>
-               </useProjectDependencies>
+              <launches>
+                <launch>
+                  <suite>JavaExample</suite>
+                </launch>
+                <launch>
+                  <suite>SecondExample</suite>
+                </launch>
+              </launches>
             </configuration>
-         </plugin>
-      </plugins>
-   </build>
-
-   <reporting>
-      <plugins>
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-project-info-reports-plugin</artifactId>
-            <version>2.7</version>
-            <reportSets>
-               <reportSet>
-                  <reports>
-                     <report>summary</report>
-                  </reports>
-               </reportSet>
-            </reportSets>
-         </plugin>
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-jxr-plugin</artifactId>
-            <version>2.3</version>
-            <configuration>
-               <linkJavadoc>true</linkJavadoc>
-            </configuration>
-         </plugin>
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <version>2.9</version>
-            <configuration>
-               <quiet>true</quiet>
-               <use>false</use>
-               <show>package</show>
-               <stylesheetfile>${project.parent.basedir}/src/site/javadoc/stylesheet.css</stylesheetfile>
-               <includeDependencySources>false</includeDependencySources>
-               <name>Example Java Project JavaDocs</name>
-               <description>JavaDoc API documentation for FitNesse Launcher Example Java Project</description>
-               <links>
-                  <link>http://java.sun.com/javase/6/docs/api/</link>
-               </links>
-            </configuration>
-         </plugin>
-         <plugin>
-            <groupId>com.processpuzzle.fitnesse</groupId>
-            <artifactId>fitnesse-launcher-maven-plugin</artifactId>
-         </plugin>
-      </plugins>
-   </reporting>
-
-   <profiles>
-      <profile>
-         <id>wiki</id>
-         <!-- This profile is for use when writing tests using the FitNesse wiki. Simply run 'mvn verify -P wiki' and use a browser to visit http://localhost:9123/JavaExample -->
-         <build>
-            <plugins>
-               <plugin>
-                  <groupId>com.processpuzzle.fitnesse</groupId>
-                  <artifactId>fitnesse-launcher-maven-plugin</artifactId>
-                  <executions>
-                     <execution>
-                        <goals>
-                           <goal>set-up</goal>
-                           <goal>wiki</goal>
-                           <goal>tear-down</goal>
-                        </goals>
-                     </execution>
-                  </executions>
-               </plugin>
-            </plugins>
-         </build>
-      </profile>
-      <profile>
-         <id>server</id>
-         <!-- This profile is for use to start FitNesse wiki and leave it running. Simply run 'mvn verify -P server' and use a browser to visit http://localhost:9123/JavaExample -->
-         <build>
-            <plugins>
-               <plugin>
-                  <groupId>com.processpuzzle.fitnesse</groupId>
-                  <artifactId>fitnesse-launcher-maven-plugin</artifactId>
-                  <executions>
-                     <execution>
-                        <goals>
-                           <goal>set-up</goal>
-                           <goal>server</goal>
-                        </goals>
-                     </execution>
-                  </executions>
-                  
-               </plugin>
-            </plugins>
-         </build>
-      </profile>
-      <profile>
-         <id>auto</id>
-         <!-- This profile will boot FitNesse to automatically run the configured test suite. Simply run 'mvn verify -P auto' -->
-         <build>
-            <plugins>
-               <plugin>
-                  <groupId>com.processpuzzle.fitnesse</groupId>
-                  <artifactId>fitnesse-launcher-maven-plugin</artifactId>
-                  <configuration>
-                     <launches>
-                        <launch>
-                           <suite>JavaExample</suite>
-                        </launch>
-                        <launch>
-                           <suite>SecondExample</suite>
-                        </launch>
-                     </launches>
-                  </configuration>
-                  <dependencies>
-                    <dependency>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-context</artifactId>
-                        <version>3.2.0.RELEASE</version>
-                    </dependency>
-                </dependencies>
-                  <executions>
-                     <execution>
-                        <goals>
-                           <goal>set-up</goal>
-                           <goal>run-tests</goal>
-                           <goal>tear-down</goal>
-                           <goal>verify</goal>
-                        </goals>
-                     </execution>
-                  </executions>
-               </plugin>
-            </plugins>
-         </build>
-      </profile>
-   </profiles>
+            <dependencies>
+              <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>3.2.0.RELEASE</version>
+              </dependency>
+            </dependencies>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>set-up</goal>
+                  <goal>run-tests</goal>
+                  <goal>tear-down</goal>
+                  <goal>verify</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 
 </project>
