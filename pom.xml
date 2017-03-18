@@ -1,436 +1,437 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-   <modelVersion>4.0.0</modelVersion>
-   <groupId>com.processpuzzle.fitnesse</groupId>
-   <artifactId>fitnesse-launcher-parent</artifactId>
-   <version>1.6.4-RELEASE</version>
-   <packaging>pom</packaging>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.processpuzzle.fitnesse</groupId>
+  <artifactId>fitnesse-launcher-parent</artifactId>
+  <version>1.6.4-RELEASE</version>
+  <packaging>pom</packaging>
 
-   <name>FitNesse Launcher Parent</name>
-   <description>Provides ability to launch FitNesse as a wiki server, or automatically run FitNesse tests as part of a standard integration-test / verify build. Allows configuration of FitNesse's classpath through plugin dependencies, and injects all Maven project properties as FitNesse variables, ( which can be overridden from the command line using '-D' ).</description>
-   <url>https://github.com/ZsZs/FitNesseLauncher</url>
-   <inceptionYear>2012</inceptionYear>
-   <organization>
-      <name>Agile Renovation</name>
-      <url>http://www.agilerenovation.com</url>
-   </organization>
-   <licenses>
-      <license>
-         <name>Apache License version 2.0</name>
-         <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-         <distribution>repo</distribution>
-      </license>
-   </licenses>
+  <name>FitNesse Launcher Parent</name>
+  <description>Provides ability to launch FitNesse as a wiki server, or automatically run FitNesse tests as part of a standard integration-test / verify build. Allows configuration of FitNesse's classpath through plugin dependencies, and injects all Maven project properties as FitNesse variables, ( which can be overridden from the command line using '-D' ).</description>
+  <url>https://github.com/ZsZs/FitNesseLauncher</url>
+  <inceptionYear>2012</inceptionYear>
+  <organization>
+    <name>Agile Renovation</name>
+    <url>http://www.agilerenovation.com</url>
+  </organization>
+  <licenses>
+    <license>
+      <name>Apache License version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
 
-   <developers>
-      <developer>
-         <id>stewart</id>
-         <name>Stewart Cambridge</name>
-         <email>stewart @ javahelp.co.uk</email>
-         <url>http://www.linkedin.com/in/stewartcambridge</url>
-         <timezone>0</timezone>
-      </developer>
-      <developer>
-         <id>zszs</id>
-         <name>Zsolt Zsuffa</name>
-         <email>zsolt . zsuffa @ gmail.com</email>
-         <url>http://www.linkedin.com/in/zsoltzsuffa</url>
-         <timezone>0</timezone>
-      </developer>
-   </developers>
+  <developers>
+    <developer>
+      <id>stewart</id>
+      <name>Stewart Cambridge</name>
+      <email>stewart @ javahelp.co.uk</email>
+      <url>http://www.linkedin.com/in/stewartcambridge</url>
+      <timezone>0</timezone>
+    </developer>
+    <developer>
+      <id>zszs</id>
+      <name>Zsolt Zsuffa</name>
+      <email>zsolt . zsuffa @ gmail.com</email>
+      <url>http://www.linkedin.com/in/zsoltzsuffa</url>
+      <timezone>0</timezone>
+    </developer>
+  </developers>
 
-   <contributors>
-   </contributors>
+  <contributors>
+  </contributors>
 
-   <scm>
-      <url>https://github.com/ZsZs/FitNesseLauncher</url>
-      <connection>scm:git:git://github.com/ZsZs/FitNesseLauncher.git</connection>
-      <developerConnection>scm:git:git@github.com:ZsZs/FitNesseLauncher.git</developerConnection>
-      <tag>fitnesse-launcher-parent-1.6.2</tag>
-   </scm>
-   <issueManagement>
-      <url>https://github.com/ZsZs/FitNesseLauncher/issues</url>
-      <system>GitHub Issues</system>
-   </issueManagement>
+  <scm>
+    <url>https://github.com/ZsZs/FitNesseLauncher</url>
+    <connection>scm:git:git://github.com/ZsZs/FitNesseLauncher.git</connection>
+    <developerConnection>scm:git:git@github.com:ZsZs/FitNesseLauncher.git</developerConnection>
+    <tag>fitnesse-launcher-parent-1.6.2</tag>
+  </scm>
+  <issueManagement>
+    <url>https://github.com/ZsZs/FitNesseLauncher/issues</url>
+    <system>GitHub Issues</system>
+  </issueManagement>
 
-   <mailingLists>
-      <mailingList>
-         <name>FitNesse Launcher on Google Groups</name>
-         <subscribe>fitnesse-launcher-maven-plugin+subscribe@googlegroups.com</subscribe>
-         <unsubscribe>fitnesse-launcher-maven-plugin+unsubscribe@googlegroups.com</unsubscribe>
-         <post>fitnesse-launcher-maven-plugin@googlegroups.com</post>
-         <archive>http://groups.google.com/group/fitnesse-launcher-maven-plugin</archive>
-      </mailingList>
-   </mailingLists>
+  <mailingLists>
+    <mailingList>
+      <name>FitNesse Launcher on Google Groups</name>
+      <subscribe>fitnesse-launcher-maven-plugin+subscribe@googlegroups.com</subscribe>
+      <unsubscribe>fitnesse-launcher-maven-plugin+unsubscribe@googlegroups.com</unsubscribe>
+      <post>fitnesse-launcher-maven-plugin@googlegroups.com</post>
+      <archive>http://groups.google.com/group/fitnesse-launcher-maven-plugin</archive>
+    </mailingList>
+  </mailingLists>
 
-   <prerequisites>
-      <maven>3.0.5</maven>
-   </prerequisites>
+  <prerequisites>
+    <maven>3.0.5</maven>
+  </prerequisites>
 
-   <properties>
-      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-      <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-      <maven.version>3.3.9</maven.version>
-      <failsafe.version>2.19.1</failsafe.version>
-      <fitnesse.version>20151230</fitnesse.version>
-      <fitnesse.launcher.version>${project.version}</fitnesse.launcher.version>
-      <jacoco.version>0.7.9</jacoco.version>
-      <!-- For use by Site filtering (can't handle 'dot' notation) -->
-      <projectVersion>${project.version}</projectVersion>
-   </properties>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <maven.version>3.3.9</maven.version>
+    <failsafe.version>2.19.1</failsafe.version>
+    <fitnesse.version>20151230</fitnesse.version>
+    <fitnesse.launcher.version>${project.version}</fitnesse.launcher.version>
+    <jacoco.version>0.7.9</jacoco.version>
+    <!-- For use by Site filtering (can't handle 'dot' notation) -->
+    <projectVersion>${project.version}</projectVersion>
+    <slf4j.version>1.7.24</slf4j.version>
+  </properties>
 
-   <modules>
-      <module>fitnesse-launcher-maven-plugin</module>
-      <module>fitnesse-launcher-java-example</module>
-      <module>fitnesse-launcher-spring-example</module>
-      <module>fitnesse-launcher-sql-example</module>
-      <module>fitnesse-launcher-webapp-example</module>
-      <module>fitnesse-launcher-ant-task</module>
-      <module>fitnesse-launcher-core</module>
-   </modules>
+  <modules>
+    <module>fitnesse-launcher-maven-plugin</module>
+    <module>fitnesse-launcher-java-example</module>
+    <module>fitnesse-launcher-spring-example</module>
+    <module>fitnesse-launcher-sql-example</module>
+    <module>fitnesse-launcher-webapp-example</module>
+    <module>fitnesse-launcher-ant-task</module>
+    <module>fitnesse-launcher-core</module>
+  </modules>
 
-   <build>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.6.0</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <!-- This version needs to match that of dependency for maven-failsafe-plugin otherwise the unit-tests of the RunTestsMojo will have incompatible versions of classes loaded. -->
+        <version>${failsafe.version}</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>3.0.1</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>2.8.1</version>
+        <configuration>
+          <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+          <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.10.3</version>
+        <configuration>
+          <quiet>true</quiet>
+          <use>false</use>
+          <show>private</show>
+          <additionalparam>-Xdoclint:none</additionalparam>
+          <stylesheetfile>${project.parent.basedir}/src/site/javadoc/stylesheet.css</stylesheetfile>
+          <includeDependencySources>false</includeDependencySources>
+          <links>
+            <link>http://java.sun.com/javase/6/docs/api/</link>
+            <link>http://fitnesse-launcher-maven-plugin.googlecode.com/svn/maven/site/fitnesse-apidocs/</link>
+            <link>http://maven.apache.org/ref/${maven.version}/maven-plugin-api/apidocs/</link>
+            <link>http://maven.apache.org/ref/${maven.version}/maven-artifact/apidocs/</link>
+            <link>http://maven.apache.org/surefire/maven-surefire-common/apidocs/</link>
+            <link>http://plexus.codehaus.org/plexus-containers/plexus-container-default/apidocs/</link>
+          </links>
+          <tagletArtifacts>
+            <tagletArtifact>
+              <groupId>org.apache.maven.plugin-tools</groupId>
+              <artifactId>maven-plugin-tools-javadoc</artifactId>
+              <version>3.4</version>
+            </tagletArtifact>
+          </tagletArtifacts>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>com.googlecode</groupId>
+        <artifactId>maven-googlecode-changes-plugin</artifactId>
+        <version>1.0</version>
+        <configuration>
+          <issueTypes>
+            <Defect>fix</Defect>
+            <Enhancement>update</Enhancement>
+          </issueTypes>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>3.4</version>
+        <configuration>
+          <relativizeDecorationLinks>false</relativizeDecorationLinks>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.tinyjee.dim</groupId>
+        <artifactId>doxia-include-macro</artifactId>
+        <version>1.1</version>
+        <executions>
+          <execution>
+            <id>initialize-doxia-include-macro</id>
+            <phase>pre-site</phase>
+            <goals>
+              <goal>initialize</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <descriptorRefs>
+            <descriptorRef>src</descriptorRef>
+          </descriptorRefs>
+          <tarLongFileMode>gnu</tarLongFileMode>
+        </configuration>
+        <executions>
+          <execution>
+            <id>make-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+      </plugin>
+    </plugins>
+    <pluginManagement>
       <plugins>
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>3.6.0</version>
-            <configuration>
-               <source>1.8</source>
-               <target>1.8</target>
-            </configuration>
-         </plugin>
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <!-- This version needs to match that of dependency for maven-failsafe-plugin otherwise the unit-tests of the RunTestsMojo will have incompatible versions of classes loaded. -->
-            <version>${failsafe.version}</version>
-         </plugin>
-         <plugin>
+        <plugin>
+          <groupId>com.processpuzzle.fitnesse</groupId>
+          <artifactId>fitnesse-launcher-maven-plugin</artifactId>
+          <version>${fitnesse.launcher.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <version>2.4</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-antrun-plugin</artifactId>
+          <version>1.7</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-failsafe-plugin</artifactId>
+          <version>${failsafe.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.jacoco</groupId>
+          <artifactId>jacoco-maven-plugin</artifactId>
+          <version>${jacoco.version}</version>
+          <configuration>
+            <destfile>${project.build.directory}/coverage-reports/jacoco-unit.exec</destfile>
+            <datafile>${project.build.directory}/coverage-reports/jacoco-unit.exec</datafile>
+          </configuration>
+          <executions>
+            <execution>
+              <id>jacoco-initialize</id>
+              <goals>
+                <goal>prepare-agent</goal>
+              </goals>
+            </execution>
+            <execution>
+              <id>jacoco-site</id>
+              <phase>package</phase>
+              <goals>
+                <goal>report</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-release-plugin</artifactId>
+          <version>2.5.2</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <extensions>
+      <extension>
+        <groupId>com.google.code.maven-svn-wagon</groupId>
+        <artifactId>maven-svn-wagon</artifactId>
+        <version>1.4</version>
+      </extension>
+    </extensions>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>release-sign-artifacts</id>
+      <activation>
+        <property>
+          <name>performRelease</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-source-plugin</artifactId>
-            <version>3.0.1</version>
+            <version>2.2.1</version>
             <executions>
-               <execution>
-                  <goals>
-                     <goal>jar</goal>
-                  </goals>
-               </execution>
+              <execution>
+                <id>attach-sources</id>
+                <goals>
+                  <goal>jar-no-fork</goal>
+                </goals>
+              </execution>
             </executions>
-         </plugin>
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-project-info-reports-plugin</artifactId>
-            <version>2.8.1</version>
-            <configuration>
-               <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
-               <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
-            </configuration>
-         </plugin>
-         <plugin>
+          </plugin>
+
+          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
-            <version>2.10.3</version>
-            <configuration>
-               <quiet>true</quiet>
-               <use>false</use>
-               <show>private</show>
-               <additionalparam>-Xdoclint:none</additionalparam>
-               <stylesheetfile>${project.parent.basedir}/src/site/javadoc/stylesheet.css</stylesheetfile>
-               <includeDependencySources>false</includeDependencySources>
-               <links>
-                  <link>http://java.sun.com/javase/6/docs/api/</link>
-                  <link>http://fitnesse-launcher-maven-plugin.googlecode.com/svn/maven/site/fitnesse-apidocs/</link>
-                  <link>http://maven.apache.org/ref/${maven.version}/maven-plugin-api/apidocs/</link>
-                  <link>http://maven.apache.org/ref/${maven.version}/maven-artifact/apidocs/</link>
-                  <link>http://maven.apache.org/surefire/maven-surefire-common/apidocs/</link>
-                  <link>http://plexus.codehaus.org/plexus-containers/plexus-container-default/apidocs/</link>
-               </links>
-               <tagletArtifacts>
-                  <tagletArtifact>
-                     <groupId>org.apache.maven.plugin-tools</groupId>
-                     <artifactId>maven-plugin-tools-javadoc</artifactId>
-                     <version>3.4</version>
-                  </tagletArtifact>
-               </tagletArtifacts>
-            </configuration>
+            <version>2.9.1</version>
             <executions>
-               <execution>
-                  <goals>
-                     <goal>jar</goal>
-                  </goals>
-               </execution>
+              <execution>
+                <id>attach-javadocs</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
             </executions>
-         </plugin>
-         <plugin>
-            <groupId>com.googlecode</groupId>
-            <artifactId>maven-googlecode-changes-plugin</artifactId>
-            <version>1.0</version>
-            <configuration>
-               <issueTypes>
-                  <Defect>fix</Defect>
-                  <Enhancement>update</Enhancement>
-               </issueTypes>
-            </configuration>
-         </plugin>
-         <plugin>
+          </plugin>
+
+          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-site-plugin</artifactId>
-            <version>3.4</version>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>1.6</version>
             <configuration>
-               <relativizeDecorationLinks>false</relativizeDecorationLinks>
-            </configuration>
-         </plugin>
-         <plugin>
-            <groupId>org.tinyjee.dim</groupId>
-            <artifactId>doxia-include-macro</artifactId>
-            <version>1.1</version>
-            <executions>
-               <execution>
-                  <id>initialize-doxia-include-macro</id>
-                  <phase>pre-site</phase>
-                  <goals>
-                     <goal>initialize</goal>
-                  </goals>
-               </execution>
-            </executions>
-         </plugin>
-         <plugin>
-            <artifactId>maven-assembly-plugin</artifactId>
-            <configuration>
-               <descriptorRefs>
-                  <descriptorRef>src</descriptorRef>
-               </descriptorRefs>
-               <tarLongFileMode>gnu</tarLongFileMode>
+              <mavenExecutorId>forked-path</mavenExecutorId>
             </configuration>
             <executions>
-               <execution>
-                  <id>make-assembly</id>
-                  <phase>package</phase>
-                  <goals>
-                     <goal>single</goal>
-                  </goals>
-               </execution>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
             </executions>
-         </plugin>
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-release-plugin</artifactId>
-         </plugin>
-      </plugins>
-      <pluginManagement>
-         <plugins>
-            <plugin>
-               <groupId>com.processpuzzle.fitnesse</groupId>
-               <artifactId>fitnesse-launcher-maven-plugin</artifactId>
-               <version>${fitnesse.launcher.version}</version>
-            </plugin>
-            <plugin>
-               <groupId>org.apache.maven.plugins</groupId>
-               <artifactId>maven-assembly-plugin</artifactId>
-               <version>2.4</version>
-            </plugin>
-            <plugin>
-               <groupId>org.apache.maven.plugins</groupId>
-               <artifactId>maven-antrun-plugin</artifactId>
-               <version>1.7</version>
-            </plugin>
-            <plugin>
-               <groupId>org.apache.maven.plugins</groupId>
-               <artifactId>maven-failsafe-plugin</artifactId>
-               <version>${failsafe.version}</version>
-            </plugin>
-            <plugin>
-               <groupId>org.jacoco</groupId>
-               <artifactId>jacoco-maven-plugin</artifactId>
-               <version>${jacoco.version}</version>
-               <configuration>
-                  <destfile>${project.build.directory}/coverage-reports/jacoco-unit.exec</destfile>
-                  <datafile>${project.build.directory}/coverage-reports/jacoco-unit.exec</datafile>
-               </configuration>
-               <executions>
-                  <execution>
-                     <id>jacoco-initialize</id>
-                     <goals>
-                        <goal>prepare-agent</goal>
-                     </goals>
-                  </execution>
-                  <execution>
-                     <id>jacoco-site</id>
-                     <phase>package</phase>
-                     <goals>
-                        <goal>report</goal>
-                     </goals>
-                  </execution>
-               </executions>
-            </plugin>
-            <plugin>
-               <groupId>org.apache.maven.plugins</groupId>
-               <artifactId>maven-release-plugin</artifactId>
-               <version>2.5.2</version>
-            </plugin>
-         </plugins>
-      </pluginManagement>
-      <extensions>
-         <extension>
-            <groupId>com.google.code.maven-svn-wagon</groupId>
-            <artifactId>maven-svn-wagon</artifactId>
-            <version>1.4</version>
-         </extension>
-      </extensions>
-   </build>
+          </plugin>
 
-   <profiles>
-      <profile>
-         <id>release-sign-artifacts</id>
-         <activation>
-            <property>
-               <name>performRelease</name>
-               <value>true</value>
-            </property>
-         </activation>
-         <build>
-            <plugins>
-               <plugin>
-                  <groupId>org.apache.maven.plugins</groupId>
-                  <artifactId>maven-source-plugin</artifactId>
-                  <version>2.2.1</version>
-                  <executions>
-                     <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                           <goal>jar-no-fork</goal>
-                        </goals>
-                     </execution>
-                  </executions>
-               </plugin>
+          <plugin>
+            <groupId>org.sonatype.plugins</groupId>
+            <artifactId>nexus-staging-maven-plugin</artifactId>
+            <version>1.6.6</version>
+            <extensions>true</extensions>
+            <configuration>
+              <serverId>sonatype-nexus-staging</serverId>
+              <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+              <autoReleaseAfterClose>true</autoReleaseAfterClose>
+            </configuration>
+          </plugin>
 
-               <plugin>
-                  <groupId>org.apache.maven.plugins</groupId>
-                  <artifactId>maven-javadoc-plugin</artifactId>
-                  <version>2.9.1</version>
-                  <executions>
-                     <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                           <goal>jar</goal>
-                        </goals>
-                     </execution>
-                  </executions>
-               </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 
-               <plugin>
-                  <groupId>org.apache.maven.plugins</groupId>
-                  <artifactId>maven-gpg-plugin</artifactId>
-                  <version>1.6</version>
-                  <configuration>
-                     <mavenExecutorId>forked-path</mavenExecutorId>
-                  </configuration>
-                  <executions>
-                     <execution>
-                        <id>sign-artifacts</id>
-                        <phase>verify</phase>
-                        <goals>
-                           <goal>sign</goal>
-                        </goals>
-                     </execution>
-                  </executions>
-               </plugin>
+  <dependencies>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
 
-               <plugin>
-                  <groupId>org.sonatype.plugins</groupId>
-                  <artifactId>nexus-staging-maven-plugin</artifactId>
-                  <version>1.6.6</version>
-                  <extensions>true</extensions>
-                  <configuration>
-                     <serverId>sonatype-nexus-staging</serverId>
-                     <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                     <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                  </configuration>
-               </plugin>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+    </dependency>
 
-            </plugins>
-         </build>
-      </profile>
-   </profiles>
+  </dependencies>
 
-   <dependencies>
+  <dependencyManagement>
+    <dependencies>
       <dependency>
-         <groupId>org.slf4j</groupId>
-         <artifactId>slf4j-api</artifactId>
+        <groupId>org.fitnesse</groupId>
+        <artifactId>fitnesse</artifactId>
+        <version>${fitnesse.version}</version>
       </dependency>
 
       <dependency>
-         <groupId>org.slf4j</groupId>
-         <artifactId>slf4j-log4j12</artifactId>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>${slf4j.version}</version>
       </dependency>
 
-   </dependencies>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-log4j12</artifactId>
+        <version>${slf4j.version}</version>
+      </dependency>
 
-   <dependencyManagement>
-      <dependencies>
-         <dependency>
-            <groupId>org.fitnesse</groupId>
-            <artifactId>fitnesse</artifactId>
-            <version>${fitnesse.version}</version>
-         </dependency>
+      <!-- Test dependencies -->
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.12</version>
+      </dependency>
 
-         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.14</version>
-         </dependency>
+      <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-all</artifactId>
+        <version>1.9.5</version>
+        <scope>test</scope>
+      </dependency>
 
-         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>1.7.14</version>
-         </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-server</artifactId>
+        <version>8.1.15.v20140411</version>
+        <scope>test</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
-         <!-- Test dependencies -->
-         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-         </dependency>
+  <distributionManagement>
+    <!-- See http://repo1.maven.org/maven2/org/sonatype/oss/oss-parent/7/oss-parent-7.pom -->
+    <snapshotRepository>
+      <id>sonatype-nexus-snapshots</id>
+      <name>Sonatype Nexus Snapshot Repository</name>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
 
-         <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-            <version>1.9.5</version>
-            <scope>test</scope>
-         </dependency>
+    <repository>
+      <id>sonatype-nexus-staging</id>
+      <name>Nexus Release Repository</name>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+    </repository>
 
-         <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-server</artifactId>
-            <version>8.1.15.v20140411</version>
-            <scope>test</scope>
-         </dependency>
-      </dependencies>
-   </dependencyManagement>
-
-   <distributionManagement>
-      <!-- See http://repo1.maven.org/maven2/org/sonatype/oss/oss-parent/7/oss-parent-7.pom -->
-      <snapshotRepository>
-         <id>sonatype-nexus-snapshots</id>
-         <name>Sonatype Nexus Snapshot Repository</name>
-         <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-      </snapshotRepository>
-
-      <repository>
-         <id>sonatype-nexus-staging</id>
-         <name>Nexus Release Repository</name>
-         <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
-      </repository>
-
-      <site>
-         <id>git-hub-finesse-launcher</id>
-         <name>FitNesseLauncher Wiki</name>
-         <url>https://github.com/ZsZs/FitNesseLauncher/wiki</url>
-      </site>
-   </distributionManagement>
+    <site>
+      <id>git-hub-finesse-launcher</id>
+      <name>FitNesseLauncher Wiki</name>
+      <url>https://github.com/ZsZs/FitNesseLauncher/wiki</url>
+    </site>
+  </distributionManagement>
 
 
 </project>
