@@ -173,7 +173,7 @@ public class RunTestsMojoTest extends MojoTest{
    @Test
    public void testWriteSummaryException() throws Exception {
       thrown.expect( MojoExecutionException.class );
-      thrown.expectMessage( containsString( mojo.resultsDir + "\\failsafe-summary.xml" ));
+      thrown.expectMessage( containsString( mojo.resultsDir + File.separator + "failsafe-summary.xml" ));
       thrown.expectCause( exceptionOf( FileNotFoundException.class, "" ));
 
       mojo.suite = "ExampleFitNesseTestSuite";

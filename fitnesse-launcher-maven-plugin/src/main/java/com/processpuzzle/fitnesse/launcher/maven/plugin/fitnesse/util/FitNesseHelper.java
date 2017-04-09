@@ -122,6 +122,10 @@ public class FitNesseHelper {
       commandLine.add( className );
       commandLine.add( "-p" );
       commandLine.add( port );
+      commandLine.add( "-d" );
+      commandLine.add( workingDir );
+      commandLine.add( "-r" );
+      commandLine.add( root );
       
       return commandLine;
    }
