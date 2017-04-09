@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+  
+  <pluginGroups>
+    <pluginGroup>org.sonarsource.scanner.maven</pluginGroup>
+  </pluginGroups>
+
+  <servers>
+    <server>
+      <id>sonatype-nexus-snapshots</id>
+      <username>${env.SONATYPE_USERNAME}</username>
+      <password>${env.SONATYPE_PASSWORD}</password>
+    </server>
+
+    <server>
+      <id>sonatype-nexus-staging</id>
+      <username>${env.SONATYPE_USERNAME}</username>
+      <password>${env.SONATYPE_PASSWORD}</password>
+    </server>
+
+    <server>
+      <id>docker.io</id>
+      <username>${env.DOCKER_USERNAME}</username>
+      <password>${env.DOCKER_PASSWORD}</password>
+      <configuration>
+        <email>zsolt.zsuffa@gmail.com</email>
+      </configuration>
+    </server>
+
+    <server>
+      <id>aws.amazon.com</id>
+      <username>AKIAJ627NIHHUG5XKQEQ</username>
+      <password>${env.AWS_PASSWORD}</password>
+    </server>
+  </servers>
+  
+  <mirrors>
+  </mirrors>
+
+  <profiles>
+    <profile>
+      <id>gpg</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      
+      <properties>
+        <gpg.executable>gpg2</gpg.executable>
+        <gpg.passphrase>${env.GPG_PASSWORD}</gpg.passphrase>
+      </properties>
+
+      <repositories>
+        <repository>
+          <id>spring-releases</id>
+          <url>https://repo.spring.io/libs-release</url>
+        </repository>
+
+        <repository>
+          <id>snapshots-repo</id>
+          <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+          <releases>
+            <enabled>false</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </repository>
+      </repositories>
+
+      <pluginRepositories>
+        <pluginRepository>
+          <id>spring-releases</id>
+          <url>https://repo.spring.io/libs-release</url>
+        </pluginRepository>
+      </pluginRepositories>
+
+    </profile>
+
+    <profile>
+      <id>sonar</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <sonar.host.url>https:/sonarqube.com</sonar.host.url>
+      </properties>
+    </profile>    
+  </profiles>
+</settings>
