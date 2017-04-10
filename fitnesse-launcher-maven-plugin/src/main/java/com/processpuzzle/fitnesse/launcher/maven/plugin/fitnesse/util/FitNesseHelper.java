@@ -69,23 +69,24 @@ public class FitNesseHelper {
       return wikiFormatClasspath;
    }
 
-   public Process forkFitNesseServer( final String port, final String workingDir, final String root, final String logDir, final String classpath ) throws Exception {
-      List<String> commandLine = buildCommandLine( port, workingDir, root, classpath );      
+   public Process forkFitNesseServer( final String port, final String workingDir, final String root, final String logDir, final String classpath )
+         throws Exception {
+      List<String> commandLine = buildCommandLine( port, workingDir, root, classpath );
 
       ProcessBuilder processBuilder = new ProcessBuilder();
       processBuilder.command( commandLine );
       processBuilder.redirectOutput();
       Map<String, String> environment = processBuilder.environment();
-      environment.put( AbstractFitNesseMojo.MAVEN_CLASSPATH, System.getProperty( AbstractFitNesseMojo.MAVEN_CLASSPATH ));
+      environment.put( AbstractFitNesseMojo.MAVEN_CLASSPATH, System.getProperty( AbstractFitNesseMojo.MAVEN_CLASSPATH ) );
       Process fitNesseProcess = processBuilder.start();
-      Thread.sleep(10000);
+      Thread.sleep( 10000 );
       log.info( "FitNesse process started in: " + workingDir + " with root of: " + root + " on port: " + port );
       return fitNesseProcess;
    }
 
    public void launchFitNesseServer( final String port, final String workingDir, final String root, final String logDir ) throws Exception {
       Arguments arguments = processCommandLineArguments( port, workingDir, root, logDir );
-      
+
       Integer exitCode = 0;
       try{
          exitCode = new FitNesseMain().launchFitNesse( arguments );
@@ -113,11 +114,11 @@ public class FitNesseHelper {
    // protected, private helper methods
    private List<String> buildCommandLine( String port, String workingDir, String root, String classpath ) {
       List<String> commandLine = Lists.newArrayList();
-      
-      String javaHome = System.getProperty("java.home");
+
+      String javaHome = System.getProperty( "java.home" );
       String javaBin = javaHome + File.separator + "bin" + File.separator + "java";
       String className = FitNesseMain.class.getCanonicalName();
-      
+
       commandLine.add( javaBin );
       commandLine.add( "-cp" );
       commandLine.add( classpath );
@@ -128,7 +129,7 @@ public class FitNesseHelper {
       commandLine.add( workingDir );
       commandLine.add( "-r" );
       commandLine.add( root );
-      
+
       return commandLine;
    }
 
@@ -142,8 +143,8 @@ public class FitNesseHelper {
 
       HttpURLConnection connection = null;
       try{
-         final String urlPath = String.format( "/root?responder=symlink&linkName=%s&linkPath=%s&submit=%s", URLEncoder.encode( linkName, UTF8 ), URLEncoder.encode( linkPath, UTF8 ),
-               URLEncoder.encode( "Create/Replace", UTF8 ) );
+         final String urlPath = String.format( "/root?responder=symlink&linkName=%s&linkPath=%s&submit=%s", URLEncoder.encode( linkName, UTF8 ),
+               URLEncoder.encode( linkPath, UTF8 ), URLEncoder.encode( "Create/Replace", UTF8 ) );
          final URL url = new URL( "http", "localhost", port, urlPath );
          this.log.info( "Calling " + url );
          connection = (HttpURLConnection) url.openConnection();
@@ -167,25 +168,25 @@ public class FitNesseHelper {
    /**
     * We want File.toURL() exactly because it doesn't properly encode URI's, otherwise we end up encoding parts of the returned linkPath twice.
     */
-   @SuppressWarnings( "deprecation" )
-   private String calcLinkPath( final String linkName, final File basedir, final String testResourceDirectory ) throws MalformedURLException {
+   @SuppressWarnings( "deprecation" ) private String calcLinkPath( final String linkName, final File basedir, final String testResourceDirectory )
+         throws MalformedURLException {
       final StringBuilder linkPath = new StringBuilder( basedir.toURL().toString().replaceFirst( "/[A-Z]:", "" ).replaceFirst( ":", "://" ) );
-      if( !linkPath.substring( linkPath.length() -1 ).equals( "/" )) {
+      if( !linkPath.substring( linkPath.length() - 1 ).equals( "/" ) ){
          linkPath.append( "/" );
       }
       linkPath.append( testResourceDirectory );
-      if( !linkPath.substring( linkPath.length() -1 ).equals( "/" )) {
+      if( !linkPath.substring( linkPath.length() - 1 ).equals( "/" ) ){
          linkPath.append( "/" );
       }
       linkPath.append( linkName );
       return linkPath.toString();
    }
-   
+
    private void destroyFitNesseProcess() throws IOException {
       String fitNessePID = findFitNesseProcessPID();
       if( fitNessePID != null ){
-         String cmd = "taskkill /F /PID " + fitNessePID;
-         Process taskKill = Runtime.getRuntime().exec(cmd);
+         String cmd = "taskkill /PID " + fitNessePID + " /F /T";
+         Process taskKill = Runtime.getRuntime().exec( cmd );
          taskKill.destroy();
          log.info( "FitNesse process killed with PID: " + fitNessePID );
       }else{
@@ -196,28 +197,30 @@ public class FitNesseHelper {
    private void exit( int exitCode ) {
       System.exit( exitCode );
    }
-   
+
    private String findFitNesseProcessPID() {
       String process;
       String fitNessePID = null;
       String pid = "";
       String mainClass = "";
-      
+
       Process psProcess = null;
       BufferedReader input = null;
       try{
          psProcess = Runtime.getRuntime().exec( "jps -lv" );
-         input = new BufferedReader( new InputStreamReader( psProcess.getInputStream() ));
+         input = new BufferedReader( new InputStreamReader( psProcess.getInputStream() ) );
          while( (process = input.readLine()) != null ){
             StringTokenizer st = new StringTokenizer( process );
 
-            for( int i = 0; i <= st.countTokens(); i++) {
+            for( int i = 0; i <= st.countTokens(); i++ ){
                String token = (String) st.nextElement();
-               if( i == 0 ) pid = token;
-               else if( i == 1 ) mainClass = token;
+               if( i == 0 )
+                  pid = token;
+               else if( i == 1 )
+                  mainClass = token;
             }
-            
-            if( mainClass.equals( "fitnesseMain.FitNesseMain" )){
+
+            if( mainClass.equals( "fitnesseMain.FitNesseMain" ) ){
                fitNessePID = pid;
             }
          }
@@ -226,18 +229,18 @@ public class FitNesseHelper {
       }finally{
          try{
             input.close();
-            psProcess.destroy();         
+            psProcess.destroy();
          }catch( IOException e ){
             log.error( "Closing input stream failed." );
          }
       }
-      
+
       return fitNessePID;
    }
 
    private Arguments processCommandLineArguments( final String port, final String workingDir, final String root, final String logDir ) {
       ArrayList<String> commandLineArguments = buildCommandLineArgumentsAsArray( port, workingDir, root );
-      
+
       if( logDir != null && !logDir.trim().equals( "" ) ){
          commandLineArguments.add( "-l" );
          commandLineArguments.add( logDir );
@@ -245,7 +248,7 @@ public class FitNesseHelper {
 
       Arguments arguments = null;
       try{
-         arguments = new Arguments( commandLineArguments.toArray( new String[commandLineArguments.size()] ));
+         arguments = new Arguments( commandLineArguments.toArray( new String[commandLineArguments.size()] ) );
       }catch( IllegalArgumentException e ){
          exit( 1 );
       }
