@@ -13,6 +13,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
+import java.net.URLClassLoader;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -30,9 +31,15 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
+import org.junit.runner.RunWith;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
+import com.processpuzzle.fitnesse.launcher.maven.plugin.fitnesse.mojo.AbstractFitNesseMojo;
 import com.processpuzzle.fitnesse.launcher.maven.plugin.fitnesse.mojo.PrintStreamLogger;
 
+@RunWith( PowerMockRunner.class )
 public class FitNesseHelperTest {
    private static final int DEFAULT_COMMAND_PORT = 9123;
    private FitNesseHelper fitNesseHelper;
@@ -90,18 +97,24 @@ public class FitNesseHelperTest {
       assertEquals( "!path " + jarPath + "\n", sb.toString() );
    }
 
-   @Test public void forkFitNesseServer_launcherInSeparateProcess() throws Exception{
+   @SuppressWarnings( "unused" )
+   @PrepareForTest( { FitNesseHelper.class } ) @Test public void forkFitNesseServer_launcherInSeparateProcess() throws Exception {
+      String javaHome = System.getProperty("java.home");
+      String javaClassPath = System.getProperty( "java.class.path" );
+      PowerMockito.mockStatic( System.class );
+      PowerMockito.when( System.getProperty( "java.home" ) ).thenReturn( javaHome );
+      PowerMockito.when( System.getProperty( AbstractFitNesseMojo.MAVEN_CLASSPATH ) ).thenReturn( currentClassPath() );
       File logDir = new File( System.getProperty( "java.io.tmpdir" ), "fitnesse-launcher-logs" );
       String port = String.valueOf( DEFAULT_COMMAND_PORT );
       File working = new File( System.getProperty( "java.io.tmpdir" ), "fitnesse-launcher-test" );
-      
-      Process fitnesseProcess = fitNesseHelper.forkFitNesseServer( port, working.getCanonicalPath(), FitNesseHelper.DEFAULT_ROOT, logDir.getCanonicalPath(), System.getProperty( "java.class.path" ) );
-      
+
+      Process fitnesseProcess = fitNesseHelper.forkFitNesseServer( port, working.getCanonicalPath(), FitNesseHelper.DEFAULT_ROOT, logDir.getCanonicalPath(), javaClassPath );
+
       // TEAR DOWN:
       fitNesseHelper.shutdownFitNesseServer( port );
-      fitnesseProcess.destroy();
+      //fitnesseProcess.destroy();
    }
-   
+
    @Test public void launchFitNesseServer() throws Exception {
       File logDir = new File( System.getProperty( "java.io.tmpdir" ), "fitnesse-launcher-logs" );
       // Clean out logDir, as it might still exist from a previous run,
@@ -150,7 +163,12 @@ public class FitNesseHelperTest {
          server.stop();
       }
    }
-
+   
+   @Test public void shutdownFitNesseServer_destroysSpawnedProcess(){
+      fitNesseHelper.shutdownFitNesseServer( String.valueOf( DEFAULT_COMMAND_PORT ) );
+   }
+   
+   // protected, private tes helper methods
    private void assertFormatAndAppendClasspath( String expectedLogMsg ) {
       StringBuilder sb = new StringBuilder();
 
@@ -179,5 +197,16 @@ public class FitNesseHelperTest {
          Thread.sleep( 100L );
          FileUtils.deleteQuietly( working );
       }
+   }
+
+   private String currentClassPath() {
+      String currentClassPath = "";
+      ClassLoader sysClassLoader = ClassLoader.getSystemClassLoader();
+      URL[] urls = ((URLClassLoader) sysClassLoader).getURLs();
+
+      for( int i = 0; i < urls.length; i++ ){
+         currentClassPath += urls[i].getFile() + ";";
+      }
+      return currentClassPath;
    }
 }

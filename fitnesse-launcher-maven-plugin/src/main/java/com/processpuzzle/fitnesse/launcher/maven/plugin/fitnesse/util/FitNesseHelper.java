@@ -1,7 +1,9 @@
 package com.processpuzzle.fitnesse.launcher.maven.plugin.fitnesse.util;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -12,6 +14,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.StringTokenizer;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.artifact.Artifact;
@@ -75,6 +78,7 @@ public class FitNesseHelper {
       Map<String, String> environment = processBuilder.environment();
       environment.put( AbstractFitNesseMojo.MAVEN_CLASSPATH, System.getProperty( AbstractFitNesseMojo.MAVEN_CLASSPATH ));
       Process fitNesseProcess = processBuilder.start();
+      Thread.sleep(10000);
       log.info( "FitNesse process started in: " + workingDir + " with root of: " + root + " on port: " + port );
       return fitNesseProcess;
    }
@@ -97,11 +101,9 @@ public class FitNesseHelper {
    public void shutdownFitNesseServer( final String port ) {
       try{
          Shutdown.main( new String[] { "-p", port } );
-         // Pause to give it a chance to shutdown
          Thread.sleep( SHUTDOWN_WAIT_MS );
+         destroyFitNesseProcess();
       }catch( ConnectException e ){
-         // If we get this specific exception,
-         // we assume FitNesse is already not running
          this.log.info( "FitNesse already not running." );
       }catch( Exception e ){
          this.log.error( e );
@@ -179,9 +181,59 @@ public class FitNesseHelper {
       return linkPath.toString();
    }
    
+   private void destroyFitNesseProcess() throws IOException {
+      String fitNessePID = findFitNesseProcessPID();
+      if( fitNessePID != null ){
+         String cmd = "taskkill /F /PID " + fitNessePID;
+         Process taskKill = Runtime.getRuntime().exec(cmd);
+         taskKill.destroy();
+         log.info( "FitNesse process killed with PID: " + fitNessePID );
+      }else{
+         log.info( "FitNesse PID not found." );
+      }
+   }
+
    private void exit( int exitCode ) {
       System.exit( exitCode );
-   }   
+   }
+   
+   private String findFitNesseProcessPID() {
+      String process;
+      String fitNessePID = null;
+      String pid = "";
+      String mainClass = "";
+      
+      Process psProcess = null;
+      BufferedReader input = null;
+      try{
+         psProcess = Runtime.getRuntime().exec( "jps -lv" );
+         input = new BufferedReader( new InputStreamReader( psProcess.getInputStream() ));
+         while( (process = input.readLine()) != null ){
+            StringTokenizer st = new StringTokenizer( process );
+
+            for( int i = 0; i <= st.countTokens(); i++) {
+               String token = (String) st.nextElement();
+               if( i == 0 ) pid = token;
+               else if( i == 1 ) mainClass = token;
+            }
+            
+            if( mainClass.equals( "fitnesseMain.FitNesseMain" )){
+               fitNessePID = pid;
+            }
+         }
+      }catch( IOException e ){
+         log.error( "Spawn JPS process failed." );;
+      }finally{
+         try{
+            input.close();
+            psProcess.destroy();         
+         }catch( IOException e ){
+            log.error( "Closing input stream failed." );
+         }
+      }
+      
+      return fitNessePID;
+   }
 
    private Arguments processCommandLineArguments( final String port, final String workingDir, final String root, final String logDir ) {
       ArrayList<String> commandLineArguments = buildCommandLineArgumentsAsArray( port, workingDir, root );
