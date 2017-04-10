@@ -225,7 +225,7 @@
         <plugin>
           <groupId>com.processpuzzle.fitnesse</groupId>
           <artifactId>fitnesse-launcher-maven-plugin</artifactId>
-          <version>${fitnesse.launcher.version}</version>
+          <version>${project.version}</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
