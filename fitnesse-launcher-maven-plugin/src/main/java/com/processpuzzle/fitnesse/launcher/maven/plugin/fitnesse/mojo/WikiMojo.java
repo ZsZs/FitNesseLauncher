@@ -29,7 +29,7 @@ public class WikiMojo extends AbstractFitNesseMojo {
       final String portString = this.port.toString();
       try{
          Runtime.getRuntime().addShutdownHook( new Interrupter( Thread.currentThread(), 0L ) );
-         this.fitNesseHelper.launchFitNesseServer( portString, this.workingDir, this.root, this.logDir );
+         this.fitNesseHelper.launchFitNesseServer( portString, this.workingDir, this.root, this.logDir, this.authentication );
          if( this.createSymLink ){
             this.fitNesseHelper.createSymLink( this.project.getBasedir(), this.testResourceDirectory, this.port, launches );
          }

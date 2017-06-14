@@ -84,8 +84,8 @@ public class FitNesseHelper {
       return fitNesseProcess;
    }
 
-   public void launchFitNesseServer( final String port, final String workingDir, final String root, final String logDir ) throws Exception {
-      Arguments arguments = processCommandLineArguments( port, workingDir, root, logDir );
+   public void launchFitNesseServer( final String port, final String workingDir, final String root, final String logDir, final String authentication ) throws Exception {
+      Arguments arguments = processCommandLineArguments( port, workingDir, root, logDir, authentication );
 
       Integer exitCode = 0;
       try{
@@ -100,14 +100,39 @@ public class FitNesseHelper {
    }
 
    public void shutdownFitNesseServer( final String port ) {
+      shutdownFitNesseServer( port, null );
+   }
+
+   public void shutdownFitNesseServer( final String port, final String authentication ) {
       try{
-         Shutdown.main( new String[] { "-p", port } );
+         ArrayList<String> arguments = Lists.newArrayList( "-p", port );
+         addAuthenticationArguments( authentication, arguments );
+         Shutdown.main( arguments.stream().toArray( String[]::new ));
          Thread.sleep( SHUTDOWN_WAIT_MS );
          destroyFitNesseProcess();
       }catch( ConnectException e ){
          this.log.info( "FitNesse already not running." );
       }catch( Exception e ){
          this.log.error( e );
+      }
+   }
+
+   private void addAuthenticationArguments( final String authentication, ArrayList<String> arguments ) {
+      if( authentication != null && authentication.contains( ":" )){
+         final String user = StringUtils.substringBefore( authentication, ":" );
+         final String password = StringUtils.substringAfter( authentication, ":" );
+         if( user != null ){
+            arguments.add( "-c" );
+            arguments.add( user );
+            arguments.add( password );
+         }            
+      }
+   }
+
+   private void addCommandLineArgument( ArrayList<String> commandLineArguments, final String argument, final String argumentValue ) {
+      if( argumentValue != null && !argumentValue.trim().equals( "" ) ){
+         commandLineArguments.add( "-" + argument );
+         commandLineArguments.add( argumentValue );
       }
    }
 
@@ -238,13 +263,11 @@ public class FitNesseHelper {
       return fitNessePID;
    }
 
-   private Arguments processCommandLineArguments( final String port, final String workingDir, final String root, final String logDir ) {
+   private Arguments processCommandLineArguments( final String port, final String workingDir, final String root, final String logDir, final String authentication ) {
       ArrayList<String> commandLineArguments = buildCommandLineArgumentsAsArray( port, workingDir, root );
 
-      if( logDir != null && !logDir.trim().equals( "" ) ){
-         commandLineArguments.add( "-l" );
-         commandLineArguments.add( logDir );
-      }
+      addCommandLineArgument( commandLineArguments, "l", logDir );
+      addCommandLineArgument( commandLineArguments, "a", authentication );
 
       Arguments arguments = null;
       try{

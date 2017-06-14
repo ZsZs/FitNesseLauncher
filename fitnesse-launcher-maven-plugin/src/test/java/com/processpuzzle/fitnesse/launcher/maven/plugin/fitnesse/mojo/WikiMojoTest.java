@@ -70,7 +70,7 @@ public class WikiMojoTest extends MojoTest{
       new Interrupter( Thread.currentThread(), 50L ).start();
       mojo.executeInternal();
 
-      verify( fitNesseHelper, times( 1 ) ).launchFitNesseServer( PORT_STRING, mojo.workingDir, mojo.root, mojo.logDir );
+      verify( fitNesseHelper, times( 1 ) ).launchFitNesseServer( PORT_STRING, mojo.workingDir, mojo.root, mojo.logDir, mojo.authentication );
       verify( fitNesseHelper, never() ).createSymLink( any( File.class ), anyString(), anyInt(), any( Launch.class ) );
       verify( fitNesseHelper, times( 1 ) ).shutdownFitNesseServer( PORT_STRING );
 
@@ -88,7 +88,7 @@ public class WikiMojoTest extends MojoTest{
 
       mojo.executeInternal( launch );
 
-      verify( fitNesseHelper, times( 1 ) ).launchFitNesseServer( PORT_STRING, mojo.workingDir, mojo.root, mojo.logDir );
+      verify( fitNesseHelper, times( 1 ) ).launchFitNesseServer( PORT_STRING, mojo.workingDir, mojo.root, mojo.logDir, mojo.authentication );
       verify( fitNesseHelper, times( 1 ) ).createSymLink( mojo.project.getBasedir(), mojo.testResourceDirectory, PORT, launch );
       verify( fitNesseHelper, times( 1 ) ).shutdownFitNesseServer( PORT_STRING );
       assertThat( logStream.toString(), containsLine( "[INFO] FitNesse wiki server launched." ));
@@ -98,7 +98,7 @@ public class WikiMojoTest extends MojoTest{
 
    @Test
    public void testWikiLaunchException() throws Exception {
-      doThrow( new IOException( "TEST" ) ).when( fitNesseHelper ).launchFitNesseServer( anyString(), anyString(), anyString(), anyString() );
+      doThrow( new IOException( "TEST" ) ).when( fitNesseHelper ).launchFitNesseServer( anyString(), anyString(), anyString(), anyString(), anyString() );
 
       try{
          mojo.executeInternal();
@@ -135,7 +135,7 @@ public class WikiMojoTest extends MojoTest{
    @Test
    public void testFitNesseNotRunning() throws Exception {
       fitNesse.stop();
-      doNothing().when( fitNesseHelper ).launchFitNesseServer( anyString(), anyString(), anyString(), anyString() );
+      doNothing().when( fitNesseHelper ).launchFitNesseServer( anyString(), anyString(), anyString(), anyString(), anyString() );
       Thread.sleep( 100 );
 
       mojo.executeInternal();

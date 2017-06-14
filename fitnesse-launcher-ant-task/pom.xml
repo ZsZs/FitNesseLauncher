@@ -3,7 +3,7 @@
    <parent>
       <groupId>com.processpuzzle.fitnesse</groupId>
       <artifactId>fitnesse-launcher-parent</artifactId>
-      <version>1.6.5</version>
+      <version>1.6.6-SNAPSHOT</version>
    </parent>
    <artifactId>fitnesse-launcher-ant-task</artifactId>
    <name>FitNesse Launcher Ant Task</name>

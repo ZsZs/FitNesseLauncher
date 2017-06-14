@@ -108,6 +108,11 @@ public abstract class AbstractFitNesseMojo extends org.apache.maven.plugin.Abstr
    protected String root;
 
    /**
+    * @parameter property="fitnesse.authentication"
+    */
+   protected String authentication;
+
+   /**
     * @parameter property="fitnesse.logDir"
     */
    protected String logDir;

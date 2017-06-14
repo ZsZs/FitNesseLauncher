@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.processpuzzle.fitnesse</groupId>
     <artifactId>fitnesse-launcher-parent</artifactId>
-    <version>1.6.5</version>
+    <version>1.6.6-SNAPSHOT</version>
   </parent>
   <artifactId>fitnesse-launcher-java-example</artifactId>
   <packaging>jar</packaging>
@@ -200,6 +200,9 @@
           <plugin>
             <groupId>com.processpuzzle.fitnesse</groupId>
             <artifactId>fitnesse-launcher-maven-plugin</artifactId>
+            <configuration>
+              <authentication>passwords.txt</authentication>
+            </configuration>
             <executions>
               <execution>
                 <goals>

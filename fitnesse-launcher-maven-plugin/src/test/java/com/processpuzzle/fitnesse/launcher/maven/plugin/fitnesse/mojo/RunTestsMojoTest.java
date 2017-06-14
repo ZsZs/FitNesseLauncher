@@ -103,7 +103,7 @@ public class RunTestsMojoTest extends MojoTest{
 
       mojo.executeInternal( launch );
 
-      verify( mojo.fitNesseHelper, never() ).launchFitNesseServer( anyString(), anyString(), anyString(), anyString() );
+      verify( mojo.fitNesseHelper, never() ).launchFitNesseServer( anyString(), anyString(), anyString(), anyString(), anyString() );
       verify( mojo.fitNesseHelper, never() ).createSymLink( any( File.class ), anyString(), anyInt(), any( Launch.class ) );
       verify( mojo.fitNesseHelper, never() ).shutdownFitNesseServer( anyString() );
 
@@ -120,7 +120,7 @@ public class RunTestsMojoTest extends MojoTest{
 
       mojo.executeInternal( launch );
 
-      verify( mojo.fitNesseHelper, times( 1 ) ).launchFitNesseServer( WikiMojoTest.PORT_STRING, mojo.workingDir, mojo.root, mojo.logDir );
+      verify( mojo.fitNesseHelper, times( 1 ) ).launchFitNesseServer( WikiMojoTest.PORT_STRING, mojo.workingDir, mojo.root, mojo.logDir, mojo.authentication );
       verify( mojo.fitNesseHelper, times( 1 ) ).createSymLink( mojo.project.getBasedir(), mojo.testResourceDirectory, WikiMojoTest.PORT, launch );
       verify( mojo.fitNesseHelper, times( 1 ) ).shutdownFitNesseServer( WikiMojoTest.PORT_STRING );
 
@@ -131,14 +131,9 @@ public class RunTestsMojoTest extends MojoTest{
       assertThat( generatedTestReport(), containsString( "<title>ExampleFitNesseTestSuite</title>" ));
    }
 
-   private String generatedTestReport() throws IOException {
-      String generatedTestReport = FileUtils.readFileToString( new File( mojo.reportsDir + "/html", "ExampleFitNesseTestSuite.html" ));
-      return generatedTestReport;
-   }
-
    @Test
    public void testCreateSymLinkException() throws Exception {
-      doThrow( new IOException( "TEST" ) ).when( mojo.fitNesseHelper ).launchFitNesseServer( anyString(), anyString(), anyString(), anyString() );
+      doThrow( new IOException( "TEST" ) ).when( mojo.fitNesseHelper ).launchFitNesseServer( anyString(), anyString(), anyString(), anyString(), anyString() );
 
       mojo.createSymLink = true;
 
@@ -150,7 +145,7 @@ public class RunTestsMojoTest extends MojoTest{
          assertEquals( IOException.class, e.getCause().getClass() );
       }
 
-      verify( mojo.fitNesseHelper, times( 1 ) ).launchFitNesseServer( anyString(), anyString(), anyString(), anyString() );
+      verify( mojo.fitNesseHelper, times( 1 ) ).launchFitNesseServer( anyString(), anyString(), anyString(), anyString(), anyString() );
       verify( mojo.fitNesseHelper, never() ).createSymLink( any( File.class ), anyString(), anyInt(), any( Launch.class ) );
       verify( mojo.fitNesseHelper, times( 1 ) ).shutdownFitNesseServer( anyString() );
 
@@ -217,8 +212,14 @@ public class RunTestsMojoTest extends MojoTest{
       assertSame( file, mojo.reportsDir );
    }
 
+   // protected, private helper methods
    private String generatedSummaryFile() throws IOException {
       String generatedSummaryFile = FileUtils.readFileToString( mojo.summaryFile );
       return generatedSummaryFile;
+   }
+
+   private String generatedTestReport() throws IOException {
+      String generatedTestReport = FileUtils.readFileToString( new File( mojo.reportsDir + "/html", "ExampleFitNesseTestSuite.html" ));
+      return generatedTestReport;
    }
 }

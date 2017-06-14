@@ -59,7 +59,7 @@ public class RunTestsMojo extends AbstractFitNesseMojo implements SurefireReport
    private void createSymLink( final Launch... launches ) throws MojoExecutionException {
       final String portString = this.port.toString();
       try{
-         this.fitNesseHelper.launchFitNesseServer( portString, this.workingDir, this.root, this.logDir );
+         this.fitNesseHelper.launchFitNesseServer( portString, this.workingDir, this.root, this.logDir, this.authentication );
          this.fitNesseHelper.createSymLink( this.project.getBasedir(), this.testResourceDirectory, this.port, launches );
       }catch( Exception e ){
          throw new MojoExecutionException( "Exception creating FitNesse SymLink", e );

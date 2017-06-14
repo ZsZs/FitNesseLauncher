@@ -111,7 +111,7 @@ public class FitNesseHelperTest {
       Process fitnesseProcess = fitNesseHelper.forkFitNesseServer( port, working.getCanonicalPath(), FitNesseHelper.DEFAULT_ROOT, logDir.getCanonicalPath(), javaClassPath );
 
       // TEAR DOWN:
-      fitNesseHelper.shutdownFitNesseServer( port );
+      fitNesseHelper.shutdownFitNesseServer( port, null );
       //fitnesseProcess.destroy();
    }
 
@@ -120,9 +120,9 @@ public class FitNesseHelperTest {
       // Clean out logDir, as it might still exist from a previous run,
       // because Windows doesn't always delete this file on exit
       FileUtils.deleteQuietly( logDir );
-      assertLaunchFitNesseServer( null );
-      assertLaunchFitNesseServer( " " );
-      assertLaunchFitNesseServer( logDir.getCanonicalPath() );
+      assertLaunchFitNesseServer( null, null );
+      assertLaunchFitNesseServer( " ", "" );
+      assertLaunchFitNesseServer( logDir.getCanonicalPath(), "user:password" );
       String[] logFiles = logDir.list();
       assertEquals( 1, logFiles.length );
       assertTrue( logFiles[0].matches( "fitnesse[0-9]+\\.log" ) );
@@ -181,10 +181,10 @@ public class FitNesseHelperTest {
       assertThat( logStream.toString(), containsLine( expectedLogMsg ) );
    }
 
-   private void assertLaunchFitNesseServer( String logDir ) throws Exception {
+   private void assertLaunchFitNesseServer( String logDir, String authentication ) throws Exception {
       String port = String.valueOf( DEFAULT_COMMAND_PORT );
       File working = new File( System.getProperty( "java.io.tmpdir" ), "fitnesse-launcher-test" );
-      fitNesseHelper.launchFitNesseServer( port, working.getCanonicalPath(), FitNesseHelper.DEFAULT_ROOT, logDir );
+      fitNesseHelper.launchFitNesseServer( port, working.getCanonicalPath(), FitNesseHelper.DEFAULT_ROOT, logDir, authentication );
       URL local = new URL( "http://localhost:" + port );
       InputStream in = local.openConnection().getInputStream();
       try{
@@ -193,7 +193,7 @@ public class FitNesseHelperTest {
          assertTrue( content.contains( "<title>Page doesn't exist. Edit: FrontPage</title>" ) );
       }finally{
          IOUtils.closeQuietly( in );
-         fitNesseHelper.shutdownFitNesseServer( port );
+         fitNesseHelper.shutdownFitNesseServer( port, authentication );
          Thread.sleep( 100L );
          FileUtils.deleteQuietly( working );
       }
