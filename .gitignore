@@ -11,4 +11,5 @@
 /**/.project
 /**/.settings
 
+fitnesse-launcher-maven-plugin/fitnesse-launcher-test
 fitnesse-launcher-sql-example/derby.log
