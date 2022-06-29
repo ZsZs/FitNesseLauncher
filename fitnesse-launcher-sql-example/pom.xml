@@ -27,7 +27,7 @@
 		<derby.url>jdbc:derby://localhost:1527/${project.build.directory}/derbyDB;create=true</derby.url>
 		<derby.username>derbyuser</derby.username>
 		<derby.password>derbyuser</derby.password>
-		<derby.version>10.4.1.3</derby.version>
+		<derby.version>10.14.2.0</derby.version>
 		<spring.version>3.2.0.RELEASE</spring.version>
 	</properties>
 
